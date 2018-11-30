@@ -1,0 +1,55 @@
+<html>
+<title>A Simple Test of Your Basic String Processing Skills</title>
+
+<body>
+<h1>A Simple Test of Your Basic String Processing Skills</h1>
+
+<h2>Input and Output</h2>
+
+<p>Input contains several lines that contain only alphabet characters [A-Za-z], digits [0-9], space, dash ('-'), and period ('.').<br>
+The first input block ends with a line containing seven periods (".......").<br>
+The dash character, if appears, will only appear at the end of a line.<br>
+If there is a dash character at the end of a line, it means that the last word of that line is actually continued in the next line.<br>
+The dash character will not appear in the line before (".......").<br>
+There can be up to 30 characters per line and no more than 10 lines for this input block.</p>
+
+<p>For this input block, output the input again but now <b>in one line</b> and <b>in lowercase form</b>.<br>
+Then output three integers in one line to denote the number of digits, vowels, and consonants found in this input block.<br>
+Then output two words (separated by a single space) in this input block that is lexicographically smallest and largest.<br>
+Here, <b>word</b> is defined by consecutive alphabet(s) and/or digit(s) separated by either space(s), dot(s), or a newline.<br>
+Finally, output either "0" or "1" in one line: "1" if the first input block contains substring "cs3233" (case insensitive); "0" otherwise.</p>
+
+<p>After the line with seven periods ("......."), there will be one more line appearing in the input.<br>
+This last line can be of any length.</p>
+
+<p>For this last line, output three integers in one line to denote the number of character 's' (lower case), 'h' (lower case), and '7' in the last line.</p>
+
+<p>This problem can be frustrating one if you keep getting WA...<br>
+Thus, we have included the actual input/output data with very trivial modification.</p>
+
+<h2>The Actual Input (with very very few trivial modification so that you cannot just print the output)</h2>
+<pre>
+I love CS3233 Competitive Pro-
+gramming and AlGoRiThM. Of
+course I love my wife Grace
+Suryani very much too. Test
+that there are thirty chars
+m12345678901234567890123456789
+......
+hehehe the line above only
+contains six . cannot stop...
+.......
+after the first input block... there will be one last line can be very long... I am going to type 77777777777777777777777777777777777777777777777777777777777777777777777777777 then a longgggggggggggggggggggggggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg ssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringggggggggggggggggggggggggssssssssssssssssssssssssssstrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrringgggggggggggggggggggggggg
+</pre>
+
+<h2>The Actual Output (you will get WA if you just print these output)</h2>
+<pre>
+i love cs3233 competitive programming and algorithm. of course i love my wife grace suryani very much too. test that there are thirty chars m12345678901234567890123456789 ...... hehehe the line above only contains six . cannot stop...
+33 58 96
+above wife
+1
+569 3 77
+</pre>
+
+</body>
+</html>
