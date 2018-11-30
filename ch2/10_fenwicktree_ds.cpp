@@ -20,6 +20,19 @@ public: FenwickTree(int _n) : n(_n) { ft.assign(n+1, 0); }    // n+1 zeroes
   // updates value of the i-th element by v (v can be +ve/inc or -ve/dec)
   void update(int i, int v) {
     for (; i <= n; i += LSOne(i)) ft[i] += v; }    // note: n = ft.size()-1
+  int select(int k) { // O(log^2 n)
+    int lo = 1, hi = n;
+    for (int i = 0; i < 30; i++) { // 2^30 > 10^9 > usual Fenwick Tree size
+      int mid = (lo+hi) / 2;                    // Binary Search the Answer
+      (rsq(1, mid) < k) ? lo = mid : hi = mid; }
+    return hi; }
+};
+
+class RUPQ : FenwickTree {    // RUPQ variant is a simple extension of PURQ
+public:
+  RUPQ(int n) : FenwickTree(n) {}
+  int point_query(int i) { return rsq(i); }
+  void range_update(int i, int j, int v) { update(i, v), update(j+1, -v); }
 };
 
 int main() {
@@ -37,6 +50,8 @@ int main() {
   printf("%d\n", ft1.rsq(1, 6));  // 7 => ft[6]+ft[4] = 5+2 = 7
   printf("%d\n", ft1.rsq(1, 10)); // 11 => ft[10]+ft[8] = 1+10 = 11
   printf("%d\n", ft1.rsq(3, 6));  // 6 => rsq(1, 6) - rsq(1, 2) = 7-1 = 6
+  printf("%d\n", ft1.select(7));  // index 6, rsq(1, 6) == 7, which is >= 7
+  printf("%d\n", ft1.select(8));  // index 7, rsq(1, 7) == 9, which is >= 8
   ft1.update(5, 2); // update demo
   printf("%d\n", ft1.rsq(1, 10)); // now 13
 
@@ -49,6 +64,18 @@ int main() {
   printf("%d\n", ft2.rsq(1, 6));  // 7 => ft[6]+ft[4] = 5+2 = 7
   printf("%d\n", ft2.rsq(1, 10)); // 11 => ft[10]+ft[8] = 1+10 = 11
   printf("%d\n", ft2.rsq(3, 6));  // 6 => rsq(1, 6) - rsq(1, 2) = 7-1 = 6
+  printf("%d\n", ft2.select(7));  // index 6, rsq(1, 6) == 7, which is >= 7
+  printf("%d\n", ft2.select(8));  // index 7, rsq(1, 7) == 9, which is >= 8
   ft2.update(5, 2); // update demo
   printf("%d\n", ft2.rsq(1, 10)); // now 13
-} // return 0;
+
+  printf("=====\n");
+
+  RUPQ rupq(10) ;                        // empty Fenwick Tree with 10 keys
+  rupq.range_update(2, 9, 7);     // indices in [2, 3, .., 9] updated by +7
+  rupq.range_update(6, 7, 3); // indices 6&7 are further updated by +3 (10)
+  for (int i = 1; i <= 10; i++)
+    printf("%d -> %d\n", i, rupq.point_query(i));
+
+  return 0;
+}
