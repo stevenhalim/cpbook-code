@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define INF 1000000000
+#define INF 1e9
+#define MAX_V 210
 
-int V, E, u, v, w, AM[200][200];
+int AM[MAX_V][MAX_V];
 
 int main() {
   /*
@@ -20,9 +21,9 @@ int main() {
   3 4 5
   */
 
-  freopen("in_07.txt", "r", stdin);
+  freopen("11_in.txt", "r", stdin);
 
-  scanf("%d %d", &V, &E);
+  int V, E; scanf("%d %d", &V, &E);
   for (int i = 0; i < V; i++) {
     for (int j = 0; j < V; j++)
       AM[i][j] = INF;
@@ -30,7 +31,7 @@ int main() {
   }
 
   for (int i = 0; i < E; i++) {
-    scanf("%d %d %d", &u, &v, &w);
+    int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AM[u][v] = w; // directed graph
   }
 
