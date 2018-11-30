@@ -1,76 +1,52 @@
-// UVa 11450 - Wedding Shopping - Bottom Up
-
+// UVa 11450 - Wedding Shopping - Bottom Up (faster than Top Down)
 #include <bits/stdc++.h>
 using namespace std;
 
-int g, money, k, TC, M, C;
-int price[30][30];                       // price[g (<= 20)][model (<= 20)]
-bool reachable[30][210];      // reachable table[g (<= 20)][money (<= 200)]
+#define MAX_gm 30  // 20 garments at most and 20 models per garment at most
+#define MAX_M 210                                  // maximum budget is 200
+
+int price[MAX_gm][MAX_gm];                // price[g (<= 20)][model (<= 20)]
+// bool reachable[MAX_gm][MAX_M]; // reachable table[g (<= 20)][money (<= 200)]
+// if using space saving technique
+bool reachable[2][MAX_M];  // reachable table[ONLY TWO ROWS][money (<= 200)]
 
 int main() {
-  scanf("%d", &TC);
+  int TC; scanf("%d", &TC);
   while (TC--) {
-    scanf("%d %d", &M, &C);
-    for (g = 0; g < C; g++) {
+    int M, C; scanf("%d %d", &M, &C);
+    for (int g = 0; g < C; g++) {
       scanf("%d", &price[g][0]);   // store number of models in price[g][0]
-      for (k = 1; k <= price[g][0]; k++)
+      for (int k = 1; k <= price[g][0]; k++)
         scanf("%d", &price[g][k]);
     }
 
     memset(reachable, false, sizeof reachable);         // clear everything
     // initial values (base cases), using first garment g = 0
-    for (k = 1; k <= price[0][0]; k++) if (M-price[0][k] >= 0)
+    for (int k = 1; k <= price[0][0]; k++) if (M-price[0][k] >= 0)
       reachable[0][M-price[0][k]] = true;
 
-    for (g = 1; g < C; g++)                   // for each remaining garment
-      for (money = 0; money < M; money++) if (reachable[g-1][money])
-        for (k = 1; k <= price[g][0]; k++) if (money-price[g][k] >= 0)
-          reachable[g][money-price[g][k]] = true;     // also reachable now
+    int money;
+    // for (int g = 1; g < C; g++)               // for each remaining garment
+    //   for (money = 0; money < M; money++) if (reachable[g-1][money])
+    //     for (int k = 1; k <= price[g][0]; k++) if (money-price[g][k] >= 0)
+    //       reachable[g][money-price[g][k]] = true;     // also reachable now
 
-    for (money = 0; money <= M && !reachable[C-1][money]; money++);
+    // for (money = 0; money <= M && !reachable[C-1][money]; money++);
+
+    // then we modify the main loop in int main a bit
+    int cur = 1;                                  // we start with this row
+    for (int g = 1; g < C; g++) {             // for each remaining garment
+      memset(reachable[cur], false, sizeof reachable[cur]);    // reset row
+      for (money = 0; money < M; money++) if (reachable[!cur][money])
+        for (int k = 1; k <= price[g][0]; k++) if (money-price[g][k] >= 0)
+          reachable[cur][money-price[g][k]] = true;
+      cur = 1-cur;                // IMPORTANT technique: flip the two rows
+    }
+
+    for (money = 0; money <= M && !reachable[!cur][money]; money++);
 
     if (money == M+1) printf("no solution\n");    // last row has no on bit
     else              printf("%d\n", M-money);
   }
   return 0;
 }
-
-
-/*
-// same as above, but using space saving trick
-
-#include <bits/stc++.h>
-using namespace std;
-
-int g, money, k, TC, M, C, cur;
-int price[30][30];
-bool reachable[2][210];   // reachable table[ONLY TWO ROWS][money (<= 200)]
-
-int main() {
-  scanf("%d", &TC);
-  while (TC--) {
-    scanf("%d %d", &M, &C);
-    for (g = 0; g < C; g++) {
-      scanf("%d", &price[g][0]);
-      for (k = 1; k <= price[g][0]; k++)
-        scanf("%d", &price[g][k]);
-    }
-
-    memset(reachable, false, sizeof reachable);
-    for (k = 1; k <= price[0][0]; k++) if (M-price[0][k] >= 0)
-      reachable[0][M-price[0][k]] = true;
-    cur = 1;                                      // we start with this row
-    for (g = 1; g < C; g++) {
-      memset(reachable[cur], false, sizeof reachable[cur]);    // reset row
-      for (money = 0; money < M; money++) if (reachable[!cur][money])
-        for (k = 1; k <= price[g][0]; k++) if (money-price[g][k] >= 0)
-          reachable[cur][money-price[g][k]] = true;
-      cur = !cur;                 // important technique: flip the two rows
-    }
-
-    for (money = 0; money <= M && !reachable[!cur][money]; money++);
-    if (money == M+1) printf("no solution\n");    // last row has no on bit
-    else              printf("%d\n", M-money);
-} } // return 0;
-
-*/

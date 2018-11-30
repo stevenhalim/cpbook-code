@@ -1,16 +1,14 @@
-/* SuperSale */
+// SuperSale 
 
-// 0-1 Knapsack DP (Top-Down) - faster as not all states are visited
+// 0-1 Knapsack DP (Top-Down, faster)
 
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define MAX_N 1010
 #define MAX_W 40
 
-int i, T, G, ans, N, MW, V[MAX_N], W[MAX_N], memo[MAX_N][MAX_W];
+int N, V[MAX_N], W[MAX_N], memo[MAX_N][MAX_W];
 
 int value(int id, int w) {
   if (id == N || w == 0) return 0;
@@ -20,24 +18,20 @@ int value(int id, int w) {
 }
 
 int main() {
-  scanf("%d", &T);
+  int T; scanf("%d", &T);
   while (T--) {
     memset(memo, -1, sizeof memo);
-
     scanf("%d", &N);
-    for (i = 0; i < N; i++)
+    for (int i = 0; i < N; i++)
       scanf("%d %d", &V[i], &W[i]);
-
-    ans = 0;
-    scanf("%d", &G);
+    int ans = 0;
+    int G; scanf("%d", &G);
     while (G--) {
-      scanf("%d", &MW);
+      int MW; scanf("%d", &MW);
       ans += value(0, MW);
     }
-
     printf("%d\n", ans);
   }
-
   return 0;
 }
 
@@ -45,42 +39,35 @@ int main() {
 
 // 0-1 Knapsack DP (Bottom-Up)
 
-#include <algorithm>
-#include <cstdio>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define MAX_N 1010
 #define MAX_W 40
 
-int i, w, T, N, G, MW, V[MAX_N], W[MAX_N], C[MAX_N][MAX_W], ans;
+int V[MAX_N], W[MAX_N], C[MAX_N][MAX_W];
 
 int main() {
-  scanf("%d", &T);
+  int T; scanf("%d", &T);
   while (T--) {
-    scanf("%d", &N);
-    for (i = 1; i<= N; i++)
+    int N; scanf("%d", &N);
+    for (int i = 1; i<= N; i++)
       scanf("%d %d", &V[i], &W[i]);
-
-    ans = 0;
-    scanf("%d", &G);
+    int ans = 0;
+    int G; scanf("%d", &G);
     while (G--) {
-      scanf("%d", &MW);
-
-      for (i = 0; i <= N;  i++) C[i][0] = 0;
-      for (w = 0; w <= MW; w++) C[0][w] = 0;
-
-      for (i = 1; i <= N; i++)
-        for (w = 1; w <= MW; w++) {
-          if (W[i] > w) C[i][w] = C[i - 1][w];
-          else          C[i][w] = max(C[i - 1][w], V[i] + C[i - 1][w - W[i]]);
+      int MW; scanf("%d", &MW);
+      for (int i = 0; i <= N;  i++) C[i][0] = 0;
+      for (int w = 0; w <= MW; w++) C[0][w] = 0;
+      for (int i = 1; i <= N; i++)
+        for (int w = 1; w <= MW; w++) {
+          if (W[i] > w) C[i][w] = C[i-1][w];
+          else          C[i][w] = max(C[i-1][w], V[i] + C[i-1][w-W[i]]);
         }
-
       ans += C[N][MW];
     }
-
     printf("%d\n", ans);
   }
-
   return 0;
 }
 

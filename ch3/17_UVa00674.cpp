@@ -1,9 +1,6 @@
-/* Coin Change */
+// Coin Change
 
-// O(NV) DP solution
-
-#include <cstdio>
-#include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
 
 int N = 5, V, coinValue[5] = {1, 5, 10, 25, 50}, memo[6][7500];
@@ -20,6 +17,5 @@ int main() {
   memset(memo, -1, sizeof memo); // we only need to initialize this once
   while (scanf("%d", &V) != EOF)
     printf("%d\n", ways(0, V));
-
   return 0;
 }

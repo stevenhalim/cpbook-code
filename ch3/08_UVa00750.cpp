@@ -26,7 +26,6 @@ void backtrack(int c) {
 } }
 
 int main() {
-  freopen("in.txt", "r", stdin);
   int TC; scanf("%d", &TC);
   while (TC--) {
     scanf("%d %d", &a, &b); a--; b--;         // switch to 0-based indexing

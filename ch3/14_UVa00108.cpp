@@ -25,7 +25,7 @@ int main() {     // O(n^3) 1D DP + greedy (Kadane's) solution, 0.008 s in UVa
   printf("%d\n", maxSubRect);
   return 0;
 }
-        
+
 
 /*
 int main() {                            // O(n^4) DP solution, ~0.076s in UVa

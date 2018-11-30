@@ -1,12 +1,10 @@
-#include <algorithm>
-#include <cstdio>
-#include <stack>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define MAX_N 100000
 
 void print_array(const char *s, int a[], int n) {
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < n; i++) {
     if (i) printf(", ");
     else printf("%s: [", s);
     printf("%d", a[i]);
@@ -29,17 +27,17 @@ int main() {
 
   int lis = 0, lis_end = 0;
   for (int i = 0; i < n; ++i) {
-    int pos = lower_bound(L, L + lis, A[i]) - L;
+    int pos = lower_bound(L, L+lis, A[i]) - L;
     L[pos] = A[i];
     L_id[pos] = i;
-    P[i] = pos ? L_id[pos - 1] : -1;
-    if (pos + 1 > lis) {
-      lis = pos + 1;
+    P[i] = pos ? L_id[pos-1] : -1;
+    if (pos+1 > lis) {
+      lis = pos+1;
       lis_end = i;
     }
 
     printf("Considering element A[%d] = %d\n", i, A[i]);
-    printf("LIS ending at A[%d] is of length %d: ", i, pos + 1);
+    printf("LIS ending at A[%d] is of length %d: ", i, pos+1);
     reconstruct_print(i, A, P);
     print_array("L is now", L, lis);
     printf("\n");
