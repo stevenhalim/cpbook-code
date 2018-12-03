@@ -31,11 +31,9 @@ void RtoA(string R) {
 }
 
 int main() {
-#ifndef ONLINE_JUDGE
-  freopen("in.txt", "r", stdin);
-#endif
   AtoR(2018);
   RtoA("MMXVIII");
+  // UVa 11616 will be trivial with AtoR and RtoA methods above
   // char str[1000];
   // while (gets(str) != NULL) {
   //   if (isdigit(str[0])) AtoR(atoi(str));       // Arabic to Roman Numerals
