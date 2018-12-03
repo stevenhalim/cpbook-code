@@ -10,21 +10,20 @@ int isvowel(char ch) { // make sure ch is in lowercase
 }
 
 int main() {
-  int i, pos, digits, alphas, vowels, consonants;
-  bool first = true, prev_dash, this_dash;
-  char str[10010], line[110], *p;
+  int pos, digits, alphas, vowels, consonants;
+  char str[10010], *p;
 
   freopen("01_in.txt", "r", stdin);
 
   strcpy(str, "");
-  first = true; // technique to differentiate first line with the other lines
-  prev_dash = this_dash = false; // to differentiate whether the previous line contains a dash or not
+  bool first = true; // technique to differentiate first line with the other lines
+  bool prev_dash = false, this_dash = false; // to differentiate whether the previous line contains a dash or not
   while (1) {
-    fgets(line, 100, stdin);
-    line[(int)strlen(line) - 2] = 0; // delete dummy char
+    char line[110]; fgets(line, 100, stdin);
+    line[(int)strlen(line)-1] = 0; // delete dummy char
     if (strncmp(line, ".......", 7) == 0) break;
-    if (line[(int)strlen(line) - 1] == '-') {
-      line[(int)strlen(line) - 1] = 0; // if the last character is '-', delete it by moving the NULL (0) one character forward
+    if (line[(int)strlen(line)-1] == '-') {
+      line[(int)strlen(line)-1] = 0; // if the last character is '-', delete it by moving the NULL (0) one character forward
       this_dash = true;
     }
     else
@@ -36,16 +35,15 @@ int main() {
     prev_dash = this_dash;
   }
 
-  for (i = digits = alphas = vowels = consonants = 0; str[i]; i++) { // we can use str[i] as terminating condition as string in C++ is also terminated with NULL (0)
+  for (int i = digits = alphas = vowels = consonants = 0; str[i]; i++) { // we can use str[i] as terminating condition as string in C++ is also terminated with NULL (0)
     str[i] = tolower(str[i]); // make each character lower case
     digits += isdigit(str[i]) ? 1 : 0;
     alphas += isalpha(str[i]) ? 1 : 0;
     vowels += isvowel(str[i]); // already returns 1 or 0
   }
-  consonants = alphas - vowels;
+  consonants = alphas-vowels;
   printf("%s\n", str);
   printf("%d %d %d\n", digits, vowels, consonants);
-  int hascs3233 = (strstr(str, "cs3233") != NULL);
 
   vector<string> tokens;
   map<string, int> freq;
@@ -55,7 +53,9 @@ int main() {
   }
 
   sort(tokens.begin(), tokens.end());
-  printf("%s %s\n", tokens[0].c_str(), tokens[(int)tokens.size() - 1].c_str()); // to cast C++ string to C string, we need to use c_str()
+  printf("%s %s\n", tokens[0].c_str(), tokens[(int)tokens.size()-1].c_str()); // to cast C++ string to C string, we need to use c_str()
+
+  int hascs3233 = (strstr(str, "cs3233") != NULL);
   printf("%d\n", hascs3233);
 
   int ans_s = 0, ans_h = 0, ans_7 = 0;

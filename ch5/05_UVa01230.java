@@ -3,7 +3,7 @@
 import java.util.Scanner;
 import java.math.BigInteger;
 
-class Main {                               /* UVa 1230 (LA 4104) - MODEX */
+class Main {                                 // UVa 01230 (LA 4104) - MODEX 
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int c = sc.nextInt();

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-class ch6_01_basic_string {
+class Main {
   static int isvowel(char ch) { // make sure ch is in lowercase
     String vowel = "aeiou";
     for (int j = 0; j < 5; j++)
@@ -12,12 +12,12 @@ class ch6_01_basic_string {
 
   public static void main(String[] args) throws Exception {
     int i, pos, digits, alphas, vowels, consonants;
-    Boolean first, prev_dash, this_dash;
     String str = "";
-    first = true; // technique to differentiate first line with the other lines
-    prev_dash = this_dash = false; // to differentiate whether the previous line contains a dash or not
 
-    File f = new File("ch6.txt");
+    Boolean first = true; // technique to differentiate first line with the other lines
+    Boolean prev_dash = false, this_dash = false; // to differentiate whether the previous line contains a dash or not
+
+    File f = new File("01_in.txt");
     Scanner sc = new Scanner(f);
     while (sc.hasNext()) {
       String line = sc.nextLine();

@@ -3,7 +3,7 @@
 import java.util.Scanner;
 import java.math.BigInteger;
 
-class Main {                                /* UVa 10551 - Basic Remains */
+class Main {                                   // UVa 10551 - Basic Remains
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     while (true) {

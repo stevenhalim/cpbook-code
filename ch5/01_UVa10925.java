@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.math.BigInteger;                    // inside package java.math
 
-class Main {                                     /* UVa 10925 - Krakovia */
+class Main {                                        // UVa 10925 - Krakovia
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(           // use BufferedReader
       new InputStreamReader(System.in));                     

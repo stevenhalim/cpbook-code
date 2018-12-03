@@ -51,8 +51,7 @@ ll numPF(ll N) {
     while (N%PF == 0) { N /= PF; ans++; }
     PF = primes[++PF_idx];
   }
-  if (N != 1) ans++;
-  return ans;
+  return ans + (N != 1);
 }
 
 ll numDiffPF(ll N) {
@@ -62,8 +61,7 @@ ll numDiffPF(ll N) {
     while (N%PF == 0) N /= PF;
     PF = primes[++PF_idx];
   }
-  if (N != 1) ans++;
-  return ans;
+  return ans + (N != 1);
 }
 
 ll sumPF(ll N) {
@@ -72,8 +70,7 @@ ll sumPF(ll N) {
     while (N%PF == 0) { N /= PF; ans += PF; }
     PF = primes[++PF_idx];
   }
-  if (N != 1) ans += N;
-  return ans;
+  return ans + (N != 1) * N;
 }
 
 ll numDiv(ll N) {
@@ -84,8 +81,7 @@ ll numDiv(ll N) {
     ans *= (power+1);                                // according to the formula
     PF = primes[++PF_idx];
   }
-  if (N != 1) ans *= 2;             // (last factor has pow = 1, we add 1 to it)
-  return ans;
+  return (N != 1) ? 2*ans : ans;    // (last factor has pow = 1, we add 1 to it)
 }
 
 ll sumDiv(ll N) {
@@ -107,8 +103,7 @@ ll EulerPhi(ll N) {
     while (N % PF == 0) N /= PF;
     PF = primes[++PF_idx];
   }
-  if (N != 1) ans -= ans / N;                                     // last factor
-  return ans;
+  return (N != 1) ? ans - ans/N : ans;                            // last factor
 }
 
 int main() {
@@ -120,12 +115,12 @@ int main() {
       printf("The next prime beyond the last prime generated is %d\n", i);
       break;
     }
-  printf("%d\n", isPrime(2147483647));                        // 10-digits prime
+  printf("%d\n", isPrime((1LL<<31)-1));  // 2^31-1 = 2147483647, 10-digits prime
   printf("%d\n", isPrime(136117223861LL));        // not a prime, 104729*1299709
 
 
   // second part: prime factors
-  vi r = primeFactors(2147483647);             // slowest, 2147483647 is a prime
+  vi r = primeFactors((1LL<<31)-1);   // slowest, 2^31-1 = 2147483647 is a prime
   for (auto &pf : r) printf("> %d\n", pf);
   printf("\n");
 
@@ -152,6 +147,15 @@ int main() {
   printf("numDiv(%d) = %lld\n", 50, numDiv(50)); // 1, 2, 5, 10, 25, 50, 6 divisors
   printf("sumDiv(%d) = %lld\n", 50, sumDiv(50)); // 1 + 2 + 5 + 10 + 25 + 50 = 93
   printf("EulerPhi(%d) = %lld\n", 50, EulerPhi(50)); // 20 integers < 50 are relatively prime with 50
+  printf("\n");
+
+  // special cases when N is a prime number
+  printf("numPF(%d) = %lld\n", 7, numPF(7)); // 7^1 => 1
+  printf("numDiffPF(%d) = %lld\n", 7, numDiffPF(7)); // 7^1 = 1
+  printf("sumPF(%d) = %lld\n", 7, sumPF(7)); // 7^1 => 7
+  printf("numDiv(%d) = %lld\n", 7, numDiv(7)); // 1 and 7, 2 divisors
+  printf("sumDiv(%d) = %lld\n", 7, sumDiv(7)); // 1 + 7 = 8
+  printf("EulerPhi(%d) = %lld\n", 7, EulerPhi(7)); // 6 integers < 7 are relatively prime with prime number 7
 
   return 0;
 }

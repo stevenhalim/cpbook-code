@@ -1,6 +1,6 @@
 // 2.788s in Java
 
-class Main {                                 /* UVa 10235 - Simply Emirp */
+class Main {                                    // UVa 10235 - Simply Emirp
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     while (sc.hasNext()) {

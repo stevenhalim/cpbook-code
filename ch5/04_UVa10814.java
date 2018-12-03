@@ -3,7 +3,7 @@
 import java.util.Scanner;
 import java.math.BigInteger;
 
-class Main {                        /* UVa 10814 - Simplifying Fractions */
+class Main {                           // UVa 10814 - Simplifying Fractions
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int N = sc.nextInt();
