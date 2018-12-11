@@ -88,4 +88,4 @@ let () =
   let (n, s, t) = scanf "%d %d %d\n" (fun a b c -> (a, b, c)) in
   let graph = Dinic.create_graph n
                 (read_edges n) in
-  printf "%Ld\n" (Dinic.max_flow graph 0 (n-1))
+  printf "%Ld\n" (Dinic.max_flow graph s t)
