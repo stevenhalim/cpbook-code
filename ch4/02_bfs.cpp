@@ -51,7 +51,7 @@ int main() {
     layer = dist[u];
     printf("visit %d, ", u);
     for (auto &v : AL[u]) {                      // for each neighbors of u
-      if (d[v.first] == INF) {
+      if (dist[v.first] == INF) {
         dist[v.first] = dist[u]+1;  // make dist[v.first] != INF to flag it
         p[v.first] = u;     // addition: the parent of vertex v->first is u
         q.push(v.first);          // enqueue v.first for the next iteration
