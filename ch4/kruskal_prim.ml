@@ -44,7 +44,7 @@ module UnionFind = struct
   let size_of_set dsu u = dsu.size.(find dsu u)
 end
 
-(** [prim n edges] returns the total weight of a MST of the input graph [(0..n-1, edges)] *)
+(** [kruskal n edges] returns the total weight of a MST of the input graph [(0..n-1, edges)] *)
 let kruskal n edges =
   let dsu = UnionFind.create n in
   let cost = ref 0 in
