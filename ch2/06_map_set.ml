@@ -3,6 +3,11 @@ open Printf
 module ISet = Set.Make (struct type t = int let compare = compare end)
 module SMap = Map.Make (struct type t = string let compare = compare end)
 
+let rec take_while pred seq () =
+  match seq() with
+  | Seq.Nil -> Seq.Nil
+  | Seq.Cons (x, next) -> if pred x then Cons (x, take_while pred next) else Seq.Nil
+
 let () =
   let mapper = [
       ("john", 78);
@@ -21,21 +26,13 @@ let () =
     (SMap.find "steven" mapper) (SMap.find "grace" mapper);
   printf "==================\n";
 
-  let iter_while pred f seq =
-    let rec go seq =
-      match seq () with
-      | Seq.Nil -> ()
-      | Seq.Cons (x, seq') -> if pred x then (f x; go seq') else ()
-    in
-    go seq in
-
-  SMap.to_seq_from "f" mapper
-  |> iter_while (fun (k, v) -> k < "m")
-    (fun (k, v) -> printf "%s %d\n" k v);
+  SMap.to_seq_from "f" mapper |> take_while (fun (k, _) -> k < "m")
+  |> Seq.iter (fun (k, v) -> printf "%s %d\n" k v);
 
   printf "%d\n" (ISet.find 77 used_values);
 
-  ISet.to_seq used_values |> iter_while (fun x -> x < 77) (printf "%d,");
+  ISet.to_seq used_values |> take_while (fun x -> x < 77)
+  |> Seq.iter (printf "%d,");
   printf "\n";
 
   ISet.to_seq_from 77 used_values |> Seq.iter (printf "%d,");
