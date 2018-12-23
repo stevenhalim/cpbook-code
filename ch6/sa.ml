@@ -1,4 +1,4 @@
-(* Convention: i, j for string indices; x for suffix array indiceString.
+(* Convention: i, j for string indices; x for suffix array indices.
    None of the functions assumes '$' terminated strings *)
 
 let constructSA_slow s =
