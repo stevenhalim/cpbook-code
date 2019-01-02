@@ -15,7 +15,7 @@ int main() {
       int tmp, used = (fghij < 10000); // if digit f=0, then we have to flag it
       tmp = abcde; while (tmp) { used |= 1<<(tmp%10); tmp /= 10; }
       tmp = fghij; while (tmp) { used |= 1<<(tmp%10); tmp /= 10; }
-      if (used != (1<<10) - 1) {            // if all digits are used, print it
+      if (used == (1<<10) - 1) {            // if all digits are used, print it
         printf("%0.5d / %0.5d = %d\n", abcde, fghij, N);
         noSolution = false;
       }
