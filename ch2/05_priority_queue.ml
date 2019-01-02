@@ -7,14 +7,6 @@ module ISMaxPQ = Set.Make (struct
     let compare x y = compare y x
   end)
 
-let rec take n seq () =
-  if n == 0 then
-    Nil
-  else
-    match seq() with
-    | Nil -> Nil
-    | Cons (x, next) -> Cons (x, take (n - 1) next)
-
 let () =
   let pq = ref ISMaxPQ.empty in
 
@@ -26,6 +18,8 @@ let () =
   pq := ISMaxPQ.add (2000, "grace") !pq;
   pq := ISMaxPQ.add (70, "martin") !pq;
 
-  !pq |> ISMaxPQ.to_seq |> take 3
-  |> Seq.iter (fun (money, name) ->
-      printf "%s has %d $\n" name money)
+  for _ = 1 to 3 do
+    let (money, name) as result = ISMaxPQ.min_elt !pq in
+    pq := ISMaxPQ.remove result !pq;
+    printf "%s has %d $\n" name money
+  done;
