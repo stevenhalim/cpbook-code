@@ -18,7 +18,7 @@ let () =
 
   printf "Neighbors of vertex 0:\n";
   am.(0) |> Array.iteri (fun j x ->
-      if x != 0 then
+      if x <> 0 then
         printf "Edge 0-%d (weight = %d)\n" j x
     );
 
