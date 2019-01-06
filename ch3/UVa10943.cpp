@@ -24,8 +24,8 @@ int ways(int N, int K) {
 
 int main() {
   memset(memo, -1, sizeof memo);
-  while (scanf("%d %d", &N, &K), (N || K)) // some recursion formula + top down DP
-    printf("%d\n", ways(N, K));
+  while (scanf("%d %d", &N, &K), (N || K))
+    printf("%d\n", ways(N, K)); // some recursion formula + top down DP
   return 0;
 }
 */

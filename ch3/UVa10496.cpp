@@ -8,7 +8,7 @@ using namespace std;
 int n, dist[MAX_n][MAX_n], memo[MAX_n][1<<(MAX_n-1)]; // Karel + max 10 beepers
 
 int tsp(int c, int mask) {           // mask stores the visited coordinates
-  if (mask == (1<<n)-1) return dist[c][0];  // return to close the loop
+  if (mask == (1<<n)-1) return dist[c][0];  // return trip to close the loop
   if (memo[c][mask] != -1) return memo[c][mask];
   int ans = 2000000000;
   for (int nxt = 1; nxt <= n; nxt++) // O(n) here
@@ -24,7 +24,7 @@ int main() {
     int x[11], y[11];
     scanf("%d %d", &x[0], &y[0]);
     scanf("%d", &n);
-    for (int i = 1; i <= n; i++) // karel's cition is at index 0
+    for (int i = 1; i <= n; i++) // karel's position is at index 0
       scanf("%d %d", &x[i], &y[i]);
     for (int i = 0; i <= n; i++) // build distance table
       for (int j = 0; j <= n; j++)
