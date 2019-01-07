@@ -33,7 +33,7 @@ let mcbm v_left v_right edges =
     Array.fill visited_l 0 v_left false
   );
   match_r |> Array.to_list
-    |> List.mapi (fun r l -> (l, r)) |> List.filter (fun (l, r) -> l != -1)
+    |> List.mapi (fun r l -> (l, r)) |> List.filter (fun (l, r) -> l <> -1)
 
 
 let () =

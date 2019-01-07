@@ -99,7 +99,7 @@ let string_matching text sa pattern =
       let rec loop l =
         if l = m then 0 else
         if i + l >= n then -1 else
-        if text.[i + l] != pattern.[l] then
+        if text.[i + l] <> pattern.[l] then
           compare text.[i + l] pattern.[l]
         else loop (l + 1) in
       loop 0 in
@@ -119,7 +119,7 @@ let lcs a b =
   let len, start = ref (-1), ref (-1) in
   for x = 0 to (Array.length lcp) - 1 do
     let i, j = sa.(x), sa.(x + 1) in
-    if in_a i != in_a j && lcp.(x) > !len then begin
+    if in_a i <> in_a j && lcp.(x) > !len then begin
       len := lcp.(x);
       start := i
     end

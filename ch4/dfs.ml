@@ -101,7 +101,7 @@ let articulation_point_and_bridge (adj : graph) : int list * (int*int) list =
         visit v;
         low.(u) <- min low.(u) low.(v)
       end
-      else if v != parent.(u) then (** Use edge id for multigraphs *)
+      else if v <> parent.(u) then (** Use edge id for multigraphs *)
         low.(u) <- min low.(u) num.(v)
     )
   in

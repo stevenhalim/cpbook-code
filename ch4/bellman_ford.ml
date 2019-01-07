@@ -7,14 +7,14 @@ let bellman_ford (n : int) (edges : (int*int*int) list) (source : int) : int arr
   dist.(source) <- 0;
   for _ = 1 to n - 1 do
     for u = 0 to n - 1 do
-      if dist.(u) != max_int then
+      if dist.(u) <> max_int then
         adj.(u) |> List.iter (fun (w, v) ->
           dist.(v) <- min dist.(v) (dist.(u) + w)
         )
     done
   done;
   let has_neg_cycle = List.init n (fun x -> x) |> List.exists (fun u ->
-    dist.(u) != max_int && adj.(u) |> List.exists (fun (w, v) ->
+    dist.(u) <> max_int && adj.(u) |> List.exists (fun (w, v) ->
       dist.(v) > dist.(u) + w
     )
   ) in
