@@ -59,7 +59,7 @@ let () =
   let edges = List.init m (fun _ -> scanf " %d %d " (fun x y -> (x, y))) in
   let source = 5 in
   let dist, parent = bfs n edges source in
-  let is_bipartite = edges |> List.for_all (fun (u, v) -> dist.(u) mod 2 != dist.(v) mod 2) in
+  let is_bipartite = edges |> List.for_all (fun (u, v) -> dist.(u) mod 2 <> dist.(v) mod 2) in
   let _, layers = pure_bfs n edges source in
   layers |> List.iteri (fun i layer ->
     printf "Layer %d:" i;

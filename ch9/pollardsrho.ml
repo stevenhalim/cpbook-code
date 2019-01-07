@@ -19,10 +19,10 @@ let witness x a =
   else
     let n = x - 1 in
     let rec loop c d =
-      if d = n then c != 1
+      if d = n then c <> 1
       else
         let c' = mulmod c c x in
-        if c != 1 && c != x - 1 && c' = 1 then true
+        if c <> 1 && c <> x - 1 && c' = 1 then true
         else loop c' (d * 2) in
     let d = (n / (n land (- n))) in
     loop (powmod a d x) d
@@ -42,10 +42,10 @@ let rec find_factor n =
   let hare x = tortoise (tortoise x) in
   let rec go x y =
     let d = gcd (abs (y - x)) n in
-    if d != 1 then d
+    if d <> 1 then d
     else go (tortoise x) (hare y) in
   let d = go (tortoise start) (hare start) in
-  if d != n then d
+  if d <> n then d
   else find_factor n
 
 
