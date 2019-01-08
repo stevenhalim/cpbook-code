@@ -1,14 +1,14 @@
 import java.util.*;
 
-class ch2_04_stack_queue {
+class stack_queue {
   public static void main(String[] args) {
-    Stack<Character> s = new Stack<Character>();
+    Stack<Character> s = new Stack<>();
 
     // Queue is abstract, must be instantiated with LinkedList
     // (special case for Java Queue)
-    Queue<Character> q = new LinkedList<Character>();
+    Queue<Character> q = new LinkedList<>();
 
-    Deque<Character> d = new LinkedList<Character>();
+    Deque<Character> d = new LinkedList<>();
 
     System.out.println(s.isEmpty());          // currently s is empty, true
     System.out.println("==================");

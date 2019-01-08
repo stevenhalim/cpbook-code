@@ -40,7 +40,7 @@ int main() {
   4 5 20
   4 6 5
   */
-  freopen("07_in.txt", "r", stdin);
+  freopen("graph_ds.txt", "r", stdin);
 
   int V; scanf("%d", &V);                  // we must know this size first!
                         // remember that if V is > 2000, try NOT to use AM!
@@ -75,7 +75,7 @@ int main() {
   priority_queue<pair<int, ii>> EL;           // one way to store Edge List
   for (int i = 0; i < E; i++) {
     int a, b, weight; scanf("%d %d %d", &a, &b, &weight);
-    EL.push(make_pair(-weight, ii(a, b)));   // a way to reverse sort order
+    EL.push({-weight, ii(a, b)});   // a way to reverse sort order
   }
 
   // edges sorted by weight (smallest->largest)

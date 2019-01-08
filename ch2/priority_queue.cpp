@@ -4,12 +4,7 @@ using namespace std;
 typedef pair<int, string> is;                         // introducing 'pair'
 
 int main() {
-  int money;
-  char name[20];
-  priority_queue<is> pq;
-  is result;
-
-  // suppose we enter these 7 money-name pairs below
+   // suppose we enter these 7 money-name pairs below
   /*
   100 john
   10 billy
@@ -19,6 +14,7 @@ int main() {
   2000 grace
   70 martin
   */
+  priority_queue<is> pq;
   pq.push(make_pair(100, "john"));          // inserting a pair in O(log n)
   pq.push({10, "billy"});      // alternative way to create pair, using { }
   pq.push({20, "andy"});
@@ -38,7 +34,7 @@ int main() {
   //     (100,john)   (10,billy)     (20,andy)  (70,felix)
 
   // let's print out the top 3 person with most money
-  result = pq.top();                // O(1) to access the top / max element
+  is result = pq.top();             // O(1) to access the top / max element
   pq.pop();          // O(log n) to delete the top and repair the structure
   printf("%s has %d $\n", ((string)result.second).c_str(), result.first);
   result = pq.top(); pq.pop();

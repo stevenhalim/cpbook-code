@@ -1,6 +1,6 @@
 import java.util.*;
 
-class pair < X, Y > { // utilizing Java "Generics"
+class pair<X, Y> { // utilizing Java "Generics"
   X _first;
   Y _second;
 
@@ -13,12 +13,12 @@ class pair < X, Y > { // utilizing Java "Generics"
   void setSecond(Y s) { _second = s; }
 }
 
-class ch2_06_priority_queue {
+class priority_queue {
   public static void main(String[] args) {
     // introducing 'pair'
-    PriorityQueue < pair < Integer, String > > pq = new PriorityQueue < pair < Integer, String > >(1, 
-      new Comparator< pair < Integer, String > >() { // overriding the compare method
-        public int compare(pair < Integer, String > i, pair < Integer, String > j) {
+    PriorityQueue<pair<Integer, String>> pq = new PriorityQueue<>(1, 
+      new Comparator<pair<Integer, String>>() { // overriding the compare method
+        public int compare(pair<Integer, String> i, pair<Integer, String> j) {
           return j.first() - i.first(); // currently max heap, reverse these two to try produce min-heap
         }
       }

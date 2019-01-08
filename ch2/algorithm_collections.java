@@ -1,6 +1,6 @@
 import java.util.*;
 
-// This source code is not as complete as ch2_02_algorithm_collections.cpp
+// This source code is not as complete as ch2/algorithm_collections.cpp
 
 class team implements Comparable<team> {
   private int id, solved, penalty;
@@ -26,9 +26,9 @@ class team implements Comparable<team> {
   }
 }
 
-class ch2_02_algorithm_collections {
+class algorithm_collections {
   public static void main(String[] args) {
-    Vector<Integer> v = new Vector<Integer>();
+    ArrayList<Integer> v = new ArrayList<>();
 
     v.add(10);
     v.add(7);
@@ -54,7 +54,7 @@ class ch2_02_algorithm_collections {
     System.out.println(v);
     System.out.printf("==================\n");
 
-    Vector<team> nus = new Vector<team>();
+    ArrayList<team> nus = new ArrayList<>();
     nus.add(new team(1, 1, 10));
     nus.add(new team(2, 3, 60));
     nus.add(new team(3, 1, 20));

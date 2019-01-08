@@ -2,13 +2,13 @@ import java.util.*;
 
 // Union-Find Disjoint Sets Library written in OOP manner, using both path compression and union by rank heuristics
 class UnionFind {                                              // OOP style
-  private Vector<Integer> p, rank, setSize;
+  private ArrayList<Integer> p, rank, setSize;
   private int numSets;
 
   public UnionFind(int N) {
-    p = new Vector<Integer>(N);
-    rank = new Vector<Integer>(N);
-    setSize = new Vector<Integer>(N);
+    p = new ArrayList<>(N);
+    rank = new ArrayList<>(N);
+    setSize = new ArrayList<>(N);
     numSets = N;
     for (int i = 0; i < N; i++) {
       p.add(i);
@@ -36,7 +36,7 @@ class UnionFind {                                              // OOP style
   public int sizeOfSet(int i) { return setSize.get(findSet(i)); }
 }
 
-class ch2_08_unionfind_ds {
+class unionfind_ds {
   public static void main(String[] args) {
     System.out.printf("Assume that there are 5 disjoint sets initially\n");
     UnionFind UF = new UnionFind(5); // create 5 disjoint sets

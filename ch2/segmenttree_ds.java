@@ -68,7 +68,7 @@ class SegmentTree {         // the segment tree is stored like a heap array
     return update_point(1, 0, n - 1, idx, new_value); }
 }
 
-class ch2_09_segmenttree_ds {
+class segmenttree_ds {
   public static void main(String[] args) {
     int[] A = new int[] { 18, 17, 13, 19, 15, 11, 20 }; // the original array
     SegmentTree st = new SegmentTree(A);

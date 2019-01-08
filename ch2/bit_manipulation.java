@@ -1,8 +1,8 @@
 import java.util.*;
 
-// note: for example usage of BitSet, see ch5_06_primes.java
+// note: for example usage of BitSet, see ch5/primes.java
 
-class ch2_03_bit_manipulation {
+class bit_manipulation {
   private static int setBit(int S, int j) { return S | (1 << j); }
 
   private static int isOn(int S, int j) { return S & (1 << j); }

@@ -2,12 +2,10 @@
 using namespace std;
 
 int main() {
-  char name[20];
-  int value;
   // note: there are many clever usages of this set/map
   // that you can learn by looking at top coder's codes
   // note, we don't have to use .clear() if we have just initialized the set/map
-  set<int> used_values; // used_values.clear();
+  set<int> used_values;    // used_values.clear();
   map<string, int> mapper; // mapper.clear();
 
   // suppose we enter these 7 name-score pairs below
@@ -20,12 +18,12 @@ int main() {
   grace 75
   martin 81
   */
-  mapper["john"] = 78;   used_values.insert(78);
-  mapper["billy"] = 69;  used_values.insert(69);
-  mapper["andy"] = 80;   used_values.insert(80);
+  mapper["john"]   = 78; used_values.insert(78);
+  mapper["billy"]  = 69; used_values.insert(69);
+  mapper["andy"]   = 80; used_values.insert(80);
   mapper["steven"] = 77; used_values.insert(77);
-  mapper["felix"] = 82;  used_values.insert(82);
-  mapper["grace"] = 75;  used_values.insert(75);
+  mapper["felix"]  = 82; used_values.insert(82);
+  mapper["grace"]  = 75; used_values.insert(75);
   mapper["martin"] = 81; used_values.insert(81);
 
   // then the internal content of mapper MAY be something like this:

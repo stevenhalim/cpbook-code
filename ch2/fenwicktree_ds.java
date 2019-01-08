@@ -1,7 +1,7 @@
 import java.util.*;
 
 class FenwickTree {
-  private Vector<Integer> ft;
+  private ArrayList<Integer> ft;
 
   private int LSOne(int S) { return (S & (-S)); }
 
@@ -9,7 +9,7 @@ class FenwickTree {
 
   // initialization: n + 1 zeroes, ignore index 0
   public FenwickTree(int n) { 
-    ft = new Vector<Integer>();
+    ft = new ArrayList<>();
     for (int i = 0; i <= n; i++) ft.add(0);
   }
 
@@ -25,7 +25,7 @@ class FenwickTree {
     for (; i < (int)ft.size(); i += LSOne(i)) ft.set(i, ft.get(i)+v); }
 };
 
-class ch2_10_fenwicktree_ds {
+class fenwicktree_ds {
   public static void main(String[] args) {
                                           // idx   0 1 2 3 4 5 6 7  8 9 10, no index 0!
     FenwickTree ft = new FenwickTree(10); // ft = {-,0,0,0,0,0,0,0, 0,0,0}
