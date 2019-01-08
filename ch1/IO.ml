@@ -4,7 +4,7 @@ open Printf
 let () =
   (* comment all lines and only uncomment demo code that you are interested with *)
 
-  let ic = Scanning.open_in "04_in1.txt" in 
+  let ic = Scanning.open_in "IO_in1.txt" in 
   bscanf ic "%d\n" (fun tc ->
     for i = 1 to tc do 
       bscanf ic "%d %d\n" (fun a b ->
@@ -13,7 +13,7 @@ let () =
     done
   )
 
-(*   let ic = Scanning.open_in "04_in2.txt" in
+(*   let ic = Scanning.open_in "IO_in2.txt" in
   let rec process () =
     bscanf ic "%d %d\n" (fun a b ->
       if a = 0 && b = 0 then ()
@@ -25,7 +25,7 @@ let () =
   in 
   process () *)
 
-(*   let ic = Scanning.open_in "04_in3.txt" in 
+(*   let ic = Scanning.open_in "IO_in3.txt" in 
   try
     let case = ref 1 in
     while true do 
@@ -37,7 +37,7 @@ let () =
   with End_of_file ->
     () *)
 
-(*   let ic = Scanning.open_in "04_in3.txt" in 
+(*   let ic = Scanning.open_in "IO_in3.txt" in 
   try
     let case = ref 1 in
     while true do 
@@ -50,7 +50,7 @@ let () =
   with End_of_file ->
     () *)
 
-(*   let ic = Scanning.open_in "04_in4.txt" in 
+(*   let ic = Scanning.open_in "IO_in4.txt" in 
   try
     while true do 
       bscanf ic "%d" (fun k ->
@@ -65,7 +65,7 @@ let () =
   with End_of_file ->
     () *)
 
-(*   let ic = Scanning.open_in "04_in5.txt" in 
+(*   let ic = Scanning.open_in "IO_in5.txt" in 
   let rec sum_line acc =
     bscanf ic "%d%c" (fun v dummy ->
       if dummy = '\n' then printf "%d\n" (acc+v)
@@ -78,7 +78,3 @@ let () =
     done
   with End_of_file ->
     () *)
-
-
-
-

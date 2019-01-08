@@ -8,7 +8,6 @@ let case = ref 1
 let dist = Array.make_matrix 20 20 0.
 let memo = Array.make (1 lsl 16) 0.
 
-
 let hypot (ax, ay) (bx, by) = 
   Float.hypot (ax -. bx) (ay -. by)
 ;;
