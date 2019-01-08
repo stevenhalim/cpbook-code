@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* UVa 11450 - Wedding Shopping - Bottom Up */
+class UVa11450_bu { /* UVa 11450 - Wedding Shopping - Bottom Up */
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int i, j, l, TC, M, C, K;

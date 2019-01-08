@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* UVa 11450 - Wedding Shopping - Top Down */
+class UVa11450_td { /* UVa 11450 - Wedding Shopping - Top Down */
   private static int M, C, K;
   private static int[][] price = new int[25][25]; // price[g (<= 20)][model (<= 20)]
   private static int[][] memo = new int[210][25]; // dp table memo[money (<= 200)][g (<= 20)]

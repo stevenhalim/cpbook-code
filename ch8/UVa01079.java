@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-class Main {
+class UVa01079 {
   static double[] a = new double[8], b = new double[8];
   static int[] order = new int[8], arr = new int[8];
   static int i, n, caseNo = 1;

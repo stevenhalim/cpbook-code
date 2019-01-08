@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* 8 Queens Chess Problem */
+class UVa00750 { /* 8 Queens Chess Problem */
   private static int[] row = new int[9];
   private static int TC, a, b, lineCounter; // it is ok to use global variables in competitive programming
 

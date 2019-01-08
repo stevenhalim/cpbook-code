@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* Cutting Sticks, 1.762s in Java, 0.302s in C++ */
+class UVa10003 { /* Cutting Sticks, 1.762s in Java, 0.302s in C++ */
   // Top-Down DP
 
   private static int[] arr = new int[55];

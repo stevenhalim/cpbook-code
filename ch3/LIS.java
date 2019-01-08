@@ -1,6 +1,6 @@
 import java.util.*;
 
-class ch3_06_LIS {
+class LIS {
   static void reconstruct_print(int end, int[] a, int[] p) {
     int x = end;
     Stack<Integer> s = new Stack();

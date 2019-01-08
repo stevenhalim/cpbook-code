@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-class Main { /* Coin Change, 1.492s in Java, 0.038s in C++ */
+class UVa00674 { /* Coin Change, 1.492s in Java, 0.038s in C++ */
   // O(NV) DP solution
 
   // N and coinValue are fixed for this problem, max V is 7489

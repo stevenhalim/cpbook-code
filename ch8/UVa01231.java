@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-class Main {
+class UVa01231 {
   public static void main(String[] args) {
     int i, j, c, t, h, f, a, n;
     int[][] acorn = new int[2010][2010];

@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* Maximum Sum, 0.528s in UVa (C++ version runs in 0.008s) */
+class UVa00441 { /* Maximum Sum, 0.528s in UVa (C++ version runs in 0.008s) */
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int i, j, l, r, row, n, maxSubRect, subRect;

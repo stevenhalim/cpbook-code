@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* Collecting Beepers */
+class UVa10496 { /* Collecting Beepers */
   // DP TSP
 
   private static int i, j, TC, xsize, ysize, n;

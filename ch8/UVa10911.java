@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* UVa 10911 - Forming Quiz Teams, 0.462s in Java, 0.032s in C++ */
+class UVa10911 { /* UVa 10911 - Forming Quiz Teams, 0.462s in Java, 0.032s in C++ */
   private static int N, target;
   private static double dist[][] = new double[20][], memo[] = new double[65536]; // this is 2^16, max N = 8
 

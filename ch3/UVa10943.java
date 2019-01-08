@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* How do you add? */
+class UVa10943 { /* How do you add? */
   // top-down
 
   private static int N, K;

@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main { /* SuperSale */
+class UVa10130 { /* SuperSale */
   // 0-1 Knapsack DP (Top-Down) - faster as not all states are visited
 
   private static final int MAX_N = 1010;

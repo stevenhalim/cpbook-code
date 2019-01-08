@@ -1,6 +1,6 @@
 import java.util.*;
 
-class ch3_04_Max1DRangeSum {
+class Max1DRangeSum {
   public static void main(String[] args) {
     int n = 9, A[] = { 4, -5, 4, -3, 4, 4, -4, 4, -5 };   // a sample array A
     int running_sum = 0, ans = 0;
