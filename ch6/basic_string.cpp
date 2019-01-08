@@ -13,7 +13,7 @@ int main() {
   int pos, digits, alphas, vowels, consonants;
   char str[10010], *p;
 
-  freopen("01_in.txt", "r", stdin);
+  freopen("basic_string_in.txt", "r", stdin);
 
   strcpy(str, "");
   bool first = true; // technique to differentiate first line with the other lines

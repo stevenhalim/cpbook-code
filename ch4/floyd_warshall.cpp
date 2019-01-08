@@ -21,7 +21,7 @@ int main() {
   3 4 5
   */
 
-  freopen("11_in.txt", "r", stdin);
+  freopen("floyd_warshall_in.txt", "r", stdin);
 
   int V, E; scanf("%d %d", &V, &E);
   for (int i = 0; i < V; i++) {

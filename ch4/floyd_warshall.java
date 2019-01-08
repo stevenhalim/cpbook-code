@@ -17,8 +17,7 @@ public class floyd_warshall {
     3 4 5
     */
 
-    File f = new File("in_07.txt");    
-    Scanner sc = new Scanner(f);
+    Scanner sc = new Scanner(new File("floyd_warshall_in.txt"));
 
     int V = sc.nextInt();
     int E = sc.nextInt();

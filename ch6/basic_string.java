@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-class Main {
+class basic_string {
   static int isvowel(char ch) { // make sure ch is in lowercase
     String vowel = "aeiou";
     for (int j = 0; j < 5; j++)
@@ -17,8 +17,7 @@ class Main {
     Boolean first = true; // technique to differentiate first line with the other lines
     Boolean prev_dash = false, this_dash = false; // to differentiate whether the previous line contains a dash or not
 
-    File f = new File("01_in.txt");
-    Scanner sc = new Scanner(f);
+    Scanner sc = new Scanner(new File("basic_string_in.txt"));
     while (sc.hasNext()) {
       String line = sc.nextLine();
       if (line.equals(".......")) break;
