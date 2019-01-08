@@ -24,7 +24,7 @@ int main() {
   4 8    8 9    5 10   6 11   7 12   9 10   10 11  11 12
   */
 
-  freopen("02_in.txt", "r", stdin);
+  freopen("bfs_in.txt", "r", stdin);
 
   int V, E; scanf("%d %d", &V, &E);
   AL.assign(V, vii()); // assign blank vectors of pair<int, int>s to Al

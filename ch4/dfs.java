@@ -5,7 +5,7 @@ import java.util.Stack;
 import java.util.Vector;
 import java.io.*;
 
-public class ch4_01_dfs {
+public class dfs {
   private static final int DFS_WHITE = -1; // normal DFS
   private static final int DFS_BLACK = 1;
   private static final int DFS_GRAY = 2;
@@ -227,7 +227,7 @@ public class ch4_01_dfs {
     1 6 0
     */
 
-    File f = new File("in_01.txt");
+    File f = new File("dfs_in.txt");
     Scanner sc = new Scanner(f);
 
     V = sc.nextInt();

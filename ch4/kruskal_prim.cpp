@@ -53,7 +53,7 @@ int main() {
   3 4 9
   */
 
-  freopen("07_in.txt", "r", stdin);
+  freopen("kruskal_prim_in.txt", "r", stdin);
 
   int V, E; scanf("%d %d", &V, &E);
   // Kruskal's algorithm merged with Prim's algorithm

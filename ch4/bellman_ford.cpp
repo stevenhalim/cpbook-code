@@ -24,16 +24,16 @@ int main() {
   2 1 -42
   */
 
-  freopen("09_in.txt", "r", stdin);
+  freopen("bellman_ford_in.txt", "r", stdin);
 
   int V, E, s; scanf("%d %d %d", &V, &E, &s);
   vector<vii> AL(V, vii());           // assign blank vectors of ii-s to AL
   for (int i = 0; i < E; i++) {
-    int a, b, w; scanf("%d %d %d", &a, &b, &w);
-    AL[a].emplace_back(b, w);
+    int u, v, w; scanf("%d %d %d", &u, &v, &w);
+    AL[u].emplace_back(v, w);
   }
 
-  // Bellman Ford routine
+  // Bellman Ford's routine
   vi dist(V, INF); dist[s] = 0;
   for (int i = 0; i < V-1; i++) // relax all E edges V-1 times, total O(VE)
     for (int u = 0; u < V; u++)                   // these two loops = O(E)

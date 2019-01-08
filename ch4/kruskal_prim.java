@@ -3,13 +3,13 @@ import java.io.*;
 
 // Union-Find Disjoint Sets Library written in OOP manner, using both path compression and union by rank heuristics
 class UnionFind {                                              // OOP style
-  private Vector<Integer> p, rank, setSize;
+  private ArrayList<Integer> p, rank, setSize;
   private int numSets;
 
   public UnionFind(int N) {
-    p = new Vector<Integer>(N);
-    rank = new Vector<Integer>(N);
-    setSize = new Vector<Integer>(N);
+    p = new ArrayList<Integer>(N);
+    rank = new ArrayList<Integer>(N);
+    setSize = new ArrayList<Integer>(N);
     numSets = N;
     for (int i = 0; i < N; i++) {
       p.add(i);
@@ -37,22 +37,19 @@ class UnionFind {                                              // OOP style
   public int sizeOfSet(int i) { return setSize.get(findSet(i)); }
 }
 
-public class ch4_03_kruskal_prim {
-  static Vector< Vector < IntegerPair> > AdjList = new Vector < Vector < IntegerPair > > ();
-  static Vector<Boolean> taken = new Vector<Boolean>(); // global boolean flag to avoid cycle
-  static PriorityQueue<IntegerPair> pq = new PriorityQueue<IntegerPair>(); // priority queue to help choose shorter edges
+public class kruskal_prim {
+  static ArrayList<ArrayList<IntegerPair>> AL = new ArrayList<>();
+  static ArrayList<Boolean> taken = new ArrayList<>(); // global boolean flag to avoid cycle
+  static PriorityQueue<IntegerPair> pq = new PriorityQueue<>(); // priority queue to help choose shorter edges
 
-  static void process(int vtx) { //  we do not need to use -ve sign to reverse the sort order
-    taken.set(vtx, true);
-    for (int j = 0; j < (int)AdjList.get(vtx).size(); j++) {
-      IntegerPair v = AdjList.get(vtx).get(j);
-      if (!taken.get(v.first()))
-        pq.offer(new IntegerPair(v.second(), v.first()));
-  } }    
+  static void process(int u) { //  we do not need to use -ve sign to reverse the sort order
+    taken.set(u, true);
+    for (IntegerPair v_w : AL.get(u))
+      if (!taken.get(v_w.first()))
+        pq.offer(new IntegerPair(v_w.second(), v_w.first()));
+  }
 
   public static void main(String[] args) throws Exception {
-    int V, E, u, v, w;
-
     /*
     // Graph in Figure 4.10 left, format: list of weighted edges
     // This example shows another form of reading graph input
@@ -66,36 +63,36 @@ public class ch4_03_kruskal_prim {
     3 4 9
     */
 
-    File f = new File("in_03.txt");
+    File f = new File("kruskal_prim_in.txt");
     Scanner sc = new Scanner(f);
 
-    V = sc.nextInt();
-    E = sc.nextInt();
+    int V = sc.nextInt();
+    int E = sc.nextInt();
     // Kruskal's algorithm merged with Prim's algorithm
 
-    AdjList.clear();
+    AL.clear();
     for (int i = 0; i < V; i++) {
-      Vector < IntegerPair > Neighbor = new Vector < IntegerPair >(); // create vector of pair<int, int> 
-      AdjList.add(Neighbor); // store blank vector first
+      ArrayList<IntegerPair> Neighbor = new ArrayList<>(); // create ArrayList of pair<int, int> 
+      AL.add(Neighbor); // store blank ArrayList first
     }
-    Vector<IntegerTriple> EdgeList = new Vector<IntegerTriple>();
+    ArrayList<IntegerTriple> EL = new ArrayList<>();
   
     // sort by edge weight O(E log E)
     // PQ default: sort descending. Trick: use <(negative) weight(i, j), <i, j> >
     for (int i = 0; i < E; i++) {
-      u = sc.nextInt();
-      v = sc.nextInt();
-      w = sc.nextInt();
-      EdgeList.add(new IntegerTriple(w, u, v));                // (w, u, v)
-      AdjList.get(u).add(new IntegerPair(v, w));
-      AdjList.get(v).add(new IntegerPair(u, w));
+      int u = sc.nextInt();
+      int v = sc.nextInt();
+      int w = sc.nextInt();
+      EL.add(new IntegerTriple(w, u, v));                      // (w, u, v)
+      AL.get(u).add(new IntegerPair(v, w));
+      AL.get(v).add(new IntegerPair(u, w));
     }
-    Collections.sort(EdgeList);
+    Collections.sort(EL);
 
     int mst_cost = 0;           // all V are disjoint sets at the beginning
     UnionFind UF = new UnionFind(V);
-    for (int i = 0; i < E; i++) {                   // for each edge, O(E)
-      IntegerTriple front = EdgeList.get(i);
+    for (int i = 0; i < E; i++) {                    // for each edge, O(E)
+      IntegerTriple front = EL.get(i);
       if (!UF.isSameSet(front.second(), front.third())) {          // check
         mst_cost += front.first();            // add the weight of e to MST
         UF.unionSet(front.second(), front.third());            // link them
@@ -106,14 +103,14 @@ public class ch4_03_kruskal_prim {
 
 
 
-  // inside int main() --- assume the graph is stored in AdjList, pq is empty
+  // inside int main() --- assume the graph is stored in AL, pq is empty
     for (int i = 0; i < V; i++)
       taken.add(false);                // no vertex is taken at the beginning
     process(0);   // take vertex 0 and process all edges incident to vertex 0
     mst_cost = 0;
     while (!pq.isEmpty()) { // repeat until V vertices (E=V-1 edges) are taken
       IntegerPair front = pq.peek(); pq.poll();
-      u = front.second(); w = front.first();   // no need to negate id/weight
+      int u = front.second(), w = front.first();   // no need to negate id/weight
       if (!taken.get(u)) {           // we have not connected this vertex yet
         mst_cost += w;
         process(u); // take u, process all edges incident to u

@@ -1,4 +1,4 @@
-class IntegerPair implements Comparable {
+class IntegerPair implements Comparable<IntegerPair> {
   Integer _first, _second;
 
   public IntegerPair(Integer f, Integer s) {
@@ -6,11 +6,11 @@ class IntegerPair implements Comparable {
     _second = s;
   }
 
-  public int compareTo(Object o) {
-    if (!this.first().equals(((IntegerPair)o).first()))
-      return this.first() - ((IntegerPair)o).first();
+  public int compareTo(IntegerPair o) {
+    if (!this.first().equals(o.first()))
+      return this.first() - o.first();
     else
-      return this.second() - ((IntegerPair)o).second();
+      return this.second() - o.second();
   }
 
   Integer first() { return _first; }

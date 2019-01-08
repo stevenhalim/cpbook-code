@@ -1,14 +1,14 @@
 import java.util.*;
 import java.io.*;
 
-public class ch4_08_maxflow {
+public class maxflow {
   private static final int MAX_V = 40; // enough for sample graph in Figure 4.24/4.25/4.26
   private static final int INF = 1000000000;
   
   // we need these global variables
   private static int[][] res = new int[MAX_V][]; // define MAX_V appropriately
   private static int mf, f, s, t;
-  private static Vector < Integer > p = new Vector < Integer > ();
+  private static ArrayList<Integer> p = new ArrayList<>();
 
   private static void augment(int v, int minEdge) { // traverse the BFS spanning tree as in print_path (section 4.3)
     if (v == s) { f = minEdge; return; } // reach the source, record minEdge in a global variable `f'
@@ -17,8 +17,6 @@ public class ch4_08_maxflow {
   }
 
   public static void main(String[] args) throws Exception {
-    int V, k, vertex, weight;
-
     /*
     // Graph in Figure 4.24
     4 0 1
@@ -59,20 +57,20 @@ public class ch4_08_maxflow {
     1 1 125
     */
 
-    File ff = new File("in_08.txt");
+    File ff = new File("maxflow_in.txt");
     Scanner sc = new Scanner(ff);
 
-    V = sc.nextInt();
+    int V = sc.nextInt();
     s = sc.nextInt();
     t = sc.nextInt();
 
-    for (int i = 0; i < V; i++) {
-      res[i] = new int[MAX_V];
-      k = sc.nextInt();
-      for (int j = 0; j < k; j++) {
-        vertex = sc.nextInt();
-        weight = sc.nextInt();
-        res[i][vertex] = weight;
+    for (int u = 0; u < V; u++) {
+      res[u] = new int[MAX_V];
+      int k = sc.nextInt();
+      while (k-- > 0) {
+        int v = sc.nextInt();
+        int w = sc.nextInt();
+        res[u][v] = w;
       }
     }
 
@@ -82,7 +80,7 @@ public class ch4_08_maxflow {
 
       // run BFS, please examine parts of the BFS code that is different than in Section 4.3
       Queue < Integer > q = new LinkedList < Integer > ();
-      Vector < Integer > dist = new Vector < Integer > ();
+      ArrayList < Integer > dist = new ArrayList < Integer > ();
       dist.addAll(Collections.nCopies(V, INF)); // #define INF 2000000000
       q.offer(s);
       dist.set(s, 0);

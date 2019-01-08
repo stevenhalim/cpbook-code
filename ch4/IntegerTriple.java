@@ -1,4 +1,4 @@
-class IntegerTriple implements Comparable {
+class IntegerTriple implements Comparable<IntegerTriple> {
   Integer _first, _second, _third;
 
   public IntegerTriple(Integer f, Integer s, Integer t) {
@@ -7,13 +7,13 @@ class IntegerTriple implements Comparable {
     _third = t;
   }
 
-  public int compareTo(Object o) {
-    if (!this.first().equals(((IntegerTriple)o).first()))
-      return this.first() - ((IntegerTriple)o).first();
-    else if (!this.second().equals(((IntegerTriple)o).second()))
-      return this.second() - ((IntegerTriple)o).second();
+  public int compareTo(IntegerTriple o) {
+    if (!this.first().equals(o.first()))
+      return this.first() - o.first();
+    else if (!this.second().equals(o.second()))
+      return this.second() - o.second();
     else
-      return this.third() - ((IntegerTriple)o).third();
+      return this.third() - o.third();
   }
 
   Integer first() { return _first; }
