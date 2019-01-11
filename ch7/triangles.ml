@@ -19,15 +19,16 @@ let pi = Float.pi
 let deg_to_rad d = d *. pi /. 180.
 let rad_to_deg r = r *. 180. /. pi
 
-type point = Point of float * float
+type point = { x: float; y: float }
+let point (x, y) = { x; y }
 
-let dist (Point(x1, y1)) (Point(x2, y2)) = hypot (x1 -. x2) (y1 -. y2)
+let dist a b = hypot (a.x -. b.x) (a.y -. b.y)
 
 type vector = Vector of float * float
 
-let to_vec (Point(x1, y1)) (Point(x2, y2)) = Vector(x2 -. x1, y2 -. y1)
+let to_vec a b = Vector(b.x -. a.x, b.y -. a.y)
 let scale (Vector(a, b)) s = Vector(a *. s, b *. s)
-let translate (Point(x, y)) (Vector(a, b)) = Point(x +. a, y +. b)
+let translate {x; y} (Vector(a, b)) = point(x +. a, y +. b)
 let dot (Vector(a1, b1)) (Vector(a2, b2)) = a1 *. a2 +. b1 *. b2
 let norm v = sqrt (dot v v)
 let cross (Vector(a1, b1)) (Vector(a2, b2)) = a1 *. b2 -. a2 *. b1
@@ -45,11 +46,11 @@ end = struct
   (** ax + by + c = 0 *)
   type line = { a: float; b: float; c: float }
 
-  let through_points (Point(x1, y1)) (Point(x2, y2)) =
-    if near x1 x2 then { a = 1.; b = 0.; c = -. x1 }
+  let through_points p1 p2 =
+    if near p1.x p2.x then { a = 1.; b = 0.; c = -. p1.x }
     else
-      let a = -. (y1 -. y2) /. (x1 -. x2) in
-      { a; b = 1.; c = -. a *. x1 -. y1 }
+      let a = -. (p1.y -. p2.y) /. (p1.x -. p2.x) in
+      { a; b = 1.; c = -. a *. p1.x -. p1.y }
 
   let are_parallel l1 l2 = near l1.a l2.a && near l1.b l2.b
 
@@ -62,7 +63,7 @@ end = struct
       let y =
         if not (near l1.b 0.) then -. (l1.a *. x +. l1.c)
         else -. (l2.a *. x +. l2.c) in
-      Some (Point (x, y))
+      Some (point (x, y))
   
   let to_string line =
     sprintf "%.2f * x + %.2f * y + %.2f = 0.00" line.a line.b line.c
@@ -77,9 +78,10 @@ let sqr x = x *. x
 
 let can_form_triangle x y z = x +. y > z && y +. z > x && x +. z > y
 
-let inside_circle (Point(x, y)) { center=Point(cx, cy); radius=r } =
-  let dx, dy = x -. cx, y -. cy in
-  compare (sqr dx +. sqr dy) (sqr r) + 1 (* 0 inside / 1 border / 2 outside *)
+(* Returns: 0 inside / 1 border / 2 outside *)
+let inside_circle {x; y} { center; radius } =
+  let dx, dy = x -. center.x, y -. center.y in
+  compare (dx *. dx +. dy *. dy) (radius *. radius) + 1
 
 let perimeter (Triangle(a, b, c)) = dist a b +. dist b c +. dist c a
 
@@ -105,15 +107,13 @@ let r_circumcircle (Triangle(a, b, c) as t) =
   dist a b *. dist b c *. dist c a /. (4. *. area t)
 
 let circumcircle (Triangle(p1, p2, p3)) =
-  let x (Point(x', _)) = x' in
-  let y (Point(_, y')) = y' in
-  let a, b = x p2 -. x p1, y p2 -. y p1 in
-  let c, d = x p3 -. x p1, y p3 -. y p1 in
-  let e = a *. (x p1 +. x p2) +. b *. (y p1 +. y p2) in
-  let f = c *. (x p1 +. x p3) +. d *. (y p1 +. y p3) in
-  let g = 2. *. (a *. (y p3 -. y p2) -. b *. (x p3 -. x p2)) in
+  let a, b = p2.x -. p1.x, p2.y -. p1.y in
+  let c, d = p3.x -. p1.x, p3.y -. p1.y in
+  let e = a *. (p1.x +. p2.x) +. b *. (p1.y +. p2.y) in
+  let f = c *. (p1.x +. p3.x) +. d *. (p1.y +. p3.y) in
+  let g = 2. *. (a *. (p3.y -. p2.y) -. b *. (p3.x -. p2.x)) in
   if near g 0. then None else
-  let center = Point((d *. e -. b *. f) /. g, (a *. f -. c *. e) /. g) in
+  let center = point((d *. e -. b *. f) /. g, (a *. f -. c *. e) /. g) in
   Some { center; radius = dist p1 center }
 
 let in_circumcircle triangle p =
@@ -121,10 +121,10 @@ let in_circumcircle triangle p =
     inside_circle p circle = 0)
 
 let () =
-  let t = Triangle(Point(0., 0.), Point(4., 0.), Point(4., 3.)) in
+  let t = Triangle(point(0., 0.), point(4., 0.), point(4., 3.)) in
   printf "Area = %.2f\n" (area t);
 
-  let to_string (Point(x, y)) = sprintf "(%.2f, %.2f)" x y in
+  let to_string {x; y} = sprintf "(%.2f, %.2f)" x y in
   
   incircle t |> Option.foreach (fun circle ->
     printf "R1 (radius of incircle) = %.2f\n" circle.radius;
@@ -134,7 +134,7 @@ let () =
     printf "R1 (radius of circumcircle) = %.2f\n" circle.radius;
     printf "Center = %s\n" (to_string circle.center));
 
-  [Point(2.0, 1.0); Point(2.0, 3.9); Point(2.0, -1.1)]
+  [point(2.0, 1.0); point(2.0, 3.9); point(2.0, -1.1)]
     |> List.iter (fun point ->
       printf "%s inside circumCircle? %b\n"
         (to_string point)
