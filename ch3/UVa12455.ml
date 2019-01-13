@@ -4,9 +4,9 @@ open Scanf
 let () =
   let tc = scanf "%d\n" (fun x -> x) in
   for _ = 1 to tc do
-    let target = scanf " %d\n" (fun x -> x) in
-    let n = scanf " %d\n" (fun x -> x) in
-    let l = Array.init n (fun i -> scanf " %d" (fun x -> x)) in
+    let target = scanf "%d\n" (fun x -> x) in
+    let n = scanf "%d\n" (fun x -> x) in
+    let l = Array.init n (fun i -> scanf "%d " (fun x -> x)) in
     try
       for mask = 0 to 1 lsl n - 1 do
         let sum =

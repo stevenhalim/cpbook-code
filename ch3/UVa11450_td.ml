@@ -24,10 +24,10 @@ let rec shop price g money =
 let () =
   let tc = scanf "%d\n" (fun x -> x) in
   for _ = 1 to tc do
-    scanf " %d %d\n" (fun x y -> m := x; c := y);
+    scanf "%d %d\n" (fun x y -> m := x; c := y);
     let price = Array.init !c (fun _ ->
-        scanf " %d" (fun k ->
-            Array.init k (fun _ -> scanf " %d" (fun x -> x))))
+        scanf "%d " (fun k ->
+            Array.init k (fun _ -> scanf "%d " (fun x -> x))))
     in
     let ans = shop price 0 !m in
     if ans < 0 then printf "no solution\n"

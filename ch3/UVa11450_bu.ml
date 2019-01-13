@@ -7,10 +7,10 @@ let max_m = 210
 let () =
   let tc = scanf "%d\n" (fun x -> x) in
   for _ = 1 to tc do
-    let (m, c) = scanf " %d %d\n" (fun x y -> (x, y)) in
+    let (m, c) = scanf "%d %d\n" (fun x y -> (x, y)) in
     let price = Array.init c (fun _ ->
-        scanf " %d" (fun k ->
-            Array.init k (fun _ -> scanf " %d" (fun x -> x))))
+        scanf "%d " (fun k ->
+            Array.init k (fun _ -> scanf "%d " (fun x -> x))))
     in
 
     let reachable = Array.make_matrix 2 (m+1) false in

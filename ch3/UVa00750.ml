@@ -29,7 +29,7 @@ let rec backtrack c =
 let () =
   let tc = scanf "%d\n" (fun x -> x) in
   for i = 1 to tc do
-    scanf " %d %d\n" (fun x y -> a := x-1; b := y-1);
+    scanf "\n%d %d\n" (fun x y -> a := x-1; b := y-1);
     line_counter := 0;
     printf "SOLN       COLUMN\n";
     printf " #      1 2 3 4 5 6 7 8\n\n";
