@@ -44,7 +44,7 @@ int main() {
   printf("==================\n");
 
   // interesting usage of lower_bound and upper_bound
-  // display data between ["f".."m") ('felix' is included, martin' is excluded)
+  // display data between ["f".."m") ('felix' is included, 'martin' is excluded)
   for (auto it = mapper.lower_bound("f"); it != mapper.lower_bound("m"); it++)
     printf("%s %d\n", it->first.c_str(), it->second);
 

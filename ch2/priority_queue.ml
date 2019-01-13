@@ -1,6 +1,5 @@
 open Printf
 open Scanf
-open Seq
 
 module ISMaxPQ = Set.Make (struct
     type t = int * string
@@ -8,8 +7,15 @@ module ISMaxPQ = Set.Make (struct
   end)
 
 let () =
-  let pq = ref ISMaxPQ.empty in
-
+  (* suppose we enter these 7 money-name pairs below *)
+  (* 100 john
+   * 10 billy
+   * 20 andy
+   * 100 steven
+   * 70 felix
+   * 2000 grace
+   * 70 martin *)
+let pq = ref ISMaxPQ.empty in
   pq := ISMaxPQ.add (100, "john") !pq;
   pq := ISMaxPQ.add (10, "billy") !pq;
   pq := ISMaxPQ.add (20, "andy") !pq;
