@@ -1,12 +1,12 @@
-open Printf
+(* This source code is not as complete as ch2/stack_queue.ml *)
 
-let int_of_bool b = if b then 1 else 0
+open Printf
 
 let () =
   let s = Stack.create () in
   let q = Queue.create () in
 
-  printf "%d\n" (int_of_bool (Stack.is_empty s));
+  printf "%B\n" (Stack.is_empty s);
   printf "==================\n";
   Stack.push 'a' s;
   Stack.push 'b' s;
@@ -15,10 +15,10 @@ let () =
   printf "%c\n" (Stack.top s);
   Stack.pop s |> ignore;
   printf "%c\n" (Stack.top s);
-  printf "%d\n" (int_of_bool (Stack.is_empty s));
+  printf "%B\n" (Stack.is_empty s);
   printf "==================\n";
 
-  printf "%d\n" (int_of_bool (Queue.is_empty q));
+  printf "%B\n" (Queue.is_empty q);
   printf "==================\n";
   while (not (Stack.is_empty s)) do
     Queue.push (Stack.pop s) q;
