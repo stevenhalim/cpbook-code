@@ -21,7 +21,7 @@ let rec binsearch can lo hi =
       binsearch can mid hi
 
 let rec read_events () =
-  let (d, line) = scanf "%f %[^\n]\n" (fun x y -> (x, y)) in
+  let d, line = scanf "%f %[^\n]\n" (fun x y -> x, y) in
   let e = match line with
     | "Leak" -> Leak
     | "Gas station" -> Gas_station

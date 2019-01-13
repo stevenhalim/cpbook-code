@@ -4,7 +4,7 @@ open Scanf
 let () =
   let n = scanf "%d\n" (fun x -> x) in
   for _ = 1 to n do
-    let (a, b, c) = scanf "%d %d %d\n" (fun a b c -> (a, b, c)) in
+    let a, b, c = scanf "%d %d %d\n" (fun a b c -> a, b, c) in
     try
       (* for x = -100 to 100 do
        *   for y = -100 to 100 do

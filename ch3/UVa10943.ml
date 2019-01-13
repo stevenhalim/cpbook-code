@@ -25,7 +25,7 @@
  * let () =
  *   try
  *     while true do
- *       let (n, k) = scanf "%d %d\n" (fun x y -> (x, y)) in
+ *       let n, k = scanf "%d %d\n" (fun x y -> x, y) in
  *       if n = 0 && k = 0 then raise Exit;
  *       printf "%d\n" (ways n k)  (\* some recursion formula + top down DP *\)
  *     done
@@ -55,7 +55,7 @@ let () =
 
   try
     while true do
-      let (n, k) = scanf "%d %d\n" (fun x y -> (x, y)) in
+      let n, k = scanf "%d %d\n" (fun x y -> x, y) in
       if n = 0 && k = 0 then raise Exit;
       printf "%d\n" dp.(n).(k)
     done

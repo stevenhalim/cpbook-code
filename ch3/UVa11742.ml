@@ -15,7 +15,7 @@ let rec permutations = function
 let () =
   try
     while true do
-      let (n, m) = scanf "%d %d\n" (fun n m -> (n, m)) in
+      let n, m = scanf "%d %d\n" (fun x y -> x, y) in
       if n = 0 && m = 0 then raise Exit;
       let constraints = List.init m (fun _ ->
           scanf "%d %d %d\n" (fun a b c -> (a, b, c))) in

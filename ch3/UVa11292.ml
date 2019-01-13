@@ -4,7 +4,7 @@ open Scanf
 let () =
   try
     while true do
-      let (n, m) = scanf "%d %d\n" (fun x y -> (x, y)) in
+      let n, m = scanf "%d %d\n" (fun x y -> x, y) in
       if n = 0 && m = 0 then raise Exit;
       let dragon = Array.init n (fun _ -> scanf "%d\n" (fun x -> x)) in
       Array.sort compare dragon;
