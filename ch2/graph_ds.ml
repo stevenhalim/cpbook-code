@@ -7,7 +7,7 @@ module IIIMinPQ = Set.Make (struct
   end)
 
 let () =
-  let ic = Scanning.open_in "07_in.txt" in
+  let ic = Scanning.open_in "graph_ds.txt" in
 
   let v = bscanf ic " %d\n" (fun x -> x) in
   let am = Array.init v (fun _ ->
