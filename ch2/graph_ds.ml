@@ -9,7 +9,7 @@ module IIIMinPQ = Set.Make (struct
 let () =
   let ic = Scanning.open_in "graph_ds.txt" in
 
-  let v = bscanf ic " %d\n" (fun x -> x) in
+  let v = bscanf ic "%d\n" (fun x -> x) in
   let am = Array.init v (fun _ ->
       Array.init v (fun _ ->
           bscanf ic " %d" (fun x -> x)
@@ -24,9 +24,9 @@ let () =
 
   let v = bscanf ic " %d\n" (fun x -> x) in
   let al = Array.init v (fun _ ->
-    let total_neighbors = bscanf ic " %d" (fun x -> x) in
+    let total_neighbors = bscanf ic "%d " (fun x -> x) in
     List.init total_neighbors (fun _ ->
-        bscanf ic " %d %d" (fun x y -> (x - 1, y))
+        bscanf ic "%d %d " (fun id weight -> (id - 1, weight))
       )
     ) in
   printf "Neighbors of vertex 0:\n";
@@ -34,9 +34,9 @@ let () =
       printf "Edge 0-%d (weight = %d)\n" v w
     );
 
-  let e = bscanf ic " %d\n" (fun x -> x) in
+  let e = bscanf ic "%d\n" (fun x -> x) in
   let el = List.init e (fun _ ->
-      bscanf ic " %d %d %d" (fun a b weight -> (weight, a, b))
+      bscanf ic "%d %d %d\n" (fun a b weight -> (weight, a, b))
     ) |> IIIMinPQ.of_list in
 
   el |> IIIMinPQ.iter (fun (weight, a, b) ->
