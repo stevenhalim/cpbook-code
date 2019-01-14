@@ -36,7 +36,7 @@ int main() {
   // iterating through the content of mapper will give a sorted output
   // based on keys (names)
   for (auto &k_v : mapper)
-    printf("%s %d\n", ((string)k_v.first).c_str(), k_v.second);
+    printf("%s %d\n", k_v.first.c_str(), k_v.second);
 
   // map can also be used like this
   printf("steven's score is %d, grace's score is %d\n",
@@ -44,9 +44,9 @@ int main() {
   printf("==================\n");
 
   // interesting usage of lower_bound and upper_bound
-  // display data between ["f".."m") ('felix' is included, martin' is excluded)
-  for (auto it = mapper.lower_bound("f"); it != mapper.upper_bound("m"); it++)
-    printf("%s %d\n", ((string)it->first).c_str(), it->second);
+  // display data between ["f".."m") ('felix' is included, 'martin' is excluded)
+  for (auto it = mapper.lower_bound("f"); it != mapper.lower_bound("m"); it++)
+    printf("%s %d\n", it->first.c_str(), it->second);
 
   // the internal content of used_values MAY be something like this
   // the keys are values (integers)!
