@@ -37,7 +37,7 @@ class FTree:
                 lo = mid
             else:
                 hi = mid
-        
+
         return hi
 
 class RUPQ:
@@ -94,3 +94,21 @@ r.u(2, 9, 7)
 r.u(6, 7, 3)
 print(r.q(3, 5) == 21)
 print(r.q(7, 8) == 17)
+
+# Example for https://open.kattis.com/problems/fenwick
+# from sys import stdin, stdout
+#
+# def main():
+#     n, q = [int(i) for i in stdin.readline().split(' ')]
+#     f = FTree([0] * n)
+#     for l in stdin.read()[:-1].split('\n'):
+#         a = l.split(' ')
+#         if a[0] == '?':
+#             if a[1] == '0':
+#                 stdout.write("0\n")
+#             else:
+#                 stdout.write("{}\n".format(f.q(1, int(a[1]))))
+#         else:
+#             f.u(int(a[1]) + 1, int(a[2]))
+#
+# main()
