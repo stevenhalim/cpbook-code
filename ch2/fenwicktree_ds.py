@@ -11,9 +11,9 @@ class FTree:
     def lsone(self, s):
         return s & (-s)
 
-    def q(self, i, j):
+    def query(self, i, j):
         if i > 1:
-            return self.q(1, j) - self.q(1, j - 1)
+            return self.query(1, j) - self.query(1, j - 1)
 
         s = 0
         while j > 0:
@@ -22,18 +22,18 @@ class FTree:
 
         return s
 
-    def u(self, i, v):
+    def update(self, i, v):
         while i <= self.n:
             self.ft[i] += v
             i += self.lsone(i)
 
-    def s(self, k):
+    def select(self, k):
         lo = 1
         hi = self.n
 
         for i in range(30):
             mid = (lo + hi) // 2
-            if self.q(1, mid) < k:
+            if self.query(1, mid) < k:
                 lo = mid
             else:
                 hi = mid
@@ -44,56 +44,56 @@ class RUPQ:
     def __init__(self, n):
         self.ftree = FTree([0] * n)
 
-    def q(self, i):
-        return self.ftree.q(1, i)
+    def query(self, i):
+        return self.ftree.query(1, i)
 
-    def u(self, i, j, v):
-        self.ftree.u(i, v)
-        self.ftree.u(j + 1, -v)
+    def update(self, i, j, v):
+        self.ftree.update(i, v)
+        self.ftree.update(j + 1, -v)
 
 class RURQ:
     def __init__(self, n):
         self.f = FTree([0] * n)
         self.r = RUPQ(n)
 
-    def q(self, i, j):
+    def query(self, i, j):
         if i > 1:
-            return self.q(1, j) - self.q(1, i - 1)
-        return self.r.q(j) * j - self.f.q(1, j)
+            return self.query(1, j) - self.query(1, i - 1)
+        return self.r.query(j) * j - self.f.query(1, j)
 
-    def u(self, i, j, v):
-        self.r.u(i, j, v)
-        self.f.u(i, v * (i - 1))
-        self.f.u(j + 1, -1 * v * j)
+    def update(self, i, j, v):
+        self.r.update(i, j, v)
+        self.f.update(i, v * (i - 1))
+        self.f.update(j + 1, -1 * v * j)
 
 
 f = [0, 1, 0, 1, 2, 3, 2, 1, 1, 0]
 ft = FTree(f)
-print(ft.q(1, 6) == 7)
-print(ft.q(1, 3) == 1)
-print(ft.s(7) == 6)
-ft.u(5, 1)
-print(ft.q(1, 10) == 12)
+print(ft.query(1, 6) == 7)
+print(ft.query(1, 3) == 1)
+print(ft.select(7) == 6)
+ft.update(5, 1)
+print(ft.query(1, 10) == 12)
 
 r = RUPQ(10)
-r.u(2, 9, 7)
-r.u(6, 7, 3)
-print(r.q(1) == 0)
-print(r.q(2) == 7)
-print(r.q(3) == 7)
-print(r.q(4) == 7)
-print(r.q(5) == 7)
-print(r.q(6) == 10)
-print(r.q(7) == 10)
-print(r.q(8) == 7)
-print(r.q(9) == 7)
-print(r.q(10) == 0)
+r.update(2, 9, 7)
+r.update(6, 7, 3)
+print(r.query(1) == 0)
+print(r.query(2) == 7)
+print(r.query(3) == 7)
+print(r.query(4) == 7)
+print(r.query(5) == 7)
+print(r.query(6) == 10)
+print(r.query(7) == 10)
+print(r.query(8) == 7)
+print(r.query(9) == 7)
+print(r.query(10) == 0)
 
 r = RURQ(10)
-r.u(2, 9, 7)
-r.u(6, 7, 3)
-print(r.q(3, 5) == 21)
-print(r.q(7, 8) == 17)
+r.update(2, 9, 7)
+r.update(6, 7, 3)
+print(r.query(3, 5) == 21)
+print(r.query(7, 8) == 17)
 
 # Example for https://open.kattis.com/problems/fenwick
 # from sys import stdin, stdout
