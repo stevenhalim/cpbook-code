@@ -2,8 +2,10 @@ class UFDS:
     def __init__(self, n):
         self.parents = list(range(n))
         self.ranks = [0] * n
+        self.sizes = [1] * n
+        self.numdisjoint = n
 
-    def f(self, x):
+    def find(self, x):
         xp = x
         children = []
         while xp != self.parents[xp]:
@@ -13,34 +15,58 @@ class UFDS:
             self.parents[c] = xp
         return xp
 
-    def u(self, a, b):
-        ap = self.f(a)
-        bp = self.f(b)
+    def union(self, a, b):
+        ap = self.find(a)
+        bp = self.find(b)
         if ap == bp:
             return
 
         if self.ranks[ap] < self.ranks[bp]:
             self.parents[ap] = bp
+            self.sizes[bp] += self.sizes[ap]
         elif self.ranks[bp] < self.ranks[ap]:
             self.parents[bp] = ap
+            self.sizes[ap] += self.sizes[bp]
         else:
             self.parents[bp] = ap
             self.ranks[ap] += 1
+            self.sizes[ap] += self.sizes[bp]
+
+        self.numdisjoint -= 1
+
+    def size(self, x):
+        return self.sizes[self.find(x)]
 
 
 u = UFDS(8)
-u.u(1, 2)
-print(u.f(1) == u.f(2))
-print(u.f(1) != u.f(3))
-print(u.f(2) != u.f(3))
-u.u(1, 3)
-print(u.f(1) == u.f(2))
-print(u.f(1) == u.f(3))
-print(u.f(2) == u.f(3))
-print(u.f(2) != u.f(4))
-u.u(2, 4)
-print(u.f(1) == u.f(3))
-print(u.f(2) == u.f(4))
+print(u.numdisjoint == 8)
+u.union(1, 2)
+print(u.find(1) == u.find(2))
+print(u.find(1) != u.find(3))
+print(u.find(2) != u.find(3))
+print(u.size(1) == 2)
+print(u.size(2) == 2)
+print(u.size(3) == 1)
+print(u.numdisjoint == 7)
+u.union(1, 3)
+print(u.find(1) == u.find(2))
+print(u.find(1) == u.find(3))
+print(u.find(2) == u.find(3))
+print(u.find(2) != u.find(4))
+print(u.size(1) == 3)
+print(u.size(2) == 3)
+print(u.size(3) == 3)
+print(u.numdisjoint == 6)
+u.union(2, 4)
+print(u.find(1) == u.find(3))
+print(u.find(2) == u.find(4))
+print(u.size(1) == 4)
+print(u.size(2) == 4)
+print(u.numdisjoint == 5)
+u.union(2, 3)
+print(u.size(1) == 4)
+print(u.size(2) == 4)
+print(u.numdisjoint == 5)
 
 # Example for https://open.kattis.com/problems/unionfind
 # from sys import stdin, stdout
@@ -51,8 +77,8 @@ print(u.f(2) == u.f(4))
 #     for l in stdin.read()[:-1].split('\n'):
 #         c, a, b = l.split(' ')
 #         if c == '?':
-#             stdout.write("yes\n" if u.f(int(a)) == u.f(int(b)) else "no\n")
+#             stdout.write("yes\n" if u.find(int(a)) == u.find(int(b)) else "no\n")
 #         else:
-#             u.u(int(a), int(b))
+#             u.union(int(a), int(b))
 #
 # main()
