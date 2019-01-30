@@ -42,12 +42,12 @@ int main() {
   S = S >> 1; printSet(S);
   printf("\n");
 
-  printf("3. Set/turn on the 3-th item of the set\n");
+  printf("3. Set/turn on the 3-rd item of the set\n");
   S = 34; printSet(S);
   setBit(S, 3); printSet(S);
   printf("\n");
 
-  printf("4. Check if the 3-th and then 2-nd item of the set is on?\n");
+  printf("4. Check if the 3-rd and then 2-nd item of the set is on?\n");
   S = 42; printSet(S);
   T = isOn(S, 3); printf("T = %d, %s\n", T, T ? "ON" : "OFF");
   T = isOn(S, 2); printf("T = %d, %s\n", T, T ? "ON" : "OFF");
