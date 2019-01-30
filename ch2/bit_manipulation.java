@@ -57,12 +57,12 @@ class bit_manipulation {
     S = S >> 1; printSet(S);
     System.out.printf("\n");
 
-    System.out.printf("3. Set/turn on the 3-th item of the set\n");
+    System.out.printf("3. Set/turn on the 3-rd item of the set\n");
     S = 34; printSet(S);
     S = setBit(S, 3); printSet(S);
     System.out.printf("\n");
 
-    System.out.printf("4. Check if the 3-th and then 2-nd item of the set is on?\n");
+    System.out.printf("4. Check if the 3-rd and then 2-nd item of the set is on?\n");
     S = 42; printSet(S);
     T = isOn(S, 3); System.out.printf("T = %d, %s\n", T, T != 0 ? "ON" : "OFF");
     T = isOn(S, 2); System.out.printf("T = %d, %s\n", T, T != 0 ? "ON" : "OFF");
