@@ -83,8 +83,8 @@ int main() {
   printf("is %d power of two? %d\n", 9, isPowerOfTwo(9));
   printf("is %d power of two? %d\n", 8, isPowerOfTwo(8));
   printf("is %d power of two? %d\n", 7, isPowerOfTwo(7));
-  for (int i = 0; i <= 16; i++)
-    printf("Nearest power of two of %d is %d\n", i, nearestPowerOfTwo(i));
+  for (int i = 1; i <= 16; i++)
+    printf("Nearest power of two of %d is %d\n", i, nearestPowerOfTwo(i)); // special case for i == 0
   printf("S = %d, turn off last bit in S, S = %d\n", 40, turnOffLastBit(40));
   printf("S = %d, turn on last zero in S, S = %d\n", 41, turnOnLastZero(41));
   printf("S = %d, turn off last consecutive bits in S, S = %d\n", 39, turnOffLastConsecutiveBits(39));
