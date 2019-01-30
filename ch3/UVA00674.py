@@ -58,6 +58,7 @@ def main():
         memo.append(memoTable)
     while True:
         money = inp.read()
+        #my input will return False when it is arrived at the end of input
         if not money:
             break
         money = int(money)
