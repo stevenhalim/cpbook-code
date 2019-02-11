@@ -17,7 +17,5 @@ def solve():
 							for f in range(e+1, k+1):
 								print('{} {} {} {} {} {}'.format(x[a], x[b], x[c], x[d], x[e], x[f]))
 		
-  
-
 if __name__ == "__main__": 
 	solve() 
