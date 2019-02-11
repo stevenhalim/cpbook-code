@@ -18,12 +18,8 @@ int main() {
                      // check the given social constraints based on 'p' in O(m)
       bool all_ok = true;
       for (int j = 0; j < m && all_ok; j++) { // check all constraints, max 20, each check 8 = 160
-        int pos_a, pos_b, d_pos;
-        for (int i = 0; i < n; i++) {
-               if (p[i] == a[j]) pos_a = i;
-          else if (p[i] == b[j]) pos_b = i;
-        }
-        d_pos = abs(pos_a-pos_b);
+        int pos_a = p[a[j]], pos_b = p[b[j]];
+        int d_pos = abs(pos_a-pos_b);
         if (c[j] > 0) all_ok = (d_pos <= c[j]);      // positive, at most  c[j]
         else          all_ok = (d_pos >= abs(c[j])); // negative, at least c[j]
       }
