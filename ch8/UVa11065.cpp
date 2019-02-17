@@ -8,26 +8,22 @@ using namespace std;
 #define REP(i,n) for (int i=0,_n=(n); i<_n; i++)
 #define MAXI 62
 
-long long AM[MAXI], p2[MAXI], dpcon[MAXI];
+long long AM[MAXI], dpcon[MAXI];
 int V, E, nS, mxS;
 
 void backtracking(int i, long long used, int depth) {
-  if (used == (1<<V)-1) {                  // all intersection are visited
+  if (used == (1<<V)-1) {                 // all intersections are visited
     nS++;                                         // one more possible set
     mxS = max(mxS, depth);                              // size of the set
   }
   else {
     for (int j = i; j < V; j++)
-      if (!(used & p2[j])) // if intesection i is not yet used
-        backtracking(j+1, used|AM[j], depth+1); // use it now, and all other intersections linked to i
+      if (!(used & (1<<j)))           // if intersection i is not yet used
+        backtracking(j+1, used|AM[j], depth+1); // use i and its neighbors
   }
 }
 
 int main() {
-  // small speed up, pre-compute powers of 2
-  p2[0] = 1;
-  FOR (i, 1, MAXI) p2[i] = 2 * p2[i-1];
-
   int TC; scanf("%d", &TC);
   while (TC--) {
     scanf("%d %d", &V, &E);
