@@ -38,8 +38,7 @@ int main() {
   priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
   // sort the pairs by increasing distance from s
   while (!pq.empty()) {                          // main loop
-    // int d, u; tie(d, u) = pq.top(); pq.pop(); // C++11 style
-    auto [d, u] = pq.top(); pq.pop();            // C++17 style
+    auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
     if (d > dist[u]) continue;                   // a very important check
     for (auto &[v, w] : AL[u]) {                 // all edges from u
       if (dist[u]+w < dist[v]) {
