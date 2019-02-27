@@ -41,10 +41,10 @@ int main() {
     // int d, u; tie(d, u) = pq.top(); pq.pop(); // C++11 style
     auto [d, u] = pq.top(); pq.pop();            // C++17 style
     if (d > dist[u]) continue;                   // a very important check
-    for (auto &v : AL[u]) {                      // all edges from u
-      if (dist[u]+v.second < dist[v.first]) {
-        dist[v.first] = dist[u]+v.second;        // relax operation
-        pq.push({dist[v.first], v.first});
+    for (auto &[v, w] : AL[u]) {                 // all edges from u
+      if (dist[u]+w < dist[v]) {
+        dist[v] = dist[u]+w;                     // relax operation
+        pq.push({dist[v], v});
       } // this variant can cause duplicate items in the priority queue
     }
   }
