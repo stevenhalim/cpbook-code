@@ -68,7 +68,7 @@ int main() {
 
   // Greedy pre-processing for trivial Augmenting Paths
   // try commenting versus un-commenting this for-loop
-  for (int L = 0; L < Vleft; L++) {                               // O(V^2)
+  for (int L = 0; L < Vleft; L++) {                               // O(V+E)
     vi candidates;
     for (auto &R : AL[L])
       if (match[R] == -1)
