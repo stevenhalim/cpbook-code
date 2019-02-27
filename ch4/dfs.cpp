@@ -1,3 +1,7 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -5,8 +9,8 @@ typedef pair<int, int> ii;      // In this chapter, we will frequently use these
 typedef vector<ii> vii;      // three data type shortcuts. They may look cryptic
 typedef vector<int> vi;   // but shortcuts are useful in competitive programming
 
-#define DFS_WHITE -1 // normal DFS, do not change this with other values (other than 0), because we usually use memset with conjunction with DFS_WHITE
-#define DFS_BLACK 1
+const int DFS_WHITE = -1; // normal DFS, do not change this with other values (other than 0), because we usually use memset with conjunction with DFS_WHITE
+const int DFS_BLACK = 1;
 
 vector<vii> AL;
 
@@ -16,91 +20,93 @@ void printThis(string message) {
   printf("==================================\n");
 }
 
-vi dfs_num;     // this variable has to be global, we cannot put it in recursion
+vi dfs_num; // this variable has to be global, we cannot put it in recursion
 int numCC;
 
-void dfs(int u) {     // DFS for normal usage: as graph traversal algorithm
-  printf(" %d", u);                               // this vertex is visited
-  dfs_num[u] = DFS_BLACK;      // important: we mark this vertex as visited
-  for (auto &v : AL[u])              // v is a (neighbor, weight) pair
-    if (dfs_num[v.first] == DFS_WHITE)    // important check to avoid cycle
-      dfs(v.first);   // recursively visits unvisited neighbors of vertex u
-}    // for simple graph traversal, we ignore the weight stored at v.second
+void dfs(int u) { // DFS for normal usage: as graph traversal algorithm
+  printf(" %d", u);                              // this vertex is visited
+  dfs_num[u] = DFS_BLACK;                        // mark u as visited
+  for (auto &[v, w] : AL[u])                     // (neighbor, weight) pair
+    if (dfs_num[v] == DFS_WHITE)                 // to avoid cycle
+      dfs(v);                                    // recursively visits v
+} // for simple graph traversal, we ignore the weight
 
 // note: this is not the version on implicit graph
 void floodfill(int u, int color) {
   dfs_num[u] = color;                            // not just a generic DFS_BLACK
-  for (auto &v : AL[u])
-    if (dfs_num[v.first] == DFS_WHITE)
-      floodfill(v.first, color);
+  for (auto &[v, w] : AL[u])
+    if (dfs_num[v] == DFS_WHITE)
+      floodfill(v, color);
 }
 
-vi topoSort;             // global vector to store the toposort in reverse order
+vi topoSort; // global vector to store the toposort in reverse order
 
-void dfs2(int u) {    // change function name to differentiate with original dfs
+void dfs2(int u) { // change function name to differentiate with original dfs
   dfs_num[u] = DFS_BLACK;
-  for (auto &v : AL[u])
-    if (dfs_num[v.first] == DFS_WHITE)
-      dfs2(v.first);
-  topoSort.push_back(u); }                   // that is, this is the only change
-
-#define DFS_GRAY 2              // one more color for graph edges property check
-vi dfs_parent;      // to differentiate real back edge versus bidirectional edge
-
-void graphCheck(int u) {               // DFS for checking graph edge properties
-  dfs_num[u] = DFS_GRAY;   // color this as DFS_GRAY (temp) instead of DFS_BLACK
-  for (auto &v : AL[u]) {
-    if (dfs_num[v.first] == DFS_WHITE) {     // Tree Edge, DFS_GRAY to DFS_WHITE
-      dfs_parent[v.first] = u;                  // parent of this children is me
-      graphCheck(v.first);
-    }
-    else if (dfs_num[v.first] == DFS_GRAY) {             // DFS_GRAY to DFS_GRAY
-      if (v.first == dfs_parent[u])          // to differentiate these two cases
-        printf(" Bidirectional (%d, %d) - (%d, %d)\n", u, v.first, v.first, u);
-      else  // the most frequent application: check if the given graph is cyclic
-        printf(" Back Edge (%d, %d) (Cycle)\n", u, v.first);
-    }
-    else if (dfs_num[v.first] == DFS_BLACK)             // DFS_GRAY to DFS_BLACK
-      printf(" Forward/Cross Edge (%d, %d)\n", u, v.first);
-  }
-  dfs_num[u] = DFS_BLACK;     // after recursion, color this as DFS_BLACK (DONE)
+  for (auto &[v, w] : AL[u])
+    if (dfs_num[v] == DFS_WHITE)
+      dfs2(v);
+  topoSort.push_back(u);                         // this is the only change
 }
 
-vi dfs_low;       // additional information for articulation points/bridges/SCCs
+#define DFS_GRAY 2                               // one more color
+vi dfs_parent; // to differentiate real back edge versus bidirectional edge
+
+void graphCheck(int u) { // DFS for checking graph edge properties
+  dfs_num[u] = DFS_GRAY; // color this as DFS_GRAY (temp) instead of DFS_BLACK
+  for (auto &[v, w] : AL[u]) {
+    if (dfs_num[v] == DFS_WHITE) {               // Tree Edge
+      dfs_parent[v] = u;                         // parent of v is me (u)
+      graphCheck(v);
+    }
+    else if (dfs_num[v] == DFS_GRAY) {           // DFS_GRAY to DFS_GRAY
+      if (v == dfs_parent[u])                    // to differentiate
+        printf(" Bidirectional (%d, %d) - (%d, %d)\n", u, v, v, u);
+      else  // the most frequent application: check if the given graph is cyclic
+        printf(" Back Edge (%d, %d) (Cycle)\n", u, v);
+    }
+    else if (dfs_num[v] == DFS_BLACK)            // DFS_GRAY to DFS_BLACK
+      printf(" Forward/Cross Edge (%d, %d)\n", u, v);
+  }
+  dfs_num[u] = DFS_BLACK; // after recursion, color this as DFS_BLACK (DONE)
+}
+
+vi dfs_low; // additional information for articulation points/bridges/SCCs
 vi articulation_vertex;
 int dfsNumberCounter, dfsRoot, rootChildren;
 
 void articulationPointAndBridge(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;      // dfs_low[u] <= dfs_num[u]
-  for (auto &v : AL[u]) {
-    if (dfs_num[v.first] == DFS_WHITE) {                          // a tree edge
-      dfs_parent[v.first] = u;
-      if (u == dfsRoot) rootChildren++;  // special case, count children of root
+  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  for (auto &[v, w] : AL[u]) {
+    if (dfs_num[v] == DFS_WHITE) {               // a tree edge
+      dfs_parent[v] = u;
+      if (u == dfsRoot) rootChildren++;          // special case, root
 
-      articulationPointAndBridge(v.first);
+      articulationPointAndBridge(v);
 
-      if (dfs_low[v.first] >= dfs_num[u])              // for articulation point
+      if (dfs_low[v] >= dfs_num[u])              // for articulation point
         articulation_vertex[u] = true;           // store this information first
-      if (dfs_low[v.first] > dfs_num[u])                           // for bridge
-        printf(" Edge (%d, %d) is a bridge\n", u, v.first);
-      dfs_low[u] = min(dfs_low[u], dfs_low[v.first]);       // update dfs_low[u]
+      if (dfs_low[v] > dfs_num[u])               // for bridge
+        printf(" Edge (%d, %d) is a bridge\n", u, v);
+      dfs_low[u] = min(dfs_low[u], dfs_low[v]);  // update dfs_low[u]
     }
-    else if (v.first != dfs_parent[u])       // a back edge and not direct cycle
-      dfs_low[u] = min(dfs_low[u], dfs_num[v.first]);       // update dfs_low[u]
-} }
+    else if (v != dfs_parent[u])                 // a back edge and not direct cycle
+      dfs_low[u] = min(dfs_low[u], dfs_num[v]);  // update dfs_low[u]
+  }
+}
 
-vi S, visited;                                    // additional global variables
+vi S, visited;                                   // additional global variables
 int numSCC;
 
 void tarjanSCC(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;      // dfs_low[u] <= dfs_num[u]
-  S.push_back(u);           // stores u in a vector based on order of visitation
+  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  S.push_back(u); // stores u in a vector based on order of visitation
   visited[u] = 1;
-  for (auto &v : AL[u]) {
-    if (dfs_num[v.first] == DFS_WHITE)
-      tarjanSCC(v.first);
-    if (visited[v.first])                                // condition for update
-      dfs_low[u] = min(dfs_low[u], dfs_low[v.first]);
+  for (auto &[v, w] : AL[u]) {
+    if (dfs_num[v] == DFS_WHITE)
+      tarjanSCC(v);
+    if (visited[v])                              // condition for update
+      dfs_low[u] = min(dfs_low[u], dfs_low[v]);
   }
 
   if (dfs_low[u] == dfs_num[u]) {         // if this is a root (start) of an SCC
@@ -111,7 +117,8 @@ void tarjanSCC(int u) {
       if (u == v) break;
     }
     printf("\n");
-} }
+  }
+}
 
 int main() {
   /*

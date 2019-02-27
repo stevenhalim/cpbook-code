@@ -9,7 +9,7 @@ typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
 
-#define INF 1e9 // INF = 1B to avoid overflow
+const int INF = 1e9; // INF = 1B, not 2^31-1 to avoid overflow
 
 int main() {
   /*

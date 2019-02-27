@@ -31,7 +31,9 @@ int main() {
         else if (color[v] == color[u]) {       // u & v have the same color
           isBipartite = false;               // we have a coloring conflict
           break;
-    } } }
+        }
+      }
+    }
     printf("%sBICOLORABLE.\n", (isBipartite ? "" : "NOT "));
   }
   return 0;

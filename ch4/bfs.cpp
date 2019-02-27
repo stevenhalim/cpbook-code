@@ -1,11 +1,15 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef pair<int, int> ii;      // In this chapter, we will frequently use these
-typedef vector<ii> vii;      // three data type shortcuts. They may look cryptic
-typedef vector<int> vi;   // but shortcuts are useful in competitive programming
+typedef pair<int, int> ii; // In this chapter, we will frequently use these
+typedef vector<ii> vii; // three data type shortcuts. They may look cryptic
+typedef vector<int> vi; // but shortcuts are useful in competitive programming
 
-#define INF 1e9
+const int INF = 1e9; // INF = 1B, not 2^31-1 to avoid overflow
 
 vector<vii> AL;
 vi p;                                 // addition: the predecessor/parent vector
@@ -13,7 +17,8 @@ vi p;                                 // addition: the predecessor/parent vector
 void printPath(int u) {    // simple function to extract information from `vi p'
   if (p[u] == -1) { printf("%d", u); return; }
   printPath(p[u]);   // recursive call: to make the output format: s -> ... -> t
-  printf(" %d", u); }
+  printf(" %d", u);
+}
 
 int main() {
   /*
@@ -37,28 +42,30 @@ int main() {
   // as an example, we start from this source, see Figure 4.3
   int s = 5;
 
-  // BFS routine
-  // inside int main() -- we do not use recursion, thus we do not need to create separate function!
-  vi dist(V, INF); dist[s] = 0;        // distance to source is 0 (default)
-  queue<int> q; q.push(s);                             // start from source
-  p.assign(V, -1);       // to store parent information (p must be global!)
-  int layer = -1;                        // for our output printing purpose
-  bool isBipartite = true;  // addition of one boolean flag, initially true
+  // BFS routine inside int main() -- we do not use recursion
+  vi dist(V, INF); dist[s] = 0;                  // distance to source is 0
+  queue<int> q; q.push(s);                       // start from source s
+  p.assign(V, -1);                               // to store parent info
+  int layer = -1;                                // for output printing
+  bool isBipartite = true;                       // addition feature
 
   while (!q.empty()) {
-    int u = q.front(); q.pop();                   // queue: layer by layer!
+    int u = q.front(); q.pop();                  // queue: layer by layer!
     if (dist[u] != layer) printf("\nLayer %d: ", dist[u]);
     layer = dist[u];
     printf("visit %d, ", u);
-    for (auto &v : AL[u]) {                      // for each neighbors of u
-      if (dist[v.first] == INF) {
-        dist[v.first] = dist[u]+1;  // make dist[v.first] != INF to flag it
-        p[v.first] = u;     // addition: the parent of vertex v->first is u
-        q.push(v.first);          // enqueue v.first for the next iteration
+    // for (auto &vw : AL[u]) {                  // C++11 style
+    //   int v = vw.first;
+    for (auto &[v, w] : AL[u]) {                 // C++17 style
+      if (dist[v] == INF) {
+        dist[v] = dist[u]+1;                     // dist[v] != INF now
+        p[v] = u;                                // parent of v is u
+        q.push(v);                               // for next iteration
       }
-      else if ((dist[v.first]%2) == (dist[u]%2))             // same parity
+      else if ((dist[v]%2) == (dist[u]%2))       // same parity
         isBipartite = false;
-  } }
+    }
+  }
 
   printf("\nShortest path: ");
   printPath(7), printf("\n");

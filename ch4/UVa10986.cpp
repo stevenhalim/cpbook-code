@@ -9,12 +9,9 @@ typedef pair<int, int> ii;
 typedef vector<ii> vii;
 typedef vector<int> vi;
 
-#define INF 1e9
+const int INF = 1e9;
 
 int main() {
-#ifndef ONLINE_JUDGE
-  freopen("in.txt", "r", stdin);
-#endif
   int TC; scanf("%d", &TC);
   int caseNo = 1;
   while (TC--) {
@@ -28,17 +25,17 @@ int main() {
 /*
     // Dijkstra from source s
     vi dist(V, INF); dist[s] = 0;
-    priority_queue< ii, vii, greater<ii> > pq; pq.push(ii(0, s)); // sort based on increasing distance
+    priority_queue<ii, vii, greater<ii>> pq; pq.push(ii(0, s)); // sort based on increasing distance
 
     while (!pq.empty()) { // main loop
-      ii top = pq.top(); pq.pop(); // greedy: pick shortest unvisited vertex
+      ii top = pq.top(); pq.pop();               // greedy: pick shortest unvisited vertex
       int d = top.first, u = top.second;
       if (d != dist[u]) continue;
-      for (auto v : AL[u]) // all outgoing edges from u
-        if (dist[u] + v.second < dist[v.first]) { // if can relax
-          dist[v.first] = dist[u] + v.second; // relax
-          pq.push(ii(dist[v.first], v.first)); // enqueue this neighbor
-        }                          // regardless it is already in pq or not
+      for (auto &[v, w] : AL[u])                 // all outgoing edges from u
+        if (dist[u]+w < dist[v]) {               // if can relax
+          dist[v] = dist[u]+w;                   // relax
+          pq.push({dist[v], v});                 // enqueue this neighbor
+        }                                        // regardless it is already in pq or not
     }
 */
     // SPFA from source S
@@ -47,14 +44,16 @@ int main() {
     queue<int> q; q.push(s);
     vi in_queue(V, 0); in_queue[s] = 1;
     while (!q.empty()) {
-      int u = q.front(); q.pop(); in_queue[u] = 0;          // pop from queue
-      for (auto &v : AL[u])                 // all outgoing edges from u
-        if (dist[u]+v.second < dist[v.first]) {               // if can relax
-          dist[v.first] = dist[u]+v.second;                          // relax
-          if (!in_queue[v.first]) {                       // add to the queue
-            q.push(v.first);                 // only if it's not in the queue
-            in_queue[v.first] = 1;
-    }   } }
+      int u = q.front(); q.pop(); in_queue[u] = 0; // pop from queue
+      for (auto &[v, w] : AL[u])                 // all outgoing edges from u
+        if (dist[u]+w < dist[v]) {               // if can relax
+          dist[v] = dist[u]+w;                   // relax
+          if (!in_queue[v]) {                    // add to the queue
+            q.push(v);                           // only if it's not in the queue
+            in_queue[v] = 1;
+          }
+        }
+    }
     printf("Case #%d: ", caseNo++);
     if (dist[t] != INF) printf("%d\n", dist[t]);
     else                printf("unreachable\n");
