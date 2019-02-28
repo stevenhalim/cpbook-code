@@ -1,3 +1,7 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -35,8 +39,8 @@ int main() {
 
   // iterating through the content of mapper will give a sorted output
   // based on keys (names)
-  for (auto &k_v : mapper)
-    printf("%s %d\n", k_v.first.c_str(), k_v.second);
+  for (auto &[key, value] : mapper)              // C++17 style
+    printf("%s %d\n", key.c_str(), value);
 
   // map can also be used like this
   printf("steven's score is %d, grace's score is %d\n",

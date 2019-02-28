@@ -1,10 +1,14 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
 typedef pair<int, string> is;                         // introducing 'pair'
 
 int main() {
-   // suppose we enter these 7 money-name pairs below
+  // suppose we enter these 7 money-name pairs below
   /*
   100 john
   10 billy
@@ -15,8 +19,8 @@ int main() {
   70 martin
   */
   priority_queue<is> pq;
-  pq.push(make_pair(100, "john"));          // inserting a pair in O(log n)
-  pq.push({10, "billy"});      // alternative way to create pair, using { }
+  pq.push(make_pair(100, "john"));               // insertion in O(log n)
+  pq.push({10, "billy"});                        // alternative way with {}
   pq.push({20, "andy"});
   pq.push({100, "steven"});
   pq.push({70, "felix"});
@@ -34,13 +38,16 @@ int main() {
   //     (100,john)   (10,billy)     (20,andy)  (70,felix)
 
   // let's print out the top 3 person with most money
-  is result = pq.top();             // O(1) to access the top / max element
-  pq.pop();          // O(log n) to delete the top and repair the structure
-  printf("%s has %d $\n", ((string)result.second).c_str(), result.first);
-  result = pq.top(); pq.pop();
-  printf("%s has %d $\n", ((string)result.second).c_str(), result.first);
-  result = pq.top(); pq.pop();
-  printf("%s has %d $\n", ((string)result.second).c_str(), result.first);
+  // O(1) to access the top / max element
+  auto &[score, name] = pq.top();                // C++17 style
+  printf("%s has %d $\n", name.c_str(), score);
+
+  pq.pop(); // O(log n) to delete the top and repair the structure
+  // [score, name] still binded to pq.top() as we use `&' above
+  printf("%s has %d $\n", name.c_str(), score);
+
+  pq.pop();
+  printf("%s has %d $\n", name.c_str(), score);
 
   return 0;
 }

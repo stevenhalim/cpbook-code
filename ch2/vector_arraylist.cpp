@@ -7,7 +7,7 @@ int main() {
 
   printf("arr[2] = %d and v[2] = %d\n", arr[2], v[2]);           // 7 and 5
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 5; ++i) {
     arr[i] = i;
     v[i] = i;
   }

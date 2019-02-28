@@ -1,10 +1,15 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_V 1010
+const int MAX_V = 1010;
 
 typedef pair<int, int> ii;
 typedef vector<ii> vii;
+typedef tuple<int, int, int> iii;
 
 int AM[MAX_V][MAX_V]; // it is better to declare large (2D) array as global
 
@@ -42,48 +47,40 @@ int main() {
   */
   freopen("graph_ds.txt", "r", stdin);
 
-  int V; scanf("%d", &V);                  // we must know this size first!
-                        // remember that if V is > 2000, try NOT to use AM!
-  for (int i = 0; i < V; i++)
-    for (int j = 0; j < V; j++)
-      scanf("%d", &AM[i][j]);
+  int V; scanf("%d", &V);                        // need to know V first
+  for (int u = 0; u < V; ++u)                    // if V is > 2000,
+    for (int v = 0; v < V; ++v)                  // try NOT to use AM
+      scanf("%d", &AM[u][v]);
 
   printf("Neighbors of vertex 0:\n");
-  for (int j = 0; j < V; j++)                                     // O(|V|)
-    if (AM[0][j])
-      printf("Edge 0-%d (weight = %d)\n", j, AM[0][j]);
+  for (int v = 0; v < V; ++v)                    // O(V)
+    if (AM[0][v])
+      printf("Edge 0-%d (weight = %d)\n", v, AM[0][v]);
 
   scanf("%d", &V);
-  vector<vii> AL(V, vii());          // initialize AL with V entries of vii
-  for (int i = 0; i < V; i++) {
+  vector<vii> AL(V, vii());                      // initialize AL
+  for (int u = 0; u < V; ++u) {
     int total_neighbors; scanf("%d", &total_neighbors);
-    for (int j = 0; j < total_neighbors; j++) {
-      int id, weight; scanf("%d %d", &id, &weight);
-      AL[i].push_back({id-1, weight});      // some index adjustment
+    while (total_neighbors--) {
+      int v, w; scanf("%d %d", &v, &w); v--;     // to 0-based indexing
+      AL[u].emplace_back(v, w);
     }
   }
 
-  printf("Neighbors of vertex 0:\n");
-  for (auto &v_w : AL[0]) {
-    // AL[0] contains the required information
-    int v, weight; tie(v, weight) = v_w;
-    // O(k), where k is the number of neighbors
-    printf("Edge 0-%d (weight = %d)\n", v, weight);
-  }
+  printf("Neighbors of vertex 0:\n");            // k = |neighbors|
+  for (auto &[v, w] : AL[0])                     // O(k)
+    printf("Edge 0-%d (weight = %d)\n", v, w);
 
   int E; scanf("%d", &E);
-  priority_queue<pair<int, ii>> EL;           // one way to store Edge List
-  for (int i = 0; i < E; i++) {
-    int a, b, weight; scanf("%d %d %d", &a, &b, &weight);
-    EL.push({-weight, ii(a, b)});   // a way to reverse sort order
+  vector<iii> EL(E);                              // one way to store EL
+  for (int i = 0; i < E; ++i) {
+    int u, v, w; scanf("%d %d %d", &u, &v, &w);
+    EL[i] = tie(w, u, v);
   }
-
   // edges sorted by weight (smallest->largest)
-  for (int i = 0; i < E; i++) {
-    pair<int, ii> edge = EL.top(); EL.pop();
-    // negate the weight again
-    printf("weight: %d (%d-%d)\n", -edge.first, edge.second.first, edge.second.second);
-  }
+  sort(EL.begin(), EL.end());
+  for (auto &[w, u, v] : EL)                     // C++17 style
+    printf("weight: %d (%d-%d)\n", w, u, v);
 
   return 0;
 }
