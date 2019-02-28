@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>                             // C++ code for task 4
+#include <bits/stdc++.h>                         // C++ code for task 4
 using namespace std;
 #define ALL(x) x.begin(), x.end()
 #define UNIQUE(c) (c).resize(unique(ALL(c)) - (c).begin())

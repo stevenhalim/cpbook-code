@@ -24,25 +24,25 @@ int main() {
   freopen("floyd_warshall_in.txt", "r", stdin);
 
   int V, E; scanf("%d %d", &V, &E);
-  for (int i = 0; i < V; i++) {
-    for (int j = 0; j < V; j++)
-      AM[i][j] = INF;
-    AM[i][i] = 0;
+  for (int u = 0; u < V; ++u) {
+    for (int v = 0; v < V; ++v)
+      AM[u][v] = INF;
+    AM[u][u] = 0;
   }
 
-  for (int i = 0; i < E; i++) {
+  for (int i = 0; i < E; ++i) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AM[u][v] = w;                                // directed graph
   }
 
-  for (int k = 0; k < V; k++)                    // loop order is k->i->j
-    for (int i = 0; i < V; i++)
-      for (int j = 0; j < V; j++)
-        AM[i][j] = min(AM[i][j], AM[i][k]+AM[k][j]);
+  for (int k = 0; k < V; ++k)                    // loop order is k->u->v
+    for (int u = 0; u < V; ++u)
+      for (int v = 0; v < V; ++v)
+        AM[u][v] = min(AM[u][v], AM[u][k]+AM[k][v]);
 
-  for (int i = 0; i < V; i++)
-    for (int j = 0; j < V; j++)
-      printf("APSP(%d, %d) = %d\n", i, j, AM[i][j]);
+  for (int u = 0; u < V; ++u)
+    for (int v = 0; v < V; ++v)
+      printf("APSP(%d, %d) = %d\n", u, v, AM[u][v]);
 
   return 0;
 }

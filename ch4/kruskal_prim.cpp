@@ -18,7 +18,7 @@ private:
   int numSets;
 public:
   UnionFind(int N) {
-    p.assign(N, 0); for (int i = 0; i < N; i++) p[i] = i;
+    p.assign(N, 0); for (int i = 0; i < N; ++i) p[i] = i;
     rank.assign(N, 0);
     setSize.assign(N, 1);
     numSets = N;
@@ -37,7 +37,7 @@ public:
       else {
         p[x] = y;
         setSize[y] += setSize[x];
-        if (rank[x] == rank[y]) rank[y]++;
+        if (rank[x] == rank[y]) ++rank[y];
       }
     }
   }
@@ -78,7 +78,7 @@ int main() {
   // Kruskal's algorithm merged with Prim's algorithm
   AL.assign(V, vii());
   vector<iii> EL(E);
-  for (int i = 0; i < E; i++) {
+  for (int i = 0; i < E; ++i) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);  // read as (u, v, w)
     EL[i] = tie(w, u, v);                        // reorder as (w, u, v)
     AL[u].emplace_back(v, w);
@@ -89,11 +89,10 @@ int main() {
 
   int mst_cost = 0, num_taken = 0;
   UnionFind UF(V);                               // all V are disjoint sets
-  for (int i = 0; i < E && num_taken < V-1; i++) { // for each edge, O(E)
-    // int w, u, v; tie(w, u, v) = EL[i];        // C++11 style
+  for (int i = 0; i < E && num_taken < V-1; ++i) { // for each edge, O(E)
     auto [w, u, v] = EL[i];                      // C++17 style
     if (!UF.isSameSet(u, v)) {                   // check
-      num_taken++;                               // 1 more edge is taken
+      ++num_taken;                               // 1 more edge is taken
       mst_cost += w;                             // add w of this edge
       UF.unionSet(u, v);                         // link them
     } // note: the runtime cost of UFDS is very light
@@ -106,11 +105,10 @@ int main() {
   process(0);                                    // take+process vertex 0
   mst_cost = 0; num_taken = 0;                   // no edge has been taken
   while (!pq.empty() && num_taken < V-1) {       // until we take V-1 edges
-    // int w, u; tie(w, u) = pq.top(); pq.pop(); // C++11 style
     auto [w, u] = pq.top(); pq.pop();            // C++17 style
     w = -w; u = -u;                              // negate to reverse order
     if (!taken[u]) {                             // we have not take u yet
-      num_taken++;                               // 1 more edge is taken
+      ++num_taken;                               // 1 more edge is taken
       mst_cost += w;                             // add w of this edge
       process(u);                                // take+process vertex u
     }                                            // each edge is in pq once

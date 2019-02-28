@@ -54,7 +54,7 @@ int main() {
           }
         }
     }
-    printf("Case #%d: ", caseNo++);
+    printf("Case #%d: ", ++caseNo);
     if (dist[t] != INF) printf("%d\n", dist[t]);
     else                printf("unreachable\n");
   }

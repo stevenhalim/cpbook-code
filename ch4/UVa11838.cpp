@@ -15,7 +15,7 @@ vector<vii> AL, ALT;
 vi dfs_num, dfs_low, S, visited;                 // global variables
 
 void tarjanSCC(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  dfs_low[u] = dfs_num[u] = ++dfsNumberCounter;  // dfs_low[u] <= dfs_num[u]
   S.push_back(u);           // stores u in a vector based on order of visitation
   visited[u] = 1;
   for (auto &[v, w] : AL[u]) {
@@ -48,7 +48,7 @@ int main() {
   while (scanf("%d %d", &N, &M), (N || M)) {
     AL.assign(N, vii());
     ALT.assign(N, vii()); // the transposed graph
-    for (i = 0; i < M; i++) {
+    for (i = 0; i < M; ++i) {
       scanf("%d %d %d", &V, &W, &P); V--; W--;
       AL[V].push_back(ii(W, 1)); // always
       ALT[W].push_back(ii(V, 1));
@@ -61,21 +61,21 @@ int main() {
     //// run Tarjan's SCC code here
     //dfs_num.assign(N, DFS_WHITE); dfs_low.assign(N, 0); visited.assign(N, 0);
     //dfsNumberCounter = numSCC = 0;
-    //for (i = 0; i < N; i++)
+    //for (i = 0; i < N; ++i)
     //  if (dfs_num[i] == DFS_WHITE)
     //    tarjanSCC(i);
 
     // run Kosaraju's SCC code here
     S.clear();  // first pass is to record the `post-order' of original graph
     dfs_num.assign(N, DFS_WHITE);
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N; ++i)
       if (dfs_num[i] == DFS_WHITE)
         Kosaraju(i, 1);
     numSCC = 0;   // second pass: explore the SCCs based on first pass result
     dfs_num.assign(N, DFS_WHITE);
-    for (i = N-1; i >= 0; i--)
+    for (i = N-1; i >= 0; --i)
       if (dfs_num[S[i]] == DFS_WHITE)
-        numSCC++, Kosaraju(S[i], 2);    // on the transpose of original graph
+        ++numSCC, Kosaraju(S[i], 2);    // on the transpose of original graph
     // if SCC is only 1, print 1, otherwise, print 0
     printf("%d\n", numSCC == 1 ? 1 : 0);
   }

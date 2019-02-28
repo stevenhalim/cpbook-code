@@ -15,7 +15,7 @@ int floodfill(int r, int c, char c1, char c2) {   // returns the size of CC
   if (grid[r][c] != c1) return 0;                 // does not have color c1
   int ans = 1;   // adds 1 to ans because vertex (r, c) has c1 as its color
   grid[r][c] = c2;    // now recolors vertex (r, c) to c2 to avoid cycling!
-  for (int d = 0; d < 8; d++)
+  for (int d = 0; d < 8; ++d)
     ans += floodfill(r+dr[d], c+dc[d], c1, c2);
   return ans;                   // the code is neat as we use dr[] and dc[]
 }
@@ -32,7 +32,7 @@ int main() {
       gets(grid[R]);
       if (grid[R][0] != 'L' && grid[R][0] != 'W') // start of query
         break;
-      R++;
+      ++R;
     }
     C = (int)strlen(grid[0]);
 

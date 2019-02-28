@@ -1,3 +1,7 @@
+// February 2019 note:
+// This code uses new C++17 structured binding
+// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -28,29 +32,29 @@ int main() {
 
   int V, E, s; scanf("%d %d %d", &V, &E, &s);
   vector<vii> AL(V, vii());
-  for (int i = 0; i < E; i++) {
+  for (int i = 0; i < E; ++i) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AL[u].emplace_back(v, w);
   }
 
   // Bellman Ford's routine, basically = relax all E edges V-1 times
   vi dist(V, INF); dist[s] = 0;
-  for (int i = 0; i < V-1; i++)                  // total O(V*E)
-    for (int u = 0; u < V; u++)                  // these two loops = O(E)
+  for (int i = 0; i < V-1; ++i)                  // total O(V*E)
+    for (int u = 0; u < V; ++u)                  // these two loops = O(E)
       if (dist[u] != INF)                        // important check
-        for (auto &v : AL[u])
-          dist[v.first] = min(dist[v.first], dist[u]+v.second);
+        for (auto &[v, w] : AL[u])               // C++17 style
+          dist[v] = min(dist[v], dist[u]+w);
 
   bool hasNegativeCycle = false;
-  for (int u = 0; u < V; u++)                    // one more pass to check
+  for (int u = 0; u < V; ++u)                    // one more pass to check
     if (dist[u] != INF)
-      for (auto &v : AL[u])
-        if (dist[v.first] > dist[u]+v.second)    // should be false
+      for (auto &[v, w] : AL[u])                 // C++17 style
+        if (dist[v] > dist[u]+w)                 // should be false
           hasNegativeCycle = true;               // if true => -ve cycle
   printf("Negative Cycle Exist? %s\n", hasNegativeCycle ? "Yes" : "No");
 
   if (!hasNegativeCycle)
-    for (int i = 0; i < V; i++)
+    for (int i = 0; i < V; ++i)
       printf("SSSP(%d, %d) = %d\n", s, i, dist[i]);
 
   return 0;

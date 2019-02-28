@@ -33,7 +33,7 @@ int main() {
 
   int V, E; scanf("%d %d", &V, &E);
   AL.assign(V, vii()); // assign blank vectors of pair<int, int>s to Al
-  for (int i = 0; i < E; i++) {
+  for (int i = 0; i < E; ++i) {
     int a, b; scanf("%d %d", &a, &b);
     AL[a].emplace_back(b, 0);
     AL[b].emplace_back(a, 0);
@@ -54,8 +54,6 @@ int main() {
     if (dist[u] != layer) printf("\nLayer %d: ", dist[u]);
     layer = dist[u];
     printf("visit %d, ", u);
-    // for (auto &vw : AL[u]) {                  // C++11 style
-    //   int v = vw.first;
     for (auto &[v, w] : AL[u]) {                 // C++17 style
       if (dist[v] == INF) {
         dist[v] = dist[u]+1;                     // dist[v] != INF now

@@ -28,7 +28,7 @@ int main() {
 
   int V, E, s; scanf("%d %d %d", &V, &E, &s);
   vector<vii> AL(V, vii());
-  for (int i = 0; i < E; i++) {
+  for (int i = 0; i < E; ++i) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AL[u].emplace_back(v, w);                    // directed graph
   }
@@ -48,8 +48,8 @@ int main() {
     }
   }
 
-  for (int i = 0; i < V; i++)
-    printf("SSSP(%d, %d) = %d\n", s, i, dist[i]);
+  for (int u = 0; u < V; ++u)
+    printf("SSSP(%d, %d) = %d\n", s, u, dist[u]);
 
   return 0;
 }

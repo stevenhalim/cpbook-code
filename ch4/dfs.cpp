@@ -5,9 +5,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef pair<int, int> ii;      // In this chapter, we will frequently use these
-typedef vector<ii> vii;      // three data type shortcuts. They may look cryptic
-typedef vector<int> vi;   // but shortcuts are useful in competitive programming
+// In this chapter, we will frequently use these three data type shortcuts
+// They may look cryptic but shortcuts are useful in competitive programming
+typedef pair<int, int> ii;
+typedef vector<ii> vii;
+typedef vector<int> vi;
 
 const int DFS_WHITE = -1; // normal DFS, do not change this with other values (other than 0), because we usually use memset with conjunction with DFS_WHITE
 const int DFS_BLACK = 1;
@@ -76,21 +78,21 @@ vi articulation_vertex;
 int dfsNumberCounter, dfsRoot, rootChildren;
 
 void articulationPointAndBridge(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  dfs_low[u] = dfs_num[u] = ++dfsNumberCounter;  // dfs_low[u] <= dfs_num[u]
   for (auto &[v, w] : AL[u]) {
     if (dfs_num[v] == DFS_WHITE) {               // a tree edge
       dfs_parent[v] = u;
-      if (u == dfsRoot) rootChildren++;          // special case, root
+      if (u == dfsRoot) ++rootChildren;          // special case, root
 
       articulationPointAndBridge(v);
 
       if (dfs_low[v] >= dfs_num[u])              // for articulation point
-        articulation_vertex[u] = true;           // store this information first
+        articulation_vertex[u] = true;           // store this info first
       if (dfs_low[v] > dfs_num[u])               // for bridge
         printf(" Edge (%d, %d) is a bridge\n", u, v);
       dfs_low[u] = min(dfs_low[u], dfs_low[v]);  // update dfs_low[u]
     }
-    else if (v != dfs_parent[u])                 // a back edge and not direct cycle
+    else if (v != dfs_parent[u])                 // a back edge, not direct cycle
       dfs_low[u] = min(dfs_low[u], dfs_num[v]);  // update dfs_low[u]
   }
 }
@@ -99,7 +101,7 @@ vi S, visited;                                   // additional global variables
 int numSCC;
 
 void tarjanSCC(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  dfs_low[u] = dfs_num[u] = ++dfsNumberCounter;  // dfs_low[u] <= dfs_num[u]
   S.push_back(u); // stores u in a vector based on order of visitation
   visited[u] = 1;
   for (auto &[v, w] : AL[u]) {
@@ -109,8 +111,8 @@ void tarjanSCC(int u) {
       dfs_low[u] = min(dfs_low[u], dfs_low[v]);
   }
 
-  if (dfs_low[u] == dfs_num[u]) {         // if this is a root (start) of an SCC
-    printf("SCC %d:", ++numSCC);            // this part is done after recursion
+  if (dfs_low[u] == dfs_num[u]) {                // a root/start of an SCC
+    printf("SCC %d:", ++numSCC);                 // when recursion unwinds
     while (1) {
       int v = S.back(); S.pop_back(); visited[v] = 0;
       printf(" %d", v);
@@ -186,70 +188,71 @@ int main() {
 
   int V; scanf("%d", &V);
   AL.assign(V, vii()); // assign blank vectors of pair<int, int>s to Al
-  for (int i = 0; i < V; i++) {
+  for (int u = 0; u < V; ++u) {
     int total_neighbors; scanf("%d", &total_neighbors);
-    for (int j = 0; j < total_neighbors; j++) {
-      int id, weight; scanf("%d %d", &id, &weight);
-      AL[i].emplace_back(id, weight);
+    for (int j = 0; j < total_neighbors; ++j) {
+      int v, w; scanf("%d %d", &v, &w);
+      AL[u].emplace_back(v, w);
     }
   }
 
   printThis("Standard DFS Demo (the input graph must be UNDIRECTED)");
   numCC = 0;
-  dfs_num.assign(V, DFS_WHITE);    // this sets all vertices' state to DFS_WHITE
-  for (int i = 0; i < V; i++)                   // for each vertex i in [0..V-1]
-    if (dfs_num[i] == DFS_WHITE)            // if that vertex is not visited yet
-      printf("CC %d:", ++numCC), dfs(i), printf("\n");          // 3 lines here!
+  dfs_num.assign(V, DFS_WHITE);
+  for (int u = 0; u < V; ++u)                    // for each u in [0..V-1]
+    if (dfs_num[u] == DFS_WHITE)                 // if that u is unvisited
+      printf("CC %d:", ++numCC), dfs(u), printf("\n"); // 3 lines here!
   printf("There are %d connected components\n", numCC);
 
   printThis("Flood Fill Demo (the input graph must be UNDIRECTED)");
   numCC = 0;
   dfs_num.assign(V, DFS_WHITE);
-  for (int i = 0; i < V; i++)
-    if (dfs_num[i] == DFS_WHITE)
-      floodfill(i, ++numCC);
-  for (int i = 0; i < V; i++)
-    printf("Vertex %d has color %d\n", i, dfs_num[i]);
+  for (int u = 0; u < V; ++u)
+    if (dfs_num[u] == DFS_WHITE)
+      floodfill(u, ++numCC);
+  for (int u = 0; u < V; ++u)
+    printf("Vertex %d has color %d\n", u, dfs_num[u]);
 
   // make sure that the given graph is DAG
   printThis("Topological Sort (the input graph must be DAG)");
   topoSort.clear();
   dfs_num.assign(V, DFS_WHITE);
-  for (int i = 0; i < V; i++)            // this part is the same as finding CCs
-    if (dfs_num[i] == DFS_WHITE)
-      dfs2(i);
-  reverse(topoSort.begin(), topoSort.end());                 // reverse topoSort
-  for (int i = 0; i < (int)topoSort.size(); i++)       // or you can simply read
-    printf(" %d", topoSort[i]);           // the content of `topoSort' backwards
+  for (int u = 0; u < V; ++u)                    // same as finding CCs
+    if (dfs_num[u] == DFS_WHITE)
+      dfs2(u);
+  reverse(topoSort.begin(), topoSort.end());     // reverse topoSort or
+  for (auto &u : topoSort)                       // simply read the content
+    printf(" %d", u);                            // of `topoSort' backwards
   printf("\n");
 
   printThis("Graph Edges Property Check");
   numCC = 0;
   dfs_num.assign(V, DFS_WHITE); dfs_parent.assign(V, -1);
-  for (int i = 0; i < V; i++)
-    if (dfs_num[i] == DFS_WHITE)
-      printf("Component %d:\n", ++numCC), graphCheck(i);       // 2 lines in one
+  for (int u = 0; u < V; ++u)
+    if (dfs_num[u] == DFS_WHITE)
+      printf("Component %d:\n", ++numCC), graphCheck(u); // 2 lines in one
 
   printThis("Articulation Points & Bridges (the input graph must be UNDIRECTED)");
   dfsNumberCounter = 0; dfs_num.assign(V, DFS_WHITE); dfs_low.assign(V, 0);
   dfs_parent.assign(V, -1); articulation_vertex.assign(V, 0);
   printf("Bridges:\n");
-  for (int i = 0; i < V; i++)
-    if (dfs_num[i] == DFS_WHITE) {
-      dfsRoot = i; rootChildren = 0;
-      articulationPointAndBridge(i);
-      articulation_vertex[dfsRoot] = (rootChildren > 1); }       // special case
+  for (int u = 0; u < V; ++u)
+    if (dfs_num[u] == DFS_WHITE) {
+      dfsRoot = u; rootChildren = 0;
+      articulationPointAndBridge(u);
+      articulation_vertex[dfsRoot] = (rootChildren > 1); // special case
+    }
   printf("Articulation Points:\n");
-  for (int i = 0; i < V; i++)
-    if (articulation_vertex[i])
-      printf(" Vertex %d\n", i);
+  for (int u = 0; u < V; ++u)
+    if (articulation_vertex[u])
+      printf(" Vertex %d\n", u);
 
   printThis("Strongly Connected Components (the input graph must be DIRECTED)");
   dfs_num.assign(V, DFS_WHITE); dfs_low.assign(V, 0); visited.assign(V, 0);
   dfsNumberCounter = numSCC = 0;
-  for (int i = 0; i < V; i++)
-    if (dfs_num[i] == DFS_WHITE)
-      tarjanSCC(i);
+  for (int u = 0; u < V; ++u)
+    if (dfs_num[u] == DFS_WHITE)
+      tarjanSCC(u);
 
   return 0;
 }

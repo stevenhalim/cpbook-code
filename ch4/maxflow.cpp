@@ -73,7 +73,7 @@ int main() {
   scanf("%d %d %d", &V, &s, &t);
   memset(res, 0, sizeof res);
   AL.assign(V, vii());
-  for (int u = 0; u < V; u++) {
+  for (int u = 0; u < V; ++u) {
     int k; scanf("%d", &k);
     while (k--) {
       int v, w; scanf("%d %d", &v, &w);
@@ -93,12 +93,9 @@ int main() {
     while (!q.empty()) {
       int u = q.front(); q.pop();
       if (u == t) break; // immediately stop BFS if we already reach sink t
-      // for (auto &vw : AL[u]) {                // C++11 style
-      //   int v = vw.first;
-      for (auto &[v, w] : AL[u]) {               // C++17 style
+      for (auto &[v, w] : AL[u])                 // C++17 style
         if (res[u][v] > 0 && !vis[v])
-          vis[v] = true, q.push(v), p[v] = u;
-      }
+          vis[v] = true, q.push(v), p[v] = u;    // 3 lines in one!
     }
     augment(t, INF);                             // find bottleneck weight
     if (f == 0) break;                           // if flow == 0, stop
