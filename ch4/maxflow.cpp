@@ -53,7 +53,7 @@ private:
   }
 
   ll DFS(int s, int t, ll f = INF) {             // traverse from s->t
-    if (s == t) return f;
+    if ((s == t) || (f == 0)) return f;
     for (int &i = last[s]; i < AL[s].size(); ++i) { // remember last edge
       auto &[u, v, cap, flow] = EL[AL[s][i]];
       if (d[v] == d[u]+1) {                      // in current layer graph
