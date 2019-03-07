@@ -63,7 +63,7 @@ void computeLCP_slow() {
   LCP[0] = 0;                                    // default value
   for (int i = 1; i < n; ++i) {                  // compute LCP by def
     int L = 0;                                   // always reset L to 0
-    while (T[SA[i]+L] == T[SA[i-1]+L]) ++L;      // same L-th char, L++
+    while (T[SA[i]+L] == T[SA[i-1]+L]) ++L;      // same L-th char, ++L
     LCP[i] = L;
   }
 }
@@ -75,7 +75,7 @@ void computeLCP() {
     Phi[SA[i]] = SA[i-1];                        // remember prev suffix
   for (i = L = 0; i < n; ++i) {                  // compute PLCP in O(n)
     if (Phi[i] == -1) { PLCP[i] = 0; continue; } // special case
-    while (T[i+L] == T[Phi[i]+L]) L++;           // L incr max n times
+    while (T[i+L] == T[Phi[i]+L]) ++L;           // L incr max n times
     PLCP[i] = L;
     L = max(L-1, 0);                             // L dec max n times
   }
@@ -88,7 +88,7 @@ ii stringMatching() {                            // in O(m log n)
   while (lo < hi) {                              // find lower bound
     mid = (lo+hi) / 2;                           // this is round down
     int res = strncmp(T+SA[mid], P, m);          // find P in suffix 'mid'
-    (res >= 0) hi = mid ? lo = mid+1;            // notice the >= sign
+    (res >= 0) ? hi = mid : lo = mid+1;          // notice the >= sign
   }
   if (strncmp(T+SA[lo], P, m) != 0) return ii(-1, -1); // if not found
   ii ans; ans.first = lo;
@@ -96,7 +96,7 @@ ii stringMatching() {                            // in O(m log n)
   while (lo < hi) {                              // now find upper bound
     mid = (lo+hi) / 2;
     int res = strncmp(T+SA[mid], P, m);
-    (res > 0) hi = mid ? lo = mid+1;             // notice the > sign
+    (res > 0) ? hi = mid : lo = mid+1;           // notice the > sign
   }
   if (strncmp(T+SA[hi], P, m) != 0) --hi;        // special case
   ans.second = hi;
