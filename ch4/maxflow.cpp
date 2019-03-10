@@ -96,7 +96,6 @@ public:
 
   ll dinic(int s, int t) {
     ll mf = 0;                                   // mf stands for max_flow
-    int iter = 0;
     while (BFS(s, t)) {                          // an O(VE^2) EK algorithm
       last.assign(V, 0);                         // important speedup
       while (ll f = DFS(s, t))                   // exhaust blocking flow
