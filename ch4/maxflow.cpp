@@ -18,7 +18,7 @@ typedef pair<int, int> ii;
 const ll INF = 1e18; // INF = 1e18, not 2^63-1 to avoid overflow
 
 class max_flow {
-private:
+protected:
   int V;
   vector<edge> EL;
   vector<vi> AL;
@@ -106,6 +106,35 @@ public:
   }
 };
 
+class max_flow_with_VW : public max_flow {
+private: 
+  inline int getIn(int v) { return (v << 1); }
+  inline int getOut(int v) { return (v << 1) + 1; }
+
+public:
+  max_flow_with_VW(int _V) : max_flow(2 * _V) {
+    for (int i = 0; i < _V; i++) 
+      max_flow::add_edge(getIn(i), getOut(i), INF);              // All vertices are initialised with infinite capacity
+  }
+
+  void add_vertex_weight(int v, ll w) {
+    get<2>(EL[getIn(v)]) = w;
+  }
+
+  void add_edge(int u, int v, ll w, bool directed = true) {
+    max_flow::add_edge(getOut(u), getIn(v), w);
+    if (!directed) max_flow::add_edge(getOut(v), getIn(u), w);
+  }
+
+  ll edmonds_karp(int s, int t) {
+    return max_flow::edmonds_karp(getIn(s), getOut(t));
+  }
+
+  ll dinic(int s, int t) {
+    return max_flow::dinic(getIn(s), getOut(t));
+  }
+};
+
 int main() {
   /*
   // Graph in Figure 4.24
@@ -130,6 +159,36 @@ int main() {
 
   // printf("%lld\n", mf.edmonds_karp(s, t));
   printf("%lld\n", mf.dinic(s, t));
+
+  printf("=====\n");
+
+  /*
+  // Sample graph with vertex capacities (source and sink have infinite capacities) 
+  5 0 4
+  5 6 7
+  2 1 5 2 3
+  1 3 10
+  1 3 4
+  1 4 10
+  0
+  */
+
+  scanf("%d %d %d", &V, &s, &t);
+  max_flow_with_VW mfvw(V);
+  for (int u = 1; u < V - 1; ++u) {
+    int w; scanf("%d", &w);
+    mfvw.add_vertex_weight(u, w);
+  }
+  for (int u = 0; u < V; ++u) {
+    int k; scanf("%d", &k);
+    while (k--) {
+      int v, w; scanf("%d %d", &v, &w);
+      mfvw.add_edge(u, v, w);                      
+    }
+  }
+
+  // printf("%lld\n", mfvw.edmonds_karp(s, t));
+  printf("%lld\n", mfvw.dinic(s, t));
 
   return 0;
 }
