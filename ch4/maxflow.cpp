@@ -76,7 +76,7 @@ public:
 
   // if you are adding a bidirectional edge u<->v with weight w into your
   // flow graph, set directed = false (default value is directed = true)
-  void add_edge(int u, int v, int w, bool directed = true) {
+  void add_edge(int u, int v, ll w, bool directed = true) {
     if (u == v) return;                          // safeguard: no self loop
     EL.emplace_back(u, v, w, 0);                 // u->v, cap w, flow 0
     AL[u].push_back(EL.size()-1);                // remember this index
