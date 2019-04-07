@@ -1,2 +1,2 @@
 # cpbook-code
-CP4 Free Source Code Project (c++14, java8, python3 and ocaml)
+CP4 Free Source Code Project (cpp/gnu++17, java/java8, py/python3, and ml/ocaml)
