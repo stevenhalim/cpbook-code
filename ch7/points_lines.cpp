@@ -41,10 +41,13 @@ struct line { double a, b, c; };          // a way to represent a line
 void pointsToLine(point p1, point p2, line &l) {
   if (fabs(p1.x-p2.x) < EPS)                  // vertical line is fine
     l = {1.0, 0.0, -p1.x};                           // default values
-  else
-    l = {-(double)(p1.y-p2.y) / (p1.x-p2.x),
+  else {
+    auto a = -(double)(p1.y-p2.y) / (p1.x-p2.x);
+    l = {a,
          1.0,              // IMPORTANT: we fix the value of b to 1.0
-         -(double)(l.a*p1.x) - p1.y}; }
+         -(double)(a*p1.x) - p1.y};
+  }
+}
 
 // not needed since we will use the more robust form: ax + by + c = 0
 struct line2 { double m, c; };      // another way to represent a line
