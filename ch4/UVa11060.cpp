@@ -39,10 +39,11 @@ int main() {
     priority_queue<int, vi, greater<int>> pq;    // min priority queue
     for (int u = 0; u < N; ++u)
       if (in_degree[u] == 0) // all vertices with 0 in-degree can be processed
-        pq.push(i);                              // smaller index goes first
+        pq.push(u);                              // smaller index goes first
 
     while (!pq.empty()) {                        // Kahn's algorithm
       int u = pq.top(); pq.pop();
+      printf(" %s", reverseMapper[u].c_str());
       for (auto &v : AL[u]) {                    // process u
         --in_degree[v];                          // virtually 'remove' u->v
         if (in_degree[v] == 0)                   // v is the next candidate
