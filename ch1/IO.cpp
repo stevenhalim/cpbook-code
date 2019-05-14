@@ -27,16 +27,16 @@ int main() {
   //   printf("%d\n", a+b);
 
   // freopen("IO_in3.txt", "r", stdin); // same input file as before
-  // int a, b, c = 1;
+  // int a, b, c = 0;
   // while (scanf("%d %d", &a, &b) != EOF)
   //   // notice the two '\n'
-  //   printf("Case %d: %d\n\n", c++, a+b);
+  //   printf("Case %d: %d\n\n", ++c, a+b);
 
   // freopen("IO_in3.txt", "r", stdin); // same input file as before
-  // int a, b, c = 1;
+  // int a, b, c = 0;
   // while (scanf("%d %d", &a, &b) != EOF) {
-  //   if (c > 1) printf("\n"); // 2nd/more cases
-  //   printf("Case %d: %d\n", c++, a+b);
+  //   if (c > 0) printf("\n"); // 2nd/more cases
+  //   printf("Case %d: %d\n", ++c, a+b);
   // }
 
   // freopen("IO_in4.txt", "r", stdin);
@@ -54,7 +54,8 @@ int main() {
   //   ans = 0;
   //   while (scanf("%d%c", &v, &dummy) != EOF) {
   //     ans += v;
-  //     if (dummy == '\n') break; } // test EOLN
+  //     if (dummy == '\n') break; // test EOLN
+  //   }
   //   if (feof(stdin)) break; // test EOF
   //   printf("%d\n", ans);
   // }

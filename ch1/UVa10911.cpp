@@ -3,7 +3,6 @@
 // please consult your programming text books first...
 #include <bits/stdc++.h> // not C++ standard, but OK in programming contest
 using namespace std;
-
 // global variables is a bad software engineering practice, but OK for CP
 int N, target;                                   // max N = 8
 double dist[20][20], memo[1<<16];                // 1<<16 = 2^16
@@ -32,11 +31,9 @@ int main() {
     for (int i = 0; i < 2*N-1; ++i)              // build distance table
       for (int j = i+1; j < 2*N; ++j)            // use `hypot' function
         dist[i][j] = dist[j][i] = hypot(x[i]-x[j], y[i]-y[j]);
-    // DP to solve min weighted perfect matching on small general graph
-    for (int i = 0; i < (1<<(2*N)); ++i)
-      memo[i] = -1.0;
+    for (int i = 0; i < (1<<16); ++i) memo[i] = -1.0;
     target = (1<<(2*N)) - 1;
     printf("Case %d: %.2lf\n", ++caseNo, matching(0));
   }
   return 0;
-}
+} // DP to solve min weighted perfect matching on small general graph
