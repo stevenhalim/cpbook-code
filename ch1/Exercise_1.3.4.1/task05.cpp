@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>                         // C++ code for task 5
 using namespace std;
 // utilize the natural sort order of primitive data types in the tuple

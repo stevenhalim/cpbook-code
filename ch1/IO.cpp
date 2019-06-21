@@ -40,18 +40,17 @@ int main() {
   // }
 
   // freopen("IO_in4.txt", "r", stdin);
-  // int k, ans, v;
+  // int k;
   // while (scanf("%d", &k) != EOF) {
-  //   ans = 0;
+  //   int ans = 0, v;
   //   while (k--) { scanf("%d", &v); ans += v; }
   //   printf("%d\n", ans);
   // }
 
   // freopen("IO_in5.txt", "r", stdin);
-  // int ans, v;
-  // char dummy;
   // while (1) { // keep looping
-  //   ans = 0;
+  //   int ans = 0, v;
+  //   char dummy;
   //   while (scanf("%d%c", &v, &dummy) != EOF) {
   //     ans += v;
   //     if (dummy == '\n') break; // test EOLN

@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 

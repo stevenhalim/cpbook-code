@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -62,7 +58,7 @@ int main() {
   for (int u = 0; u < V; ++u) {
     int total_neighbors; scanf("%d", &total_neighbors);
     while (total_neighbors--) {
-      int v, w; scanf("%d %d", &v, &w); v--;     // to 0-based indexing
+      int v, w; scanf("%d %d", &v, &w); --v;     // to 0-based indexing
       AL[u].emplace_back(v, w);
     }
   }

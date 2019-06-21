@@ -18,32 +18,28 @@ public class floyd_warshall {
     */
 
     Scanner sc = new Scanner(new File("floyd_warshall_in.txt"));
-
-    int V = sc.nextInt();
-    int E = sc.nextInt();
+    int V = sc.nextInt(), E = sc.nextInt();
     
     int[][] AM = new int[V][];
-    for (int i = 0; i < V; i++) {
-      AM[i] = new int[V];
-      for (int j = 0; j < V; j++)
-        AM[i][j] = 1000000000; // use 1.10^9 to avoid overflow
-      AM[i][i] = 0;
+    for (int u = 0; u < V; ++u) {
+      AM[u] = new int[V];
+      for (int v = 0; v < V; ++v)
+        AM[u][v] = 1000000000;                   // 1e9 to avoid overflow
+      AM[u][u] = 0;
     }
 
-    for (int i = 0; i < E; i++) {
-      int u = sc.nextInt();
-      int v = sc.nextInt();
-      int w = sc.nextInt();
-      AM[u][v] = w;                                       // directed graph
+    for (int i = 0; i < E; ++i) {
+      int u = sc.nextInt(), v = sc.nextInt(), w = sc.nextInt();
+      AM[u][v] = w;                              // directed graph
     }
 
-    for (int k = 0; k < V; k++)     // O(v^3) Floyd Warshall's code is here
-      for (int i = 0; i < V; i++)
-        for (int j = 0; j < V; j++)
-          AM[i][j] = Math.min(AM[i][j], AM[i][k]+AM[k][j]);
+    for (int k = 0; k < V; ++k)                  // O(v^3) Floyd Warshall's
+      for (int u = 0; u < V; ++u)
+        for (int v = 0; v < V; ++v)
+          AM[u][v] = Math.min(AM[u][v], AM[u][k]+AM[k][v]);
 
-    for (int i = 0; i < V; i++)
-      for (int j = 0; j < V; j++)
-        System.out.printf("APSP(%d, %d) = %d\n", i, j, AM[i][j]);
+    for (int u = 0; u < V; ++u)
+      for (int v = 0; v < V; ++v)
+        System.out.printf("APSP(%d, %d) = %d\n", u, v, AM[u][v]);
   }
 }
