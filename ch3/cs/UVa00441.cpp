@@ -9,10 +9,9 @@ int main() {
   while (cin >> k, k) {
     if (!first) cout << endl;
     first = false;
-    int S[12];
-    for (int i = 0; i < k; ++i)
-      scanf("%d", &S[i]);                        // input: k sorted ints
-    for (int a = 0  ; a < k-5; ++a)              // six nested loops!
+    int S[16];
+    for (int i = 0; i < k; ++i) scanf("%d", &S[i]);  // input: k sorted ints
+    for (int a = 0  ; a < k-5; ++a)                  // six nested loops!
       for (int b = a+1; b < k-4; ++b)
         for (int c = b+1; c < k-3; ++c)
           for (int d = c+1; d < k-2; ++d)

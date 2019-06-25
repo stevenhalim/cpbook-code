@@ -37,7 +37,7 @@ int main() {
 /*
 // O(n^4) DP solution, ~0.076s in UVa
 int main() {
-  int n; scanf("%d", &n);                        // input square matrix size
+  int n; scanf("%d", &n);                        // square matrix size
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j) {
       scanf("%d", &A[i][j]);
@@ -66,7 +66,7 @@ int main() {
 /*
 // O(n^6) brute force solution, TLE (> 3s) in UVa
 int main() {
-  int n; scanf("%d", &n);                        // input square matrix size
+  int n; scanf("%d", &n);                        // square matrix size
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j)
       scanf("%d", &A[i][j]);

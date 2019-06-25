@@ -41,10 +41,9 @@ int main() {
     auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
     if (d > dist[u]) continue;                   // a very important check
     for (auto &[v, w] : AL[u]) {                 // all edges from u
-      if (dist[u]+w < dist[v]) {
-        dist[v] = dist[u]+w;                     // relax operation
-        pq.push({dist[v], v});
-      } // this variant can cause duplicate items in the priority queue
+      if (dist[u]+w >= dist[v]) continue;        // not improving, skip
+      dist[v] = dist[u]+w;                       // relax operation
+      pq.push({dist[v], v});                     // enqueue better pair
     }
   }
 

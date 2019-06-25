@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define EPS 1e-9
+const double EPS = 1e-9;
 
 typedef pair<int, int> ii;
 
@@ -12,7 +12,7 @@ vector<ii> events;
 bool can(double f) {
   int cur_d = 0, cur_n = 0, leak_rate = 0, dt = 0;
   double original_f = f;
-  for (int i = 0; i < (int)events.size(); i++) {
+  for (int i = 0; i < (int)events.size(); ++i) {
     // for all events, consume this amount of fuel (0 amount if delta time is 0)
     dt = (events[i].first - cur_d);
     f -=  dt / 100.0 * cur_n; // consumption
@@ -58,18 +58,19 @@ int main() {
       }
     }
     // Binary Search the Answer (BSTA), then simulate
-    // while loop version
-    double lo = 0.0, hi = 10000.0;
-    while (fabs(hi-lo) > EPS) {           // when the answer is not found yet
-      double mid = (lo+hi) / 2.0;                     // try the middle value
-      can(mid) ? hi = mid : lo = mid;                        // then continue
-    }
-    // for loop version
-    // for (int i = 0; i < 50; i++) {      // log_2 ((10000.0-0.0) / 1e-9) ~= 43
-    //   double mid = (lo+hi) / 2.0;     // looping 50x should be precise enough
-    //   can(mid) ? hi = mid : lo = mid;
+    // // while loop version
+    // double lo = 0.0, hi = 10000.0;
+    // while (fabs(hi-lo) > EPS) {                  // answer is not found yet
+    //   double mid = (lo+hi) / 2.0;                // try the middle value
+    //   can(mid) ? hi = mid : lo = mid;            // then continue
     // }
-    printf("%.3lf\n", hi);     // after the loop above is over, we have the answer
+    // for loop version
+    double lo = 0.0, hi = 10000.0;
+    for (int i = 0; i < 50; ++i) {               // log_2(10000/1e-9) ~= 43
+      double mid = (lo+hi) / 2.0;                // looping 50x is enough
+      can(mid) ? hi = mid : lo = mid;
+    }
+    printf("%.3lf\n", hi);                       // this is the answer
   }
   return 0;
 }
