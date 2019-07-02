@@ -5,11 +5,11 @@ int main() {
   // comment all lines and only uncomment demo code that you are interested with
   
   freopen("IO_in1.txt", "r", stdin);
-  int TC, a, b;
+  int TC;
   scanf("%d", &TC); // number of test cases
   while (TC--) { // shortcut to repeat until 0
-    scanf("%d %d", &a, &b); // compute answer
-    printf("%d\n", a+b); // on the fly
+    int a, b; scanf("%d %d", &a, &b);
+    printf("%d\n", a+b); // compute on the fly
   }
 
   // freopen("IO_in2.txt", "r", stdin);
