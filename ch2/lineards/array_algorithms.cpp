@@ -18,43 +18,42 @@ bool icpc_cmp(team a, team b) {
 }
 
 int main() {
-  int *pos, arr[] = {10, 7, 2, 15, 4};
-  vector<int> v(arr, arr + 5);          // another way to initialize vector
-  vector<int>::iterator j;
+  int arr[] = {10, 7, 2, 15, 4};
+  vector<int> v(arr, arr+5);                     // alternative constructor
 
   // sort descending with vector
-  sort(v.rbegin(), v.rend());        // example of using 'reverse iterator'
+  sort(v.rbegin(), v.rend());                    // reverse iterator
   for (auto &val : v)
-    printf("%d ", val);                     // access the value of iterator
+    printf("%d ", val);                          // access the values
   printf("\n");
   printf("==================\n");
 
   // sort descending with integer array
-  sort(arr, arr+5);                                            // ascending
-  reverse(arr, arr+5);                                      // then reverse
-  for (int i = 0; i < 5; i++)
+  sort(arr, arr+5);                              // ascending
+  reverse(arr, arr+5);                           // then reverse
+  for (int i = 0; i < 5; ++i)
     printf("%d ", arr[i]);
   printf("\n");
   printf("==================\n");
 
-  random_shuffle(v.begin(), v.end());          // shuffle the content again
+  random_shuffle(v.begin(), v.end());            // shuffle the content
   for (auto &val : v)
     printf("%d ", val);
   printf("\n");
   printf("==================\n");
-  partial_sort(v.begin(), v.begin()+2, v.end());       // partial_sort demo
+  partial_sort(v.begin(), v.begin()+2, v.end()); // partial_sort demo
   for (auto &val : v)
     printf("%d ", val);
   printf("\n");
   printf("==================\n");
 
   // sort ascending
-  sort(arr, arr+5);                             // arr should be sorted now
-  for (int i = 0; i < 5; i++)                            // 2, 4, 7, 10, 15
+  sort(arr, arr+5);                              // arr is sorted now
+  for (int i = 0; i < 5; ++i)                    // 2, 4, 7, 10, 15
     printf("%d ", arr[i]);
   printf("\n");
-  sort(v.begin(), v.end());                // sorting a vector, same output
-  for (auto &val : v)
+  sort(v.begin(), v.end());                      // sort a vector
+  for (auto &val : v)                            // 2, 4, 7, 10, 15 too
     printf("%d ", val);
   printf("\n");
   printf("==================\n");
@@ -66,49 +65,47 @@ int main() {
                   {4, 3, 60} };
 
   // without sorting, they will be ranked like this:
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
     printf("id: %d, solved: %d, penalty: %d\n",
            nus[i].id, nus[i].solved, nus[i].penalty);
 
   sort(nus, nus+4, icpc_cmp);           // sort using a comparison function
   printf("==================\n");
   // after sorting using ICPC rule, they will be ranked like this:
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
     printf("id: %d, solved: %d, penalty: %d\n",
            nus[i].id, nus[i].solved, nus[i].penalty);
   printf("==================\n");
 
-  // there is a trick for multi-field sorting if the sort order is "standard"
-  // use "chained" pair class in C++ and put the highest priority in front
-  typedef pair<int, pair<string, string>> state;
-  state a = make_pair(10, make_pair("steven", "grace"));
-  state b = make_pair(7, make_pair("steven", "halim"));
-  state c = make_pair(7, make_pair("steven", "felix"));
-  state d = make_pair(9, make_pair("a", "b"));
+  // there is a technique for multi-field sorting if the sort order is "standard"
+  // use pair (for 2 fields) or tuple (for >= 3 fields) in C++ and put the highest priority in front
+  typedef tuple<int, string, string> state;
+  state a = make_tuple(10, "steven", "grace");   // old way
+  state b = {7, "steven", "halim"};              // C++17 way
+  state c = {7, "steven", "felix"};
+  state d = {9, "a", "b"};
   vector<state> test;
   test.push_back(a);
   test.push_back(b);
   test.push_back(c);
   test.push_back(d);
-  for (int i = 0; i < 4; i++)
-    printf("value: %d, name1 = %s, name2 = %s\n", test[i].first,
-    ((string)test[i].second.first).c_str(), ((string)test[i].second.second).c_str());
+  for (auto &[value, name1, name2] : test)
+    printf("value: %d, name1 = %s, name2 = %s\n", value, name1.c_str(), name2.c_str());
   printf("==================\n");
-  sort(test.begin(), test.end());   // no need to use a comparison function
+  sort(test.begin(), test.end());                // use built-in comparator
   // sorted ascending based on value, then based on name1,
   // then based on name2, in that order!
-  for (int i = 0; i < 4; i++)
-    printf("value: %d, name1 = %s, name2 = %s\n", test[i].first,
-      ((string)test[i].second.first).c_str(), ((string)test[i].second.second).c_str());
+  for (auto &[value, name1, name2] : test)
+    printf("value: %d, name1 = %s, name2 = %s\n", value, name1.c_str(), name2.c_str());
   printf("==================\n");
 
   // binary search using lower bound
-  pos = lower_bound(arr, arr+5, 7);                                // found
+  auto pos = lower_bound(arr, arr+5, 7);         // found
   printf("%d\n", *pos);
-  j = lower_bound(v.begin(), v.end(), 7);
+  auto j = lower_bound(v.begin(), v.end(), 7);
   printf("%d\n", *j);
 
-  pos = lower_bound(arr, arr+5, 77);                           // not found
+  pos = lower_bound(arr, arr+5, 77);             // not found
   if (pos-arr == 5) // arr is of size 5 -> 
                     //    arr[0], arr[1], arr[2], arr[3], arr[4]
                     // if lower_bound cannot find the required value,
@@ -128,7 +125,7 @@ int main() {
   // useful if you want to generate permutations of set
   next_permutation(arr, arr+5); // 2, 4, 7, 10, 15 -> 2, 4, 7, 15, 10
   next_permutation(arr, arr+5); // 2, 4, 7, 15, 10 -> 2, 4, 10, 7, 15
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
     printf("%d ", arr[i]);
   printf("\n");
 

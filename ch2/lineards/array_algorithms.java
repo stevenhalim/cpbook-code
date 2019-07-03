@@ -1,6 +1,6 @@
 import java.util.*;
 
-// This source code is not as complete as ch2/algorithm_collections.cpp
+// This source code is not as complete as array_algorithms.cpp
 
 class team implements Comparable<team> {
   private int id, solved, penalty;
@@ -26,7 +26,7 @@ class team implements Comparable<team> {
   }
 }
 
-class algorithm_collections {
+class array_algorithms {
   public static void main(String[] args) {
     ArrayList<Integer> v = new ArrayList<>();
 
@@ -61,13 +61,13 @@ class algorithm_collections {
     nus.add(new team(4, 3, 60));
 
     // without sorting, they will be ranked like this:
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
       System.out.println(nus.get(i));
 
     Collections.sort(nus);              // sort using a comparison function
     System.out.printf("==================\n");
     // after sorting using ICPC rule, they will be ranked like this:
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
       System.out.println(nus.get(i));
     System.out.printf("==================\n");
 
