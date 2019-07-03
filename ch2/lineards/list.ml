@@ -1,4 +1,4 @@
-(* This source code is not as complete as ch2/stack_queue.ml *)
+(* This source code is not as complete as list.cpp *)
 
 open Printf
 
