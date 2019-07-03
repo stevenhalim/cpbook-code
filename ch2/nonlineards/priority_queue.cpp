@@ -1,11 +1,7 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef pair<int, string> is;                         // introducing 'pair'
+typedef pair<int, string> is;
 
 int main() {
   // suppose we enter these 7 money-name pairs below
@@ -44,6 +40,7 @@ int main() {
 
   pq.pop(); // O(log n) to delete the top and repair the structure
   // [score, name] still binded to pq.top() as we use `&' above
+  // be careful not to overuse & to avoid accidental by reference bug
   printf("%s has %d $\n", name.c_str(), score);
 
   pq.pop();

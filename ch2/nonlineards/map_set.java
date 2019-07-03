@@ -5,9 +5,7 @@ class map_set {
     // note: there are many clever usages of this set/map
     // that you can learn by looking at top coder's codes
     TreeSet<Integer> used_values = new TreeSet<>(); // must use TreeSet as Set is an abstract class
-    used_values.clear();
     TreeMap<String, Integer> mapper = new TreeMap<>(); // must use TreeMap as Map is an abstract class
-    mapper.clear();
 
     // suppose we enter these 7 name-score pairs below
     /*

@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -9,7 +5,7 @@ int main() {
   // note: there are many clever usages of this set/map
   // that you can learn by looking at top coder's codes
   // note, we don't have to use .clear() if we have just initialized the set/map
-  set<int> used_values;    // used_values.clear();
+  set<int> used_values; // used_values.clear();
   map<string, int> mapper; // mapper.clear();
 
   // suppose we enter these 7 name-score pairs below

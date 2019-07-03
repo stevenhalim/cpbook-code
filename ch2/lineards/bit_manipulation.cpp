@@ -1,4 +1,4 @@
-// note: for example usage of bitset, see ch5_06_primes.cpp
+// note: for example usage of bitset, see ch5/primes.cpp
 
 #include <bits/stdc++.h>
 using namespace std;

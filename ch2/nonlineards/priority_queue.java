@@ -34,13 +34,13 @@ class priority_queue {
     2000 grace
     70 martin
     */
-    pq.offer(new pair < Integer, String > (100, "john")); // inserting a pair in O(log n)
-    pq.offer(new pair < Integer, String > (10, "billy"));
-    pq.offer(new pair < Integer, String > (20, "andy"));
-    pq.offer(new pair < Integer, String > (100, "steven"));
-    pq.offer(new pair < Integer, String > (70, "felix"));
-    pq.offer(new pair < Integer, String > (2000, "grace"));
-    pq.offer(new pair < Integer, String > (70, "martin"));
+    pq.offer(new pair<Integer, String> (100, "john")); // inserting a pair in O(log n)
+    pq.offer(new pair<Integer, String> (10, "billy"));
+    pq.offer(new pair<Integer, String> (20, "andy"));
+    pq.offer(new pair<Integer, String> (100, "steven"));
+    pq.offer(new pair<Integer, String> (70, "felix"));
+    pq.offer(new pair<Integer, String> (2000, "grace"));
+    pq.offer(new pair<Integer, String> (70, "martin"));
     // this is how we use Java PriorityQueue
     // priority queue will arrange items in 'heap' based
     // on the first key in pair, which is money (integer), largest first
