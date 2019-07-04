@@ -3,86 +3,112 @@ using namespace std;
 
 typedef vector<int> vi;
 
-class SegmentTree { // the OOP Segment Tree implementation, like Heap array
-private: vi st, A;            // recall that vi is: typedef vector<int> vi;
-  int n;
-  int left (int p) { return  p<<1; }      // same as binary heap operations
-  int right(int p) { return (p<<1) + 1; }
+class SegmentTree {                              // OOP style
+private:
+  vi A;                                          // the underlying array
+  int n;                                         // n = (int)A.size()
+  vi st;                                         // segment tree array
+  vi lazy;                                       // lazy propagation array
 
-  void build(int p, int L, int R) {                           // O(n log n)
-    if (L == R)                            // as L == R, either one is fine
-      st[p] = L;                                         // store the index
-    else {                                // recursively compute the values
-      build(left(p) , L          , (L+R)/2);
-      build(right(p), (L+R)/2 + 1, R      );
-      int p1 = st[left(p)], p2 = st[right(p)];
-      st[p] = (A[p1] <= A[p2]) ? p1 : p2;
-  } }
+  int l(int p) { return  p<<1; }                 // go to left child
+  int r(int p) { return (p<<1)+1; }              // go to right child
 
-  int rmq(int p, int L, int R, int i, int j) {                  // O(log n)
-    if (i >  R || j <  L) return -1; // current segment outside query range
-    if (L >= i && R <= j) return st[p];               // inside query range
-     // compute the min position in the left and right part of the interval
-    int p1 = rmq(left(p) , L        , (L+R)/2, i, j);
-    int p2 = rmq(right(p), (L+R)/2+1, R      , i, j);
-    if (p1 == -1) return p2;   // if we try to access segment outside query
-    if (p2 == -1) return p1;                               // same as above
-    return (A[p1] <= A[p2]) ? p1 : p2; }          // as as in build routine
+  int conquer(int a, int b) {
+    if (a == -1) return b;                       // corner case
+    if (b == -1) return a;
+    return A[a] <= A[b] ? a : b;                 // RMQ
+  }
 
-  int update(int p, int L, int R, int idx, int new_value) {
-    int i = idx, j = idx;                   // for point update i = j = idx
-         // if the current interval does not intersect the update interval, 
-    if (i > R || j < L) return st[p];         // return this st node value!
-    // if the current interval is included in the update range,
-    if (L == i && R == j) {
-      A[i] = new_value;                      // update the underlying array
-      return st[p] = L;                                       // this index
+  void build(int p, int L, int R) {              // O(n)
+    if (L == R)
+      st[p] = L;                                 // base case
+    else {
+      int m = (L+R)/2;
+      build(l(p), L  , m);
+      build(r(p), m+1, R);
+      st[p] = conquer(st[l(p)], st[r(p)]);
     }
-     // compute the minimum position in the left/right part of the interval
-    int p1, p2;
-    p1 = update(left(p) , L        , (L+R)/2, idx, new_value);
-    p2 = update(right(p), (L+R)/2+1, R      , idx, new_value);
-    // return the position where the overall minimum is
-    return st[p] = (A[p1] <= A[p2]) ? p1 : p2;
+  }
+
+  void propagate(int p, int L, int R) {
+    if (lazy[p] != -1) {                         // has a lazy flag
+      st[p] = L;                                 // [L..R] has same value
+      if (L != R)                                // not a leaf
+        lazy[l(p)] = lazy[r(p)] = lazy[p];       // propagate downwards
+      else                                       // L == R, a single index
+        A[L] = lazy[p];                          // time to update this
+      lazy[p] = -1;                              // erase lazy flag
+    }
+  }
+
+  void update(int p, int L, int R, int i, int j, int val) { // O(log n)
+    propagate(p, L, R);                          // lazy propagation
+    if (i > j) return;
+    if ((L >= i) && (R <= j)) {                  // found the segment
+      A[L] = val;
+      lazy[p] = val;                             // update this
+      propagate(p, L, R);                        // lazy propagation
+    }
+    else {
+      int m = (L+R)/2;
+      update(l(p), L  , m, i          , min(m, j), val);
+      update(r(p), m+1, R, max(i, m+1), j        , val);
+      st[p] = conquer(st[l(p)], st[r(p)]);
+    }
+  }
+
+  int RMQ(int p, int L, int R, int i, int j) {   // O(log n)
+    propagate(p, L, R);                          // lazy propagation
+    if (i > j) return -1;                        // infeasible
+    if ((L >= i) && (R <= j)) return st[p];      // found the segment
+    int m = (L+R)/2;
+    return conquer(RMQ(l(p), L  , m, i          , min(m, j)),
+                   RMQ(r(p), m+1, R, max(i, m+1), j        ));
   }
 
 public:
-  SegmentTree(const vi &_A) {
-    A = _A; n = (int)A.size();              // copy content for local usage
-    st.assign(4*n, 0);              // create large enough vector of zeroes
-    build(1, 0, n-1);                                    // recursive build
+  SegmentTree(int sz) : n(sz), st(4*n), lazy(4*n, -1) {}
+
+  SegmentTree(const vi &_A) : SegmentTree((int)_A.size()) {
+    A = _A;
+    build(1, 0, n-1);
   }
-  int rmq(int i, int j) { return rmq(1, 0, n-1, i, j); }     // overloading
-  int update(int i, int v) {                                // point update
-    return update(1, 0, n-1, i, v); }
+
+  void update(int i, int j, int val) { update(1, 0, n-1, i, j, val); }
+
+  int RMQ(int i, int j) { return RMQ(1, 0, n-1, i, j); }
 };
-  
+
 int main() {
-  int arr[] = {18, 17, 13, 19, 15, 11, 20};           // the original array
-  vi A(arr, arr+7);                        // copy the contents to a vector
+  vi A = {18, 17, 13, 19, 15, 11, 20, 99};       // make n a power of 2
   SegmentTree st(A);
 
-  printf("              idx    0, 1, 2, 3, 4, 5, 6\n");
-  printf("              A is {18,17,13,19,15,11,20}\n");
-  printf("RMQ(1, 3) = %d\n", st.rmq(1, 3));             // answer = index 2
-  printf("RMQ(4, 6) = %d\n", st.rmq(4, 6));             // answer = index 5
-  printf("RMQ(3, 4) = %d\n", st.rmq(3, 4));             // answer = index 4
-  printf("RMQ(0, 0) = %d\n", st.rmq(0, 0));             // answer = index 0
-  printf("RMQ(0, 1) = %d\n", st.rmq(0, 1));             // answer = index 1
-  printf("RMQ(0, 6) = %d\n", st.rmq(0, 6));             // answer = index 5
+  printf("              idx    0, 1, 2, 3, 4, 5, 6, 7\n");
+  printf("              A is {18,17,13,19,15,11,20,oo}\n");
+  printf("RMQ(1, 3) = %d\n", st.RMQ(1, 3));      // index 2
+  printf("RMQ(4, 7) = %d\n", st.RMQ(4, 7));      // index 5
+  printf("RMQ(3, 4) = %d\n", st.RMQ(3, 4));      // index 4
 
-  printf("              idx    0, 1, 2, 3, 4, 5, 6\n");
-  printf("Now, modify A into {18,17,13,19,15,99,20}\n");
-  st.update(5, 99);                            // update A[5] from 11 to 99
-  printf("These values do not change\n");
-  printf("RMQ(1, 3) = %d\n", st.rmq(1, 3));                            // 2
-  printf("RMQ(3, 4) = %d\n", st.rmq(3, 4));                            // 4
-  printf("RMQ(0, 0) = %d\n", st.rmq(0, 0));                            // 0
-  printf("RMQ(0, 1) = %d\n", st.rmq(0, 1));                            // 1
-  printf("These values change\n");
-  printf("RMQ(0, 6) = %d\n", st.rmq(0, 6));  // answer changes = index 5->2
-  printf("RMQ(4, 6) = %d\n", st.rmq(4, 6));  // answer changes = index 5->4
-  printf("RMQ(4, 5) = %d\n", st.rmq(4, 5));  // answer changes = index 5->4
+  st.update(5, 5, 77);                           // update A[5] to 77
+  printf("              idx    0, 1, 2, 3, 4, 5, 6, 7\n");
+  printf("Now, modify A into {18,17,13,19,15,77,20,oo}\n");
+  printf("RMQ(1, 3) = %d\n", st.RMQ(1, 3));      // remains index 2
+  printf("RMQ(4, 7) = %d\n", st.RMQ(4, 7));      // now index 4
+  printf("RMQ(3, 4) = %d\n", st.RMQ(3, 4));      // remains index 4
 
-  return 0;
+  st.update(0, 3, 30);                           // update A[0..3] to 30
+  printf("              idx    0, 1, 2, 3, 4, 5, 6, 7\n");
+  printf("Now, modify A into {30,30,30,30,15,77,20,oo}\n");
+  printf("RMQ(1, 3) = %d\n", st.RMQ(1, 3));      // [0,1,2,3] all correct
+  printf("RMQ(4, 7) = %d\n", st.RMQ(4, 7));      // remains index 4
+  printf("RMQ(3, 4) = %d\n", st.RMQ(3, 4));      // remains index 4
+
+  st.update(3, 3, 7);                            // update A[3] to 7
+  printf("              idx    0, 1, 2, 3, 4, 5, 6, 7\n");
+  printf("Now, modify A into {30,30,30, 7,15,77,20,oo}\n");
+  printf("RMQ(1, 3) = %d\n", st.RMQ(1, 3));      // now index 3
+  printf("RMQ(4, 7) = %d\n", st.RMQ(4, 7));      // remains index 4
+  printf("RMQ(3, 4) = %d\n", st.RMQ(3, 4));      // now index 3
+
+  return 0;    
 }
