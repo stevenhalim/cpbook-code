@@ -8,8 +8,7 @@ typedef vector<ii> vii;
 vector<vii> AL;                                  // the graph stored in AL
 vi taken;                                        // to avoid cycle
 priority_queue<ii> pq;                           // to select shorter edges
-// note: the default setting for C++ STL priority_queue is a max heap
-// so we use -ve sign to reverse the sort order
+// C++ STL priority_queue is a max heap, we use -ve sign to reverse order
 
 void process(int u) { // set u as taken and enqueue neighbors of u
   taken[u] = 1;
@@ -42,7 +41,6 @@ int main() {
     AL[u].emplace_back(v, w);
     AL[v].emplace_back(u, w);
   }
-
   taken.assign(V, 0);                            // no vertex is taken
   process(0);                                    // take+process vertex 0
   int mst_cost = 0, num_taken = 0;               // no edge has been taken

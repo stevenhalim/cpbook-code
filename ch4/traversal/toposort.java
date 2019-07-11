@@ -18,7 +18,6 @@ public class toposort {
     ts.add(u);                                   // this is the only change
   }
 
-
   public static void main(String[] args) throws Exception {
     /*
     // Example of a Directed Acyclic Graph in Figure 4.4 (for toposort)
@@ -38,8 +37,7 @@ public class toposort {
     int V = sc.nextInt();
     AL = new ArrayList<>();
     for (int u = 0; u < V; ++u) {
-      ArrayList<IntegerPair> Neighbor = new ArrayList<>();
-      AL.add(Neighbor);                          // store blank vector first
+      AL.add(new ArrayList<>());                 // store blank vector first
       int k = sc.nextInt();
       while (k-- > 0) {
         int v = sc.nextInt(), w = sc.nextInt();

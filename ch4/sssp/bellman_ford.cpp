@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -22,10 +18,13 @@ int main() {
   3 4 3
 
   // Graph in Figure 4.19, negative cycle exists
-  3 3 0
-  0 1 1000
+  6 6 0
+  0 1 99
+  0 5 -99
   1 2 15
-  2 1 -42
+  2 3 0
+  3 1 -42
+  3 4 2
   */
 
   freopen("bellman_ford_in.txt", "r", stdin);
@@ -38,12 +37,18 @@ int main() {
   }
 
   // Bellman Ford's routine, basically = relax all E edges V-1 times
-  vi dist(V, INF); dist[s] = 0;
-  for (int i = 0; i < V-1; ++i)                  // total O(V*E)
+  vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
+  for (int i = 0; i < V-1; ++i) {                // total O(V*E)
+    bool modified = false;                       // optimization
     for (int u = 0; u < V; ++u)                  // these two loops = O(E)
       if (dist[u] != INF)                        // important check
         for (auto &[v, w] : AL[u])               // C++17 style
-          dist[v] = min(dist[v], dist[u]+w);
+          if (dist[u]+w < dist[v]) {
+            dist[v] = dist[u]+w;
+            modified = true;                     // optimization
+          }
+    if (!modified) break;                        // optimization
+  }
 
   bool hasNegativeCycle = false;
   for (int u = 0; u < V; ++u)                    // one more pass to check
@@ -54,8 +59,8 @@ int main() {
   printf("Negative Cycle Exist? %s\n", hasNegativeCycle ? "Yes" : "No");
 
   if (!hasNegativeCycle)
-    for (int i = 0; i < V; ++i)
-      printf("SSSP(%d, %d) = %d\n", s, i, dist[i]);
+    for (int u = 0; u < V; ++u)
+      printf("SSSP(%d, %d) = %d\n", s, u, dist[u]);
 
   return 0;
 }

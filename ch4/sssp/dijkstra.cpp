@@ -1,7 +1,3 @@
-// February 2019 note:
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -33,19 +29,38 @@ int main() {
     AL[u].emplace_back(v, w);                    // directed graph
   }
 
-  // (Modified) Dijkstra's routine
-  vi dist(V, INF); dist[s] = 0;
-  priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
-  // sort the pairs by increasing distance from s
+  // Original Dijkstra's algorithm
+  vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
+  set<ii> pq;                                    // balanced BST version
+  for (int u = 0; u < V; ++u)                    // dist[u] = INF
+    pq.insert({dist[u], u});                     // but dist[s] = 0
+
+  // sort the pairs by non-decreasing distance from s
   while (!pq.empty()) {                          // main loop
-    auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
-    if (d > dist[u]) continue;                   // a very important check
+    auto [d, u] = *pq.begin();                   // shortest unvisited u
+    pq.erase(pq.begin());
     for (auto &[v, w] : AL[u]) {                 // all edges from u
       if (dist[u]+w >= dist[v]) continue;        // not improving, skip
+      pq.erase(pq.find({dist[v], v}));           // erase old pair
       dist[v] = dist[u]+w;                       // relax operation
-      pq.push({dist[v], v});                     // enqueue better pair
+      pq.insert({dist[v], v});                   // enqueue better pair
     }
   }
+
+  // // (Modified) Dijkstra's algorithm
+  // vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
+  // priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
+
+  // // sort the pairs by non-decreasing distance from s
+  // while (!pq.empty()) {                          // main loop
+  //   auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
+  //   if (d > dist[u]) continue;                   // a very important check
+  //   for (auto &[v, w] : AL[u]) {                 // all edges from u
+  //     if (dist[u]+w >= dist[v]) continue;        // not improving, skip
+  //     dist[v] = dist[u]+w;                       // relax operation
+  //     pq.push({dist[v], v});                     // enqueue better pair
+  //   }
+  // }
 
   for (int u = 0; u < V; ++u)
     printf("SSSP(%d, %d) = %d\n", s, u, dist[u]);

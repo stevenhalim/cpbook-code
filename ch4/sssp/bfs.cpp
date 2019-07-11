@@ -39,14 +39,15 @@ int main() {
   int s = 5;
 
   // BFS routine inside int main() -- we do not use recursion
-  vi dist(V, INF); dist[s] = 0;                  // distance to source is 0
-  queue<int> q; q.push(s);                       // start from source s
-  p.assign(V, -1);                               // to store parent info
+  vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
+  queue<int> q; q.push(s);
+  p.assign(V, -1);                               // p is global
+
   int layer = -1;                                // for output printing
   bool isBipartite = true;                       // addition feature
 
   while (!q.empty()) {
-    int u = q.front(); q.pop();                  // queue: layer by layer!
+    int u = q.front(); q.pop();
     if (dist[u] != layer) printf("\nLayer %d: ", dist[u]);
     layer = dist[u];
     printf("visit %d, ", u);
