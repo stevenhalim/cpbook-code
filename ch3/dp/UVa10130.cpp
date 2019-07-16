@@ -5,16 +5,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_N 1010
-#define MAX_W 40
+const int MAX_N = 1010;
+const int MAX_W = 40;
 
 int N, V[MAX_N], W[MAX_N], memo[MAX_N][MAX_W];
 
-int value(int id, int w) {
-  if (id == N || w == 0) return 0;
-  if (memo[id][w] != -1) return memo[id][w];
-  if (W[id] > w)         return memo[id][w] = value(id + 1, w);
-  return memo[id][w] = max(value(id + 1, w), V[id] + value(id + 1, w - W[id]));
+int dp(int id, int remW) {
+  if ((id == N) || (remW == 0)) return 0;        // two base cases
+  int &ans = memo[id][remW];
+  if (ans != -1) return ans;                     // computed before
+  if (W[id] > remW) ans = dp(id+1, remW);        // no choice, skip
+  return ans = max(dp(id+1, remW),               // has choice, skip
+                   V[id]+dp(id+1, remW-W[id]));  // or take
 }
 
 int main() {
@@ -28,7 +30,7 @@ int main() {
     int G; scanf("%d", &G);
     while (G--) {
       int MW; scanf("%d", &MW);
-      ans += value(0, MW);
+      ans += dp(0, MW);
     }
     printf("%d\n", ans);
   }

@@ -25,34 +25,42 @@ public class bellman_ford {
 
     int V = sc.nextInt(), E = sc.nextInt(), s = sc.nextInt();
     ArrayList<ArrayList<IntegerPair>> AL = new ArrayList<>();
-    for (int i = 0; i < V; i++) {
+    for (int u = 0; u < V; ++u) {
       ArrayList<IntegerPair> Neighbor = new ArrayList<>();
-      AL.add(Neighbor); // add neighbor list to Adjacency List
+      AL.add(Neighbor);
     }
-
-    for (int i = 0; i < E; i++) {
+    while (E-- > 0) {
       int u = sc.nextInt(), v = sc.nextInt(), w = sc.nextInt();
-      AL.get(u).add(new IntegerPair(v, w)); // first time using weight
+      AL.get(u).add(new IntegerPair(v, w));
     }
     
-    // Bellman Ford's routine
-    ArrayList<Integer> dist = new ArrayList<>(Collections.nCopies(V, INF)); dist.set(s, 0);
-    for (int i = 0; i < V-1; i++) // relax all E edges V-1 times, O(V)
-      for (int u = 0; u < V; u++) // these two loops = O(E)
-        if (dist.get(u) != INF) // important: do not propagate if dist[u] == INF
-          for (IntegerPair v_w : AL.get(u))   // we can record SP spanning here if needed
-            dist.set(v_w.first(), 
-              Math.min(dist.get(v_w.first()), dist.get(u)+v_w.second()));
+  // Bellman Ford's routine, basically = relax all E edges V-1 times
+    ArrayList<Integer> dist = new ArrayList<>(Collections.nCopies(V, INF)); dist.set(s, 0); // INF = 1e9 here
+    for (int i = 0; i < V-1; ++i) {              // total O(V*E)
+      Boolean modified = false;                  // optimization
+      for (int u = 0; u < V; ++u)                // these two loops = O(E)
+        if (dist.get(u) != INF)                  // important check
+          for (IntegerPair v_w : AL.get(u)) {
+            int v = v_w.first(), w = v_w.second();
+            if (dist.get(u)+w >= dist.get(v)) continue; // not improving, skip
+            dist.set(v, dist.get(u)+w);          // relax operation
+            modified = true;                     // optimization
+          }
+      if (!modified) break;
+    }
 
     Boolean hasNegativeCycle = false;
-    for (int u = 0; u < V; u++) if (dist.get(u) != INF) // one more pass to check
-      for (IntegerPair v_w: AL.get(u))
-        if (dist.get(v_w.first()) > dist.get(u)+v_w.second()) // should be false, but if possible
-          hasNegativeCycle = true;            // then negative cycle exists!
+    for (int u = 0; u < V; ++u)                  // one more pass to check
+      if (dist.get(u) != INF)
+        for (IntegerPair v_w: AL.get(u)) {
+          int v = v_w.first(), w = v_w.second();
+          if (dist.get(v) > dist.get(u)+w)       // should be false
+          hasNegativeCycle = true;               // if true => -ve cycle
+        }
     System.out.printf("Negative Cycle Exist? %s\n", hasNegativeCycle ? "Yes" : "No");
 
     if (!hasNegativeCycle)
-      for (int i = 0; i < V; i++)
-        System.out.printf("SSSP(%d, %d) = %d\n", s, i, dist.get(i));
+      for (int u = 0; u < V; ++u)
+        System.out.printf("SSSP(%d, %d) = %d\n", s, u, dist.get(u));
   }
 }

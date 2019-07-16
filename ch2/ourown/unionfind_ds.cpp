@@ -1,9 +1,10 @@
+// Union-Find Disjoint Sets Library written in OOP manner, using both path compression and union by rank heuristics
+
 #include <bits/stdc++.h>
 using namespace std;
 
 typedef vector<int> vi;
 
-// Union-Find Disjoint Sets Library written in OOP manner, using both path compression and union by rank heuristics
 class UnionFind {                                // OOP style
 private:
   vi p, rank, setSize;                           // vi p is the key part
@@ -15,8 +16,13 @@ public:
     setSize.assign(N, 1);                        // optional feature
     numSets = N;                                 // optional feature
   }
+
   int findSet(int i) { return (p[i] == i) ? i : (p[i] = findSet(p[i])); }
   bool isSameSet(int i, int j) { return findSet(i) == findSet(j); }
+
+  int numDisjointSets() { return numSets; }      // optional
+  int sizeOfSet(int i) { return setSize[findSet(i)]; } // optional
+
   void unionSet(int i, int j) {
     if (isSameSet(i, j)) return;                 // i and j are in same set
     int x = findSet(i), y = findSet(j);          // find both rep items
@@ -26,8 +32,6 @@ public:
     setSize[y] += setSize[x];                    // combine set sizes at y
     --numSets;                                   // a union reduces numSets
   }
-  int numDisjointSets() { return numSets; }
-  int sizeOfSet(int i) { return setSize[findSet(i)]; }
 };
 
 int main() {

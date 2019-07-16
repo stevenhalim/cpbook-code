@@ -9,13 +9,13 @@ using namespace std;
 int A[MAX_n][MAX_n];
 
 int main() {
-  int n; scanf("%d", &n);                        // input square matrix size
+  int n; scanf("%d", &n);                        // square matrix size
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j) {
       scanf("%d", &A[i][j]);
       if (j > 0) A[i][j] += A[i][j-1];           // pre-processing
     }
-  int maxSubRect = -127*100*100;                 // the lowest possible val
+  int maxSubRect = -127*100*100;                 // lowest possible val
   for (int l = 0; l < n; ++l)
     for (int r = l; r < n; ++r) {
       int subRect = 0;

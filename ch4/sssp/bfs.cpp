@@ -7,12 +7,11 @@ typedef vector<int> vi; // but shortcuts are useful in competitive programming
 
 const int INF = 1e9; // INF = 1B, not 2^31-1 to avoid overflow
 
-vector<vii> AL;
-vi p;                                 // addition: the predecessor/parent vector
+vi p;                                            // addition:parent vector
 
-void printPath(int u) {    // simple function to extract information from `vi p'
+void printPath(int u) {                          // extract info from vi p
   if (p[u] == -1) { printf("%d", u); return; }
-  printPath(p[u]);   // recursive call: to make the output format: s -> ... -> t
+  printPath(p[u]);                               // output format: s -> ... -> t
   printf(" %d", u);
 }
 
@@ -28,7 +27,7 @@ int main() {
   freopen("bfs_in.txt", "r", stdin);
 
   int V, E; scanf("%d %d", &V, &E);
-  AL.assign(V, vii()); // assign blank vectors of pair<int, int>s to Al
+  vector<vii> AL(V, vii());
   for (int i = 0; i < E; ++i) {
     int a, b; scanf("%d %d", &a, &b);
     AL[a].emplace_back(b, 0);
@@ -44,14 +43,14 @@ int main() {
   p.assign(V, -1);                               // p is global
 
   int layer = -1;                                // for output printing
-  bool isBipartite = true;                       // addition feature
+  bool isBipartite = true;                       // additional feature
 
   while (!q.empty()) {
     int u = q.front(); q.pop();
     if (dist[u] != layer) printf("\nLayer %d: ", dist[u]);
     layer = dist[u];
     printf("visit %d, ", u);
-    for (auto &[v, w] : AL[u]) {                 // C++17 style
+    for (auto &[v, w] : AL[u]) {                 // C++17 style, w ignored
       if (dist[v] == INF) {
         dist[v] = dist[u]+1;                     // dist[v] != INF now
         p[v] = u;                                // parent of v is u

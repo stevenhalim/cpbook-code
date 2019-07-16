@@ -24,13 +24,15 @@ int main() {
 
   int V, E, s; scanf("%d %d %d", &V, &E, &s);
   vector<vii> AL(V, vii());
-  for (int i = 0; i < E; ++i) {
+  while (E--) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AL[u].emplace_back(v, w);                    // directed graph
   }
 
-  // Original Dijkstra's algorithm
   vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
+
+  // Original Dijkstra's algorithm
+  /*
   set<ii> pq;                                    // balanced BST version
   for (int u = 0; u < V; ++u)                    // dist[u] = INF
     pq.insert({dist[u], u});                     // but dist[s] = 0
@@ -46,21 +48,21 @@ int main() {
       pq.insert({dist[v], v});                   // enqueue better pair
     }
   }
+  */
 
-  // // (Modified) Dijkstra's algorithm
-  // vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
-  // priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
+  // (Modified) Dijkstra's algorithm
+  priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
 
-  // // sort the pairs by non-decreasing distance from s
-  // while (!pq.empty()) {                          // main loop
-  //   auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
-  //   if (d > dist[u]) continue;                   // a very important check
-  //   for (auto &[v, w] : AL[u]) {                 // all edges from u
-  //     if (dist[u]+w >= dist[v]) continue;        // not improving, skip
-  //     dist[v] = dist[u]+w;                       // relax operation
-  //     pq.push({dist[v], v});                     // enqueue better pair
-  //   }
-  // }
+  // sort the pairs by non-decreasing distance from s
+  while (!pq.empty()) {                          // main loop
+    auto [d, u] = pq.top(); pq.pop();            // shortest unvisited u
+    if (d > dist[u]) continue;                   // a very important check
+    for (auto &[v, w] : AL[u]) {                 // all edges from u
+      if (dist[u]+w >= dist[v]) continue;        // not improving, skip
+      dist[v] = dist[u]+w;                       // relax operation
+      pq.push({dist[v], v});                     // enqueue better pair
+    }
+  }
 
   for (int u = 0; u < V; ++u)
     printf("SSSP(%d, %d) = %d\n", s, u, dist[u]);

@@ -17,7 +17,7 @@ int main() {
   2 3 -10
   3 4 3
 
-  // Graph in Figure 4.19, negative cycle exists
+  // Graph in Figure 4.19, negative cycle exists, Bellman Ford's can detect this
   6 6 0
   0 1 99
   0 5 -99
@@ -31,7 +31,7 @@ int main() {
 
   int V, E, s; scanf("%d %d %d", &V, &E, &s);
   vector<vii> AL(V, vii());
-  for (int i = 0; i < E; ++i) {
+  while (E--) {
     int u, v, w; scanf("%d %d %d", &u, &v, &w);
     AL[u].emplace_back(v, w);
   }
@@ -42,11 +42,11 @@ int main() {
     bool modified = false;                       // optimization
     for (int u = 0; u < V; ++u)                  // these two loops = O(E)
       if (dist[u] != INF)                        // important check
-        for (auto &[v, w] : AL[u])               // C++17 style
-          if (dist[u]+w < dist[v]) {
-            dist[v] = dist[u]+w;
-            modified = true;                     // optimization
-          }
+        for (auto &[v, w] : AL[u]) {             // C++17 style
+          if (dist[u]+w >= dist[v]) continue;    // not improving, skip
+          dist[v] = dist[u]+w;                   // relax operation
+          modified = true;                       // optimization
+        }
     if (!modified) break;                        // optimization
   }
 

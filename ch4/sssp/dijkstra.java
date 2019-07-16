@@ -17,54 +17,58 @@ public class dijkstra {
     0 4 1
     */
 
-    File f = new File("dijkstra_in.txt");
-    Scanner sc = new Scanner(f);
+    Scanner sc = new Scanner(new File("dijkstra_in.txt"));
 
-    int V = sc.nextInt();
-    int E = sc.nextInt();
-    int s = sc.nextInt();
-
+    int V = sc.nextInt(), E = sc.nextInt(), s = sc.nextInt();
     ArrayList<ArrayList<IntegerPair>> AL = new ArrayList<>();
-    for (int i = 0; i < V; i++) {
+    for (int u = 0; u < V; ++u) {
       ArrayList<IntegerPair> Neighbor = new ArrayList<>();
-      AL.add(Neighbor); // add neighbor list to Adjacency List
+      AL.add(Neighbor);
+    }
+    while (E-- > 0) {
+      int u = sc.nextInt(), v = sc.nextInt(), w = sc.nextInt();
+      AL.get(u).add(new IntegerPair(v, w));
     }
 
-    for (int i = 0; i < E; i++) {
-      int u = sc.nextInt();
-      int v = sc.nextInt();
-      int w = sc.nextInt();
-      AL.get(u).add(new IntegerPair(v, w)); // first time using weight
-    }
+    ArrayList<Integer> dist = new ArrayList<>(Collections.nCopies(V, INF)); dist.set(s, 0); // INF = 1e9 here
 
-    // Dijkstra routine
-    ArrayList<Integer> dist = new ArrayList<> ();
-    dist.addAll(Collections.nCopies(V, INF)); dist.set(s, 0); // INF = 1*10^9 not MAX_INT to avoid overflow
-    PriorityQueue<IntegerPair> pq = new PriorityQueue<>(1, 
-      new Comparator<IntegerPair>() { // overriding the compare method 
-        public int compare(IntegerPair i, IntegerPair j) {
-          return i.first() - j.first();
-        }
+    // Original Dijkstra's algorithm
+    /*
+    TreeSet<IntegerPair> pq = new TreeSet<>();   // balanced BST version
+    for (int u = 0; u < V; ++u)                  // dist[u] = INF
+      pq.add(new IntegerPair(dist.get(u), u));   // but dist[s] = 0
+
+    // sort the pairs by non-decreasing distance from s
+    while (!pq.isEmpty()) {                      // main loop
+      IntegerPair top = pq.pollFirst();
+      int u = top.second();                      // shortest unvisited u
+      for (IntegerPair v_w : AL.get(u)) {        // all edges from u
+        int v = v_w.first(), w = v_w.second();
+        if (dist.get(u)+w >= dist.get(v)) continue; // not improving, skip
+        pq.remove(new IntegerPair(dist.get(v), v)); // erase old pair
+        dist.set(v, dist.get(u)+w);              // relax operation
+        pq.add(new IntegerPair(dist.get(v), v)); // enqueue better pair
       }
-    );
-    pq.offer(new IntegerPair(0, s)); // sort based on increasing distance
+    }
+    */
 
-    while (!pq.isEmpty()) { // main loop
-      IntegerPair top = pq.poll(); // greedy: pick shortest unvisited vertex
-      int d = top.first(), u = top.second();
-      if (d > dist.get(u)) continue; // This check is important! We want to process vertex u only once but we can
-      Iterator it = AL.get(u).iterator();
-      while (it.hasNext()) { // all outgoing edges from u
-        IntegerPair p = (IntegerPair) it.next();
-        int v = p.first();
-        int weight_u_v = p.second();
-        if (dist.get(u) + weight_u_v < dist.get(v)) { // if can relax      (note: Record SP spanning tree)
-          dist.set(v, dist.get(u) + weight_u_v); // relax                  (here if needed. This is similar)
-          pq.offer(new IntegerPair(dist.get(v), v)); //      (as printpath in BFS)
-          // enqueue this neighbor regardless whether it is already in pq or not    
-    } } }
+    // (Modified) Dijkstra's algorithm
+    PriorityQueue<IntegerPair> pq = new PriorityQueue<>(); pq.offer(new IntegerPair(0, s));
+
+    // sort the pairs by non-decreasing distance from s
+    while (!pq.isEmpty()) {                      // main loop
+      IntegerPair top = pq.poll();
+      int d = top.first(), u = top.second();     // shortest unvisited u
+      if (d > dist.get(u)) continue;             // a very important check
+      for (IntegerPair v_w : AL.get(u)) {        // all edges from u
+        int v = v_w.first(), w = v_w.second();
+        if (dist.get(u)+w >= dist.get(v)) continue; // not improving, skip
+        dist.set(v, dist.get(u)+w);              // relax operation
+        pq.offer(new IntegerPair(dist.get(v), v)); // enqueue better pair
+      }
+    }
   
-    for (int i = 0; i < V; i++) // index + 1 for final answer
-      System.out.printf("SSSP(%d, %d) = %d\n", s + 1, i + 1, dist.get(i));
+    for (int u = 0; u < V; ++u)
+      System.out.printf("SSSP(%d, %d) = %d\n", s, u, dist.get(u));
   }
 }

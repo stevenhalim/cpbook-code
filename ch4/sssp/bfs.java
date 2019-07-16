@@ -2,12 +2,13 @@ import java.util.*;
 import java.io.*;
 
 public class bfs {
-  private static int s;
+  private static final int INF = 1000000000;
+
   private static ArrayList<Integer> p = new ArrayList<>();
 
-  private static void printpath(int u) {
-    if (u == s) { System.out.printf("%d", u); return; }
-    printpath(p.get(u));
+  private static void printPath(int u) {
+    if (p.get(u) == -1) { System.out.printf("%d", u); return; }
+    printPath(p.get(u));
     System.out.printf(" %d", u);
   }
   
@@ -20,59 +21,50 @@ public class bfs {
     4 8    8 9    5 10   6 11   7 12   9 10   10 11  11 12
     */
 
-    File f = new File("bfs_in.txt");
-    Scanner sc = new Scanner(f);
+    Scanner sc = new Scanner(new File("bfs_in.txt"));
 
-    int V = sc.nextInt();
-    int E = sc.nextInt();
-
+    int V = sc.nextInt(), E = sc.nextInt();
     ArrayList<ArrayList<IntegerPair>> AL = new ArrayList<>();
-    for (int i = 0; i < V; i++) {
+    for (int u = 0; u < V; ++u) {
       ArrayList<IntegerPair> Neighbor = new ArrayList<>();
-      AL.add(Neighbor); // add neighbor list to Adjacency List
+      AL.add(Neighbor);
     }
-
-    for (int i = 0; i < E; i++) {
-      int a = sc.nextInt();
-      int b = sc.nextInt();
+    while (E-- > 0) {
+      int a = sc.nextInt(), b = sc.nextInt();
       AL.get(a).add(new IntegerPair(b, 0));
       AL.get(b).add(new IntegerPair(a, 0));
     }
 
     // as an example, we start from this source, see Figure 4.3
-    s = 5;
+    int s = 5;
 
-    // BFS routine
-    // inside void main(String[] args) -- we do not use recursion, thus we do not need to create separate function!
-    ArrayList<Integer> dist = new ArrayList<>();
-    dist.addAll(Collections.nCopies(V, 1000000000));
-    dist.set(s, 0); // start from source
+    // BFS routine inside void main(String[] args) -- we do not use recursion
+    ArrayList<Integer> dist = new ArrayList<>(Collections.nCopies(V, INF)); dist.set(s, 0); // INF = 1e9 here
     Queue<Integer> q = new LinkedList<>(); q.offer(s);
-    p.clear();
-    p.addAll(Collections.nCopies(V, -1)); // to store parent information (p must be a global variable!)
-    int layer = -1; // for our output printing purpose
-    Boolean isBipartite = true;
+    p.clear(); p.addAll(Collections.nCopies(V, -1)); // p is global
+
+    int layer = -1;                              // for output printing
+    Boolean isBipartite = true;                  // additional feature
 
     while (!q.isEmpty()) {
-      int u = q.poll(); // queue: layer by layer!
-      if (dist.get(u) != layer) System.out.printf("\nLayer %d:", dist.get(u));
+      int u = q.poll();
+      if (dist.get(u) != layer) System.out.printf("\nLayer %d: ", dist.get(u));
       layer = dist.get(u);
-      System.out.printf(", visit %d", u);
-      Iterator it = AL.get(u).iterator();
-      while (it.hasNext()) { // for each neighbours of u
-        IntegerPair v = (IntegerPair)it.next();
-        if (dist.get(v.first()) == 1000000000) { // if v not visited before
-          dist.set(v.first(), dist.get(u) + 1); // then v is reachable from u
-          q.offer(v.first()); // enqueue v for next steps
-          p.set(v.first(), u); // parent of v is u
+      System.out.printf("visit %d, ", u);
+      for (IntegerPair v_w : AL.get(u)) {
+        int v = v_w.first();                     // w ignored
+        if (dist.get(v) == INF) {
+          dist.set(v, dist.get(u)+1);            // dist[v] != INF now
+          p.set(v, u);                           // parent of v is u
+          q.offer(v);                            // for next iteration
         }
-        else if ((dist.get(v.first()) % 2) == (dist.get(u) % 2))              // same parity
+        else if ((dist.get(v)%2) == (dist.get(u)%2)) // same parity
           isBipartite = false;
       }
     }
 
     System.out.printf("\nShortest path: ");
-    printpath(7); System.out.printf("\n");
+    printPath(7); System.out.printf("\n");
     System.out.printf("isBipartite? %d\n", isBipartite ? 1 : 0);
   }
 }
