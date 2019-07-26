@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>                         // C++ code for task 5
 using namespace std;
-// utilize the natural sort order of primitive data types in the tuple
-typedef tuple<int, int, int> iii;
+typedef tuple<int, int, int> iii;                // use natural order
 int main() {
   vector<iii> birthdays;
   birthdays.emplace_back(5, 24, -1980);          // reorder DD/MM/YYYY
