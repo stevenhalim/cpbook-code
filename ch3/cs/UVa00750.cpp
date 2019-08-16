@@ -13,7 +13,7 @@ bool canPlace(int r, int c) {
 void backtrack(int c) {
   if (c == 8 && row[b] == a) {                   // a candidate sol
     printf("%2d      %d", ++lineCounter, row[0]+1);
-    for (int j = 1; j < 8; j++) printf(" %d", row[j]+1);
+    for (int j = 1; j < 8; ++j) printf(" %d", row[j]+1);
     printf("\n");
     return;                                      // optional statement
   }
