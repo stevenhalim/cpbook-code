@@ -5,13 +5,13 @@ int row[8], a, b, lineCounter;                   // global variables
 
 bool canPlace(int r, int c) {
   for (int prev = 0; prev < c; ++prev)           // check previous Queens
-    if (row[prev] == r || (abs(row[prev]-r) == abs(prev-c)))
+    if ((row[prev] == r) || (abs(row[prev]-r) == abs(prev-c)))
       return false;                              // infeasible
   return true;
 }
 
 void backtrack(int c) {
-  if (c == 8 && row[b] == a) {                   // a candidate sol
+  if ((c == 8) && (row[b] == a)) {               // a candidate sol
     printf("%2d      %d", ++lineCounter, row[0]+1);
     for (int j = 1; j < 8; ++j) printf(" %d", row[j]+1);
     printf("\n");
