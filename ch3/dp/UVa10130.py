@@ -36,31 +36,45 @@ class SamInput(object):
 # 5) remember, all this function will return a string, need to convert to int
 # 6) if there is no more element/line, it will return False (boolean object)
 
-N = 5
-coinValue = [1, 5, 10, 25, 50]
-memo = []
-
-def ways(coin_type, value):
-    if value == 0:
-        return 1
-    if value < 0 or coin_type == 5:
+def value(id, w):
+    global N, W, V, memo
+    if id == N or w == 0:
         return 0
-    if memo[coin_type][value] == -1:
-        memo[coin_type][value] = ways(coin_type+1, value) + ways(coin_type, value - coinValue[coin_type])
-    return memo[coin_type][value]
+    if memo[id][w] != -1:
+        return memo[id][w]
+    if W[id] > w:
+        memo[id][w] = value(id+1, w)
+        return memo[id][w]
+    memo[id][w] = max([value(id+1, w), V[id] + value(id+1, w-W[id])])
+    return memo[id][w]
 
 def main():
     inp = SamInput()
-    for i in range(6):
-        memoTable = [-1] * 40
-        memo.append(memoTable)
-    while True:
-        money = inp.read()
-        #my input will return False when it is arrived at the end of input
-        if not money:
-            break
-        money = int(money)
-        print(ways(0, money))
+    T = int(inp.read())
+    for _ in range(T):
+        global N, W, V, memo
+        N = int(inp.read())
+#        print("outside, N = ", N)
+        memo = []
+        for i in range(N+1):
+            memoTable = []
+            for j in range(40):
+                memoTable.append(-1)
+            memo.append(memoTable)
+
+        V = [0] * N
+        W = [0] * N
+        for i in range(N):
+            V[i] = int(inp.read())
+            W[i] = int(inp.read())
+
+        ans = 0
+        G = int(inp.read())
+        for _ in range(G):
+            MW = int(inp.read())
+#            print("MW = ", MW)
+            ans += value(0, MW)
+        print(ans)
 
 if __name__ == '__main__':
     main()

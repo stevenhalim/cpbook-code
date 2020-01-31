@@ -1,2 +1,3 @@
 import itertools
-print(list(itertools.permutations(range(4))))
+p = list(itertools.permutations(range(7)))        # iterate through p
+print(len(p))                                     # should be 7! = 5040

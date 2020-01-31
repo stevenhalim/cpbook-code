@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-  public static PrintWriter pr;
+  public static PrintWriter pw;
 
   public static void AtoR(int A) {
     // process from larger values to smaller values
@@ -19,11 +19,11 @@ class Main {
       Integer key = (Integer) i.next();
       String value = (String) cvt.get(key);
       while (A >= key) {
-        pr.print(value);
+        pw.print(value);
         A -= key;
       }
     }
-    pr.printf("\n");
+    pw.printf("\n");
   }
 
   public static void RtoA(String R) {
@@ -37,12 +37,12 @@ class Main {
         value += RtoA.get(R.charAt(i+1)) - RtoA.get(R.charAt(i)); // by definition
         i++; }                                            // skip this char
       else value += RtoA.get(R.charAt(i));
-    pr.printf("%d\n", value);
+    pw.printf("%d\n", value);
   }
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
 
     while (true) {
       String str = br.readLine();
@@ -51,6 +51,6 @@ class Main {
       else                                  RtoA(str); // Roman to Arabic Numerals
     }
 
-    pr.close();
+    pw.close();
   }
 }
