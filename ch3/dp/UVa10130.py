@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(2000)
 
 # input
 class SamInput(object):
