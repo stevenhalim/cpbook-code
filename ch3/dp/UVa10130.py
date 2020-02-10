@@ -1,81 +1,29 @@
 import sys
-sys.setrecursionlimit(2000)
-
-# input
-class SamInput(object):
-    def __init__(self):
-        self.inp = []
-        for i in sys.stdin:
-            i = i.replace("\n", "")
-            j = list(i.split())
-            self.inp.append(j)
-
-    def readln(self):
-        if len(self.inp) == 0:
-            return False
-        else:
-            return str.join(" ", self.inp.pop(0))
-
-    def read(self):
-        if len(self.inp) == 0:
-            return False
-        while len(self.inp[0]) == 0:
-            self.inp.pop(0)
-            if len(self.inp) == 0:
-                return False
-        return self.inp[0].pop(0)
-
-
-# How to use:
-# 1) copy line 1-25
-# 2) declare variable as SamInput()
-# Ex: test = SamInput()
-# 3) to read one line, use readln
-# Ex: newline = test.readln()
-# 4) to read one element(splitted by empty line / whitespace), use read
-# Ex: newline = test.read()
-# 5) remember, all this function will return a string, need to convert to int
-# 6) if there is no more element/line, it will return False (boolean object)
-
-def value(id, w):
-    global N, W, V, memo
-    if id == N or w == 0:
-        return 0
-    if memo[id][w] != -1:
-        return memo[id][w]
-    if W[id] > w:
-        memo[id][w] = value(id+1, w)
-        return memo[id][w]
-    memo[id][w] = max([value(id+1, w), V[id] + value(id+1, w-W[id])])
-    return memo[id][w]
+from functools import lru_cache
+sys.setrecursionlimit(2048)
 
 def main():
-    inp = SamInput()
-    T = int(inp.read())
-    for _ in range(T):
-        global N, W, V, memo
-        N = int(inp.read())
-#        print("outside, N = ", N)
-        memo = []
-        for i in range(N+1):
-            memoTable = []
-            for j in range(40):
-                memoTable.append(-1)
-            memo.append(memoTable)
+    tc = int(input())
+    for _ in range(tc):
+        n = int(input())
 
-        V = [0] * N
-        W = [0] * N
-        for i in range(N):
-            V[i] = int(inp.read())
-            W[i] = int(inp.read())
+        values, weights = [0] * n, [0] * n
+        for i in range(n):
+            values[i], weights[i] = map(int, input().split())
 
-        ans = 0
-        G = int(inp.read())
-        for _ in range(G):
-            MW = int(inp.read())
-#            print("MW = ", MW)
-            ans += value(0, MW)
-        print(ans)
+        @lru_cache(maxsize=None)
+        def value(i, w):
+            if i == n or w == 0:
+                return 0
+            if weights[i] > w:
+                return value(i + 1, w)
+            return max(value(i + 1, w), values[i] + value(i + 1, w - weights[i]))
+
+        groups, total = int(input()), 0
+        for _ in range(groups):
+            mw = int(input())
+            total += value(0, mw)
+        print(total)
 
 if __name__ == '__main__':
     main()
