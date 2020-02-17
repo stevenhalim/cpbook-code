@@ -1,5 +1,5 @@
 # cpbook-code
-CP4 Free Source Code Project (cpp/gnu++17, java/java8, py/python3, and ml/ocaml)
+CP4 Free Source Code Project (cpp/gnu++17, java/java11, py/python3, and ml/ocaml)
 
 All code in this repo are mostly (reasonably good, hopefully :) implementation of many well-known data structures and algorithms,
 so you are free to copy, adapt, use the code.
