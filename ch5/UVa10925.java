@@ -11,7 +11,7 @@ class Main {                                     // UVa 10925 - Krakovia
       new InputStreamReader(System.in));
     PrintWriter pw = new PrintWriter(            // and PrintWriter
       new BufferedWriter(new OutputStreamWriter(System.out))); // = fast IO
-    int caseNo = 1;
+    int caseNo = 0;
     while (true) {
       StringTokenizer st = new StringTokenizer(br.readLine());
       int N = Integer.parseInt(st.nextToken());  // N bills
@@ -22,11 +22,11 @@ class Main {                                     // UVa 10925 - Krakovia
         BigInteger V = new BigInteger(br.readLine()); // string constructor
         sum = sum.add(V);                        // BigInteger addition
       }
-      pw.printf("Bill #%d costs ", caseNo++);
+      pw.printf("Bill #%d costs ", ++caseNo);
       pw.printf(sum.toString());
       pw.printf(": each friend should pay ");
       pw.printf(sum.divide(BigInteger.valueOf(F)).toString());
-      pw.printf("\n\n"); // divide the large sum to F friends
+      pw.printf("\n\n");                         // divide to F friends
     }
     pw.close();
   }

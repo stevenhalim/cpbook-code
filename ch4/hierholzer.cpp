@@ -4,20 +4,18 @@ using namespace std;
 typedef vector<int> vi;
 
 int N;
-vector<vi> AL;
+vector<vi> AL;                                   // Directed graph
 
 vi hierholzer(int s) {
   vi ans, idx(N, 0), st;
   st.push_back(s);
   while (!st.empty()) {
     int u = st.back();
-    if (idx[u] < (int)AL[u].size()) { // still got neighbor
-cout << " push " << (char)('A'+AL[u][idx[u]]) << " to stack" << endl;
+    if (idx[u] < (int)AL[u].size()) {            // still has neighbor
       st.push_back(AL[u][idx[u]]);
       ++idx[u];
     }
     else {
-cout << "  add " << (char)('A'+u) << " to rev ans" << endl;
       ans.push_back(u);
       st.pop_back();
     }
@@ -27,7 +25,7 @@ cout << "  add " << (char)('A'+u) << " to rev ans" << endl;
 }
 
 int main() {
-  // The directed version of in Figure 4.39
+  // The directed graph shown in Figure 4.39
   N = 7;
   AL.assign(N, vi());
   AL[0].push_back(1); AL[0].push_back(6); // A->[B,G]

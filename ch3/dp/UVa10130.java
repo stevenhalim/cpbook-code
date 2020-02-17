@@ -5,38 +5,38 @@ class UVa10130 { /* SuperSale */
 
   private static final int MAX_N = 1010;
   private static final int MAX_W = 40;
-  private static int N, MW;
+  private static int N;
   private static int[] V = new int[MAX_N], W = new int[MAX_N];
   private static int[][] memo = new int[MAX_N][MAX_W];
 
-  private static int value(int id, int w) {
-    if (id == N || w == 0) return 0;
-    if (memo[id][w] != -1) return memo[id][w];
-    if (W[id] > w)         return memo[id][w] = value(id + 1, w);
-    return memo[id][w] = Math.max(value(id + 1, w), V[id] + value(id + 1, w - W[id]));
+  private static int dp(int id, int remW) {
+    if ((id == N) || (remW == 0)) return 0;
+    if (memo[id][remW] != -1) return memo[id][remW];
+    if (W[id] > remW) return memo[id][remW] = dp(id+1, remW);
+    return memo[id][remW] = Math.max(dp(id+1, remW),
+                                     V[id]+dp(id+1, remW-W[id]));
   }
 
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
-    int i, j, T, G, ans;
 
-    T = sc.nextInt();
+    int T = sc.nextInt();
     while (T-- > 0) {
-      for (i = 0; i < MAX_N; i++)
-        for (j = 0; j < MAX_W; j++)
+      for (int i = 0; i < MAX_N; ++i)
+        for (int j = 0; j < MAX_W; ++j)
           memo[i][j] = -1;
 
       N = sc.nextInt();
-      for (i = 0; i < N; i++) {
+      for (int i = 0; i < N; ++i) {
         V[i] = sc.nextInt();
         W[i] = sc.nextInt();
       }
 
-      ans = 0;
-      G = sc.nextInt();
+      int ans = 0;
+      int G = sc.nextInt();
       while (G-- > 0) {
-        MW = sc.nextInt();
-        ans += value(0, MW);
+        int MW = sc.nextInt();
+        ans += dp(0, MW);
       }
 
       System.out.printf("%d\n", ans);

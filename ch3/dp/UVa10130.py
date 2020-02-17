@@ -54,7 +54,6 @@ def main():
     for _ in range(T):
         global N, W, V, memo
         N = int(inp.read())
-#        print("outside, N = ", N)
         memo = []
         for i in range(N+1):
             memoTable = []
@@ -72,7 +71,6 @@ def main():
         G = int(inp.read())
         for _ in range(G):
             MW = int(inp.read())
-#            print("MW = ", MW)
             ans += value(0, MW)
         print(ans)
 
