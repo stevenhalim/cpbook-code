@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-class ch6_04_sa {
+class sa_lcp {
   Scanner scan;
   char T[];                        // the input string, up to 100K characters
   int n;                                             // the length of input string
@@ -186,6 +186,6 @@ class ch6_04_sa {
   }
 
   public static void main(String[] args){
-    new ch6_04_sa().run();
+    new sa_lcp().run();
   }
 }
