@@ -1,38 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_N 100010
+const int MAX_N = 100010;
 
-char T[MAX_N], P[MAX_N]; // T = text, P = pattern
-int b[MAX_N], n, m; // b = back table, n = length of T, m = length of P
+char T[MAX_N], P[MAX_N];                         // T = text, P = pattern
+int n, m;                                        // n = |T|, m = |P|
+int b[MAX_N], n, m;                              // b = back table
 
 void naiveMatching() {
-  for (int i = 0; i < n; i++) { // try all potential starting indices
+  for (int i = 0; i < n; ++i) {                  // try all starting index
     bool found = true;
-    for (int j = 0; j < m && found; j++) // use boolean flag `found'
-      if (i+j >= n || P[j] != T[i+j]) // if mismatch found
-        found = false; // abort this, shift starting index i by +1
-    if (found) // if P[0..m-1] == T[i..i+m-1]
+    for (int j = 0; (j < m) && found; ++j)
+      if ((i+j >= n) || (P[j] != T[i+j]))        // if mismatch found
+        found = false;                           // abort this, try i+1
+    if (found)                                   // T[i..i+m-1] = P[0..m-1]
       printf("P is found at index %d in T\n", i);
-} }
+  }
+}
 
-void kmpPreprocess() { // call this before calling kmpSearch()
-  int i = 0, j = -1; b[0] = -1; // starting values
-  while (i < m) { // pre-process the pattern string P
-    while (j >= 0 && P[i] != P[j]) j = b[j]; // if different, reset j using b
-    i++; j++; // if same, advance both pointers
-    b[i] = j; // observe i = 8, 9, 10, 11, 12 with j = 0, 1, 2, 3, 4
-} }           // in the example of P = "SEVENTY SEVEN" above
+void kmpPreprocess() {                           // call this first
+  int i = 0, j = -1; b[0] = -1;                  // starting values
+  while (i < m) {                                // pre-process P
+    while ((j >= 0) && (P[i] != P[j])) j = b[j]; // different, reset j
+    ++i; ++j;                                    // same, advance both
+    b[i] = j;
+  }
+}
 
-void kmpSearch() { // this is similar as kmpPreprocess(), but on string T
-  int i = 0, j = 0; // starting values
-  while (i < n) { // search through string T
-    while (j >= 0 && T[i] != P[j]) j = b[j]; // if different, reset j using b
-    i++; j++; // if same, advance both pointers
-    if (j == m) { // a match found when j == m
+void kmpSearch() {                               // similar as above
+  int i = 0, j = 0;                              // starting values
+  while (i < n) {                                // search through T
+    while ((j >= 0) && (T[i] != P[j])) j = b[j]; // if different, reset j
+    ++i; ++j;                                    // if same, advance both
+    if (j == m) {                                // a match is found
       printf("P is found at index %d in T\n", i-j);
-      j = b[j]; // prepare j for the next possible match
-} } }
+      j = b[j];                                  // prepare j for the next
+    }
+  }
+}
 
 int main() {
   strcpy(T, "I DO NOT LIKE SEVENTY SEV BUT SEVENTY SEVENTY SEVEN");
