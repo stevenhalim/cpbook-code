@@ -1,53 +1,59 @@
 // Modular Fibonacci
 
-#include <cmath>
-#include <cstdio>
-#include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
+
 ll MOD;
 
-#define MAX_N 2                                  // increase this if needed
-struct Matrix { ll mat[MAX_N][MAX_N]; };     // to let us return a 2D array
+const int MAX_N = 2;                             // 2x2 for Fib matrix
 
-Matrix matMul(Matrix a, Matrix b) {            // O(n^3), but O(1) as n = 2
-  Matrix ans; int i, j, k;
-  for (i = 0; i < MAX_N; i++)
-    for (j = 0; j < MAX_N; j++)
-      for (ans.mat[i][j] = k = 0; k < MAX_N; k++) {
-        ans.mat[i][j] += (a.mat[i][k] % MOD) * (b.mat[k][j] % MOD);
-        ans.mat[i][j] %= MOD;             // modulo arithmetic is used here
+struct Matrix { ll mat[MAX_N][MAX_N]; };         // we return a 2D array
+
+ll mod(ll a, ll m) { return ((a%m)+m) % m; }     // ensure positive answer
+
+Matrix matMul(Matrix a, Matrix b) {              // normally O(n^3)
+  Matrix ans;                                    // but O(1) as n = 2
+  for (int i = 0; i < MAX_N; ++i)
+    for (int j = 0; j < MAX_N; ++j)
+      ans.mat[i][j] = 0;
+  for (int i = 0; i < MAX_N; ++i)
+    for (int k = 0; k < MAX_N; ++k) {
+      if (a.mat[i][k] == 0) continue;            // optimization
+      for (int j = 0; j < MAX_N; ++j) {
+        ans.mat[i][j] += mod(a.mat[i][k], MOD) * mod(b.mat[k][j], MOD);
+        ans.mat[i][j] = mod(ans.mat[i][j], MOD); // modulo arithmetic
       }
+    }
   return ans;
 }
 
-Matrix matPow(Matrix base, int p) {  // O(n^3 log p), but O(log p) as n = 2
-  Matrix ans; int i, j;
-  for (i = 0; i < MAX_N; i++)
-    for (j = 0; j < MAX_N; j++)
+Matrix matPow(Matrix base, int p) {              // normally O(n^3 log p)
+  Matrix ans;                                    // but O(log p) as n = 2
+  for (int i = 0; i < MAX_N; ++i)
+    for (int j = 0; j < MAX_N; ++j)
       ans.mat[i][j] = (i == j);                  // prepare identity matrix
-  while (p) {       // iterative version of Divide & Conquer exponentiation
-    if (p & 1)                    // check if p is odd (the last bit is on)
-      ans = matMul(ans, base);                                // update ans
-    base = matMul(base, base);                           // square the base
-    p >>= 1;                                               // divide p by 2
+  while (p) {                                    // iterative D&C version
+    if (p&1)                                     // check if p is odd
+      ans = matMul(ans, base);                   // update ans
+    base = matMul(base, base);                   // square the base
+    p >>= 1;                                     // divide p by 2
   }
   return ans;
 }
 
 int main() {
-  int i, n, m;
-
+  int n, m;
   while (scanf("%d %d", &n, &m) == 2) {
-    Matrix ans;                            // special matrix for Fibonaccci
+    Matrix ans;                                  // Fibonaccci matrix
     ans.mat[0][0] = 1;  ans.mat[0][1] = 1;
     ans.mat[1][0] = 1;  ans.mat[1][1] = 0;
-    for (MOD = 1, i = 0; i < m; i++)                       // set MOD = 2^m
+    MOD = 1;
+    for (int i = 0; i < m; ++i)                  // set MOD = 2^m
       MOD *= 2;
-    ans = matPow(ans, n);                                       // O(log n) 
-    printf("%lld\n", ans.mat[0][1]);                      // this if fib(n)
+    ans = matPow(ans, n);                        // O(log n) 
+    printf("%lld\n", ans.mat[0][1]);             // this if fib(n) % MOD
   }
-
   return 0;
 }

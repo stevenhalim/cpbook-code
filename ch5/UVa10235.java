@@ -3,7 +3,7 @@
 import java.util.Scanner;
 import java.math.BigInteger;
 
-class Main {                                     // UVa 10235
+class Main {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     while (sc.hasNext()) {
@@ -14,7 +14,7 @@ class Main {                                     // UVa 10235
       BigInteger BRN = BigInteger.valueOf(RN);
       if (!BN.isProbablePrime(10))               // certainty 10 is enough
         System.out.println("not prime.");
-      else if (N != RN && BRN.isProbablePrime(10))
+      else if ((N != RN) && BRN.isProbablePrime(10))
         System.out.println("emirp.");
       else
         System.out.println("prime.");
