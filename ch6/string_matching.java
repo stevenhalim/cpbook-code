@@ -71,7 +71,7 @@ class string_matching {
   }
 
   public static void main(String[] args){
-    new ch6_02_kmp().run();
+    new string_matching().run();
   }
 }
 
