@@ -1,6 +1,6 @@
 import java.util.*;
 
-class kmp {
+class string_matching {
   char[] T, P; // T = text, P = pattern
   int n, m; // n = length of T, m = length of P
   int [] b; // b = back table
@@ -36,6 +36,8 @@ class kmp {
       }
     }
   }
+
+  // Rabin Karp's will be added soon
 
   void run() {
     String Tstr = "I DO NOT LIKE SEVENTY SEV BUT SEVENTY SEVENTY SEVEN";

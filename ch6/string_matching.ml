@@ -34,3 +34,5 @@ let () =
   let fail = failure_function pattern in
   kmp_search text pattern fail
     |> List.iter (Printf.printf "P is found at index %d in T\n")
+
+(* Rabin Karp's will be added soon *)
