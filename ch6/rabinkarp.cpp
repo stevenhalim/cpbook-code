@@ -1,43 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef vector<int> vi;
+const int MAX_N = 200010;
+
+char T[MAX_N], P[MAX_N];                         // T = text, P = pattern
+int n, m;                                        // n = |T|, m = |P|
+
+// Rabin-Karp's algorithm specific code
 typedef long long ll;
 
 const int p = 131;                               // p and M are
 const int M = 1e9+7;                             // relatively prime
 
-vi P;                                            // to store p^i % M
-vi h;                                            // to store prefix hashes
+int Pow[MAX_N];                                  // to store p^i % M
+int h[MAX_N];                                    // to store prefix hashes
 
-vi prepareP(int n) {                             // compute p^i % M
-  P.assign(n, 0);
-  P[0] = 1;
+void computeRollingHash() {                      // Overall: O(n)
+  Pow[0] = 1;                                    // compute p^i % M
   for (int i = 1; i < n; ++i)                    // O(n)
-    P[i] = ((ll)P[i-1]*p) % M;
-  return P;
-}
-
-char convert(char ch) {
-  // return ch-'A';                              // 'A'->0..'Z'->25
-  return ch;                                     // 'A'->65..'Z'->90
-}
-
-int hash_slow(string T) {                        // Overall: O(n)
-  int ans = 0;
-  for (int i = 0; i < (int)T.length(); ++i)      // O(n)
-    ans += ((ll)convert(T[i])*P[i]) % M;
-  return ans;
-}
-
-vi computeRollingHash(string T) {                // Overall: O(n)
-  vi P = prepareP((int)T.length());              // O(n)
-  vi h(T.size(), 0);
-  for (int i = 0; i < (int)T.length(); ++i) {    // O(n)
+    Pow[i] = ((ll)Pow[i-1]*p) % M;
+  h[0] = 0;
+  for (int i = 0; i < n; ++i) {                  // O(n)
     if (i != 0) h[i] = h[i-1];                   // rolling hash
-    h[i] = (h[i] + ((ll)T[i]*P[i]) % M) % M;
+    h[i] = (h[i] + ((ll)T[i]*Pow[i]) % M) % M;
   }
-  return h;
 }
 
 int extEuclid(int a, int b, int &x, int &y) {    // pass x and y by ref
@@ -64,33 +50,51 @@ int hash_fast(int L, int R) {                    // O(1) hash of any substr
   if (L == 0) return h[R];                       // h is the prefix hashes
   int ans = 0;
   ans = ((h[R] - h[L-1]) % M + M) % M;           // compute differences
-  ans = ((ll)ans * modInverse(P[L], M)) % M;     // remove P[L]^-1 (mod M)
+  ans = ((ll)ans * modInverse(Pow[L], M)) % M;   // remove P[L]^-1 (mod M)
+  // ans = (ans + M) % M;
   return ans;
 }
 
 int main() {
-  string T = "ABCBC";
-  int n = (int)T.length();
+  // strcpy(T, "ABCBC");
+  // strcpy(P, "BC");                               // should be 1 and 3
+  int extreme_limit = 2000;
+  for (int i = 0; i < extreme_limit-1; ++i) T[i] = 'A'+rand()%2;
+  T[extreme_limit-1] = 0;
+  for (int i = 0; i < extreme_limit/5; ++i) P[i] = 'A'+rand()%2;
+  P[extreme_limit/5-1] = 0;
+  n = (int)strlen(T);
+  m = (int)strlen(P);
 
-  P = prepareP(n);
-  cout << hash_slow(T) << "\n";                  // O(n) computation
+  printf("T = '%s'\n", T);
+  printf("P = '%s'\n", P);
+  printf("\n");
 
-  h = computeRollingHash(T);                     // using Rolling Hash
-  cout << hash_fast(0, n-1) << "\n";             // O(1) computation
+  computeRollingHash();                          // use Rolling Hash
+  // printf("%d\n", hash_fast(0, n-1));             // O(1) computation
 
   for (int i = 0; i < n; ++i)                    // all pairs must match
-    for (int j = i; j < n; ++j)
-      assert(hash_slow(T.substr(i, j-i+1)) == hash_fast(i, j));
+    for (int j = i; j < n; ++j) {
+      int hash_slow = 0;
+      for (int k = i; k <= j; ++k)               // O(n)
+        hash_slow = (hash_slow + (ll)T[k]*Pow[k-i]) % M;
+      if (hash_slow != hash_fast(i, j)) {
+        printf("%d-%d, %d vs %d\n", i, j, hash_slow, hash_fast(i, j));
+      }
+    }
 
   // Rabin Karp's String Matching algorithm
-  string P = "BC";                               // should be 1 and 3
-  int m = (int)P.length();
-  int hP = hash_slow(P);                         // O(n), doesn't matter
-  cout << P << " is found at indices:";
+  int hP = 0;
+  for (int i = 0; i < m; ++i)                    // O(n)
+    hP = (hP + (ll)P[i]*Pow[i]) % M;
+  // printf("P is found at indices:");
+  int freq = 0;
   for (int i = 0; i <= n-m; ++i)                 // try all starting pos
     if (hash_fast(i, i+m-1) == hP)               // a possible match
-      cout << " " << i;
-  cout << "\n";
+      ++freq;
+      // printf(" %d", i);
+  printf("%d\n", freq);
+  printf("\n");
 
   return 0;
 }

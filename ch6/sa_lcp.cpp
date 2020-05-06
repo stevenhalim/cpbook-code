@@ -28,10 +28,9 @@ private:
     RA.resize(n);
     for (int i = 0; i < n; ++i) RA[i] = T[i];    // initial rankings
     for (int k = 1; k < n; k <<= 1) {            // repeat log_2 n times
-      // this is actually radix sort: sort based on the second item
-      // and then (stable) sort based on the first item
-      countingSort(k);                             
-      countingSort(0);
+      // this is actually radix sort
+      countingSort(k);                           // sort by 2nd item
+      countingSort(0);                           // stable-sort by 1st item
       vi tempRA(n);
       int r = 0;
       tempRA[SA[0]] = r;                         // re-ranking process
@@ -53,7 +52,8 @@ private:
       Phi[SA[i]] = SA[i-1];                      // remember prev suffix
     for (int i = 0, L = 0; i < n; ++i) {         // compute PLCP in O(n)
       if (Phi[i] == -1) { PLCP[i] = 0; continue; } // special case
-      while (T[i+L] == T[Phi[i]+L]) ++L;         // L incr max n times
+      while ((i+L < n) && (Phi[i]+L < n) && (T[i+L] == T[Phi[i]+L]))
+        L++;                                     // L incr max n times
       PLCP[i] = L;
       L = max(L-1, 0);                           // L dec max n times
     }
