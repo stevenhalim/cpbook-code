@@ -1,54 +1,63 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define EPS 1e-9
-#define PI acos(-1.0)
+const double EPS = 1e-9;
 
-double DEG_to_RAD(double d) { return d * PI / 180.0; }
+double DEG_to_RAD(double d) { return d*M_PI/180.0; }
 
-double RAD_to_DEG(double r) { return r * 180.0 / PI; }
+double RAD_to_DEG(double r) { return r*180.0/M_PI; }
 
-struct point_i { int x, y;     // whenever possible, work with point_i
-  point_i() { x = y = 0; }                      // default constructor
-  point_i(int _x, int _y) : x(_x), y(_y) {} };          // constructor
+struct point_i {
+  int x, y;                                      // use this if possible
+  point_i() { x = y = 0; }                       // default constructor
+  point_i(int _x, int _y) : x(_x), y(_y) {}      // constructor
+};
 
-struct point { double x, y;   // only used if more precision is needed
-  point() { x = y = 0.0; }                      // default constructor
-  point(double _x, double _y) : x(_x), y(_y) {} };      // constructor
+struct point {
+  double x, y;                                   // if need more precision
+  point() { x = y = 0.0; }                       // default constructor
+  point(double _x, double _y) : x(_x), y(_y) {}  // constructor
+};
 
 double dist(point p1, point p2) {
-  return hypot(p1.x - p2.x, p1.y - p2.y); }
+  return hypot(p1.x-p2.x, p1.y-p2.y);
+}
 
 double perimeter(double ab, double bc, double ca) {
-  return ab + bc + ca; }
+  return ab + bc + ca;
+}
 
 double perimeter(point a, point b, point c) {
-  return dist(a, b) + dist(b, c) + dist(c, a); }
+  return dist(a, b) + dist(b, c) + dist(c, a);
+}
 
 double area(double ab, double bc, double ca) {
-  // Heron's formula, split sqrt(a * b) into sqrt(a) * sqrt(b); in implementation
+  // Heron's formula, split sqrt(a*b) into sqrt(a)*sqrt(b)
   double s = 0.5 * perimeter(ab, bc, ca);
-  return sqrt(s) * sqrt(s - ab) * sqrt(s - bc) * sqrt(s - ca); }
+  return sqrt(s) * sqrt(s-ab) * sqrt(s-bc) * sqrt(s-ca);
+}
 
 double area(point a, point b, point c) {
-  return area(dist(a, b), dist(b, c), dist(c, a)); }
+  return area(dist(a, b), dist(b, c), dist(c, a));
+}
 
 //====================================================================
-// from ch7_01_points_lines
-struct line { double a, b, c; }; // a way to represent a line
+// from points_lines
+struct line { double a, b, c; };                 // most versatile
 
 // the answer is stored in the third parameter (pass by reference)
 void pointsToLine(point p1, point p2, line &l) {
-  if (fabs(p1.x - p2.x) < EPS) {              // vertical line is fine
-    l.a = 1.0;   l.b = 0.0;   l.c = -p1.x;           // default values
-  } else {
-    l.a = -(double)(p1.y - p2.y) / (p1.x - p2.x);
-    l.b = 1.0;              // IMPORTANT: we fix the value of b to 1.0
-    l.c = -(double)(l.a * p1.x) - p1.y;
-} }
+  if (fabs(p1.x-p2.x) < EPS)                     // vertical line is fine
+    l = {1.0, 0.0, -p1.x};                       // default values
+  else {
+    double a = -(double)(p1.y-p2.y) / (p1.x-p2.x);
+    l = {a, 1.0, -(double)(a*p1.x) - p1.y};      // NOTE: b always 1.0
+  }
+}
 
-bool areParallel(line l1, line l2) {        // check coefficient a + b
-  return (fabs(l1.a-l2.a) < EPS) && (fabs(l1.b-l2.b) < EPS); }
+bool areParallel(line l1, line l2) {             // check a & b
+  return (fabs(l1.a-l2.a) < EPS) && (fabs(l1.b-l2.b) < EPS);
+}
 
 // returns true (+ intersection point) if two lines are intersect
 bool areIntersect(line l1, line l2, point &p) {
@@ -58,7 +67,8 @@ bool areIntersect(line l1, line l2, point &p) {
   // special case: test for vertical line to avoid division by zero
   if (fabs(l1.b) > EPS) p.y = -(l1.a * p.x + l1.c);
   else                  p.y = -(l2.a * p.x + l2.c);
-  return true; }
+  return true;
+}
 
 struct vec { double x, y;  // name: `vec' is different from STL vector
   vec(double _x, double _y) : x(_x), y(_y) {} };
