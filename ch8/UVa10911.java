@@ -1,56 +1,50 @@
+import java.io.*;
 import java.util.*;
 
-class UVa10911 { /* UVa 10911 - Forming Quiz Teams, 0.462s in Java, 0.032s in C++ */
-  private static int N, target;
-  private static double dist[][] = new double[20][], memo[] = new double[65536]; // this is 2^16, max N = 8
+class Main {                                     // UVa default class name
+  static int N, target;                          // max N = 8
+  static double[][] dist = new double[20][20];
+  static double[] memo = new double[1<<16];      // 1<<16 = 2^16
 
-  private static double matching(int bitmask) {         // DP state = bitmask
-                         // we initialize `memo' with -1 in the main function
-    if (memo[bitmask] > -0.5)          // this state has been computed before
-      return memo[bitmask];                   // simply lookup the memo table
-    if (bitmask == target)                // all students are already matched
-      return memo[bitmask] = 0;                              // the cost is 0
-
-    double ans = 2000000000.0;               // initialize with a large value
+  static double matching(int mask) {             // DP state = mask
+    // we initialize `memo' with -1.0 in the main function
+    if (memo[mask] > -0.5) return memo[mask];    // this has been computed
+    if (mask == target) return 0;                // all have been matched
+    double ans = 1e9;                            // init with a large value
     int p1, p2;
-    for (p1 = 0; p1 < 2 * N; p1++)
-      if ((bitmask & (1 << p1)) == 0)
-        break;                              // find the first bit that is off
-    for (p2 = p1 + 1; p2 < 2 * N; p2++)              // then, try to match p1
-      if ((bitmask & (1 << p2)) == 0) // with another bit p2 that is also off
-        ans = Math.min(ans,                               // pick the minimum
-                  dist[p1][p2] + matching(bitmask | (1 << p1) | (1 << p2)));
-
-    return memo[bitmask] = ans;    // store result in a memo table and return
+    for (p1 = 0; p1 < 2*N; ++p1)
+      if ((mask & (1<<p1)) == 0)
+        break;                                   // find the first off bit
+    for (p2 = p1+1; p2 < 2*N; ++p2)              // then, try to match p1
+      if ((mask & (1<<p2)) == 0)                 // with other off bit p2
+        ans = Math.min(ans,                      // pick the minimum
+                       dist[p1][p2] + matching(mask | (1<<p1) | (1<<p2)));
+    return memo[mask] = ans;                     // store result in a table
   }
 
-  public static void main(String[] args) {
-    int i, j, caseNo = 1;
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = 
+      new BufferedReader(new InputStreamReader(System.in));
+    PrintWriter pw = new PrintWriter(System.out);
+    int caseNo = 0;
     int[] x = new int[20], y = new int[20];
-
-    Scanner sc = new Scanner(System.in);
     while (true) {
-      N = sc.nextInt();
-      if (N == 0)
-        break;
-
-      for (i = 0; i < 2 * N; i++) {
-        String name = sc.next(); // dummy
-        x[i] = sc.nextInt();
-        y[i] = sc.nextInt();
+      N = Integer.parseInt(br.readLine());
+      if (N == 0) break;
+      for (int i = 0; i < 2*N; ++i) {
+        String[] token = br.readLine().split(" ");
+        x[i] = Integer.parseInt(token[1]);
+        y[i] = Integer.parseInt(token[2]);
       }
-
-      for (i = 0; i < 2 * N - 1; i++) {
-        dist[i] = new double[20];
-        for (j = 0; j < 2 * N; j++)
-          dist[i][j] = Math.hypot(x[i] - x[j], y[i] - y[j]);
-      }
-
-      // use DP to solve min weighted perfect matching on small general graph
-      for (i = 0; i < 65536; i++)
+      for (int i = 0; i < 2*N-1; ++i)            // build distance table
+        for (int j = i+1; j < 2*N; ++j)          // use `hypot' function
+          dist[i][j] = dist[j][i] = Math.hypot(x[i]-x[j], y[i]-y[j]);
+      // DP to solve min weighted perfect matching on small general graph
+      for (int i = 0; i < (1<<(2*N)); ++i)
         memo[i] = -1.0;
-      target = (1 << (2 * N)) - 1;
-      System.out.printf("Case %d: %.2f\n", caseNo++, matching(0));
+      target = (1<<(2*N)) - 1;
+      pw.printf("Case %d: %.2f\n", ++caseNo, matching(0));
     }
+    pw.close();
   }
 }
