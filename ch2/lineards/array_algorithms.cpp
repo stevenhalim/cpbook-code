@@ -36,7 +36,7 @@ int main() {
   printf("\n");
   printf("==================\n");
 
-  random_shuffle(v.begin(), v.end());            // shuffle the content
+  shuffle(v.begin(), v.end(), default_random_engine()); // shuffle the content
   for (auto &val : v)
     printf("%d ", val);
   printf("\n");
