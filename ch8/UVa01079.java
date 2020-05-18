@@ -67,11 +67,8 @@ class UVa01079 {
       maxL = -1.0;                             // variable to be searched for
       permutate(0, (1 << n) - 1);    // permute plane landing order, up to 8!
 
-      // other way for rounding is to use printf format string: %.0lf:%0.2lf
-      maxL = (int)(maxL + 0.5);                    // round to nearest second
-      System.out.printf("Case %d: %d:", caseNo++, (int)(maxL/60));
-      if ((int)maxL%60 < 10) System.out.printf("0"); // one digit?
-      System.out.printf("%d\n", (int)maxL%60);
+      int secs = (int)Math.round(maxL);            // round to nearest second
+      System.out.printf("Case %d: %d:%02d\n", caseNo++, secs/60, secs%60);
     }
   }
 }

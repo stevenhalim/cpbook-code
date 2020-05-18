@@ -19,7 +19,7 @@ class bit_manipulation {
 
   private static int isPowerOfTwo(int S) { return (S & (S - 1)) == 0 ? 1 : 0; }
 
-  private static int nearestPowerOfTwo(int S) { return ((int)Math.pow(2.0, (int)((Math.log((double)S) / Math.log(2.0)) + 0.5))); }
+  private static int nearestPowerOfTwo(int S) { return 1 << Math.round(Math.log((double)S) / Math.log(2.0)); }
 
   private static int turnOffLastBit(int S) { return ((S) & (S - 1)); }
 
@@ -102,7 +102,7 @@ class bit_manipulation {
       System.out.printf("Nearest power of two of %d is %d\n", i, nearestPowerOfTwo(i)); // special case for i == 0
     System.out.printf("S = %d, turn off last bit in S, S = %d\n", 40, turnOffLastBit(40));
     System.out.printf("S = %d, turn on last zero in S, S = %d\n", 41, turnOnLastZero(41));
-    System.out.printf("S = %d, turn off last consectuve bits in S, S = %d\n", 39, turnOffLastConsecutiveBits(39));
+    System.out.printf("S = %d, turn off last consecutive bits in S, S = %d\n", 39, turnOffLastConsecutiveBits(39));
     System.out.printf("S = %d, turn on last consecutive zeroes in S, S = %d\n", 36, turnOnLastConsecutiveZeroes(36));
   }
 }

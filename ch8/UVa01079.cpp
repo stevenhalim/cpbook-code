@@ -46,9 +46,8 @@ int main() {
     }
     while (next_permutation(order, order + n));     // try all permutations
 
-    // other way for rounding is to use printf format string: %.0lf:%0.2lf
-    maxL = (int)(maxL + 0.5);                    // round to nearest second
-    printf("Case %d: %d:%0.2d\n", caseNo++, (int)(maxL/60), (int)maxL%60);
+    int secs = lround(maxL);                     // round to nearest second
+    printf("Case %d: %d:%0.2d\n", caseNo++, secs/60, secs%60);
   }
 
   return 0;

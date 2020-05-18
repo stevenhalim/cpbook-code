@@ -12,7 +12,7 @@ using namespace std;
 
 #define modulo(S, N) ((S) & (N-1))   // returns S % N, where N is a power of 2
 #define isPowerOfTwo(S) (!(S & (S-1)))
-#define nearestPowerOfTwo(S) ((int)pow(2.0, (int)((log((double)S) / log(2.0)) + 0.5)))
+#define nearestPowerOfTwo(S) (1<<lround(log2(S)))
 #define turnOffLastBit(S) ((S) & (S-1))
 #define turnOnLastZero(S) ((S) | (S+1))
 #define turnOffLastConsecutiveBits(S) ((S) & (S+1))

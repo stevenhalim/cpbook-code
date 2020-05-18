@@ -25,7 +25,7 @@ def isPowerOfTwo(S):
     return (not(S & (S - 1)))
 
 def nearestPowerOfTwo(S):
-    return int(pow(2, int(((math.log(float(S), 2)) + 0.5))))
+    return 1<<round(math.log2(S))
 
 def turnOffLastBit(S):
     return (S & (S - 1))

@@ -59,9 +59,9 @@ let solve n =
 		maxL := max !maxL !hi
 	in
 	List.iter (fun perm -> load_perm perm; bSearch ()) perms;
-	let mins = Float.to_int (!maxL +. 0.5) in
+	let secs = Float.to_int (!maxL +. 0.5) in
 	incr case;
-	printf "Case %d: %d:%0.2d\n" !case (mins/60) (mins mod 60)
+	printf "Case %d: %d:%0.2d\n" !case (secs/60) (secs mod 60)
 
 
 let () =
