@@ -1,6 +1,3 @@
-// This code uses new C++17 structured binding
-// use this compiler setting "g++ -O2 -std=gnu++17 {cpp17file}"
-
 // Disclaimer: This code is a hybrid between old CP1-2-3 implementation of
 // Edmonds Karp's algorithm -- re-written in OOP fashion and the fast
 // Dinic's algorithm implementation by
@@ -15,7 +12,7 @@ typedef tuple<int, ll, ll> edge;
 typedef vector<int> vi;
 typedef pair<int, int> ii;
 
-const ll INF = 1e18; // INF = 1e18, not 2^63-1 to avoid overflow
+const ll INF = 1e18;                             // large enough
 
 class max_flow {
 private:
@@ -25,7 +22,7 @@ private:
   vi d, last;
   vector<ii> p;
 
-  bool BFS(int s, int t) { // BFS to find augmenting path in residual graph
+  bool BFS(int s, int t) {                       // find augmenting path
     d.assign(V, -1); d[s] = 0;
     queue<int> q({s});
     p.assign(V, {-1, -1});                       // record BFS sp tree
@@ -44,10 +41,10 @@ private:
   ll send_one_flow(int s, int t, ll f = INF) {   // send one flow from s->t
     if (s == t) return f;                        // bottleneck edge f found
     auto &[u, idx] = p[t];
-    auto &[v, cap, flow] = EL[idx];
+    auto &cap = get<1>(EL[idx]), &flow = get<2>(EL[idx]);
     ll pushed = send_one_flow(s, u, min(f, cap-flow));
     flow += pushed;
-    auto &[rv, rcap, rflow] = EL[idx^1];         // back edge
+    auto &rflow = get<2>(EL[idx^1]);             // back edge
     rflow -= pushed;                             // back flow
     return pushed;
   }
@@ -56,13 +53,12 @@ private:
     if ((u == t) || (f == 0)) return f;
     for (int &i = last[u]; i < (int)AL[u].size(); ++i) { // from last edge
       auto &[v, cap, flow] = EL[AL[u][i]];
-      if (d[v] == d[u]+1) {                      // in current layer graph
-        if (ll pushed = DFS(v, t, min(f, cap-flow))) {
-          flow += pushed;
-          auto &[rv, rcap, rflow] = EL[AL[u][i]^1]; // back edge
-          rflow -= pushed;
-          return pushed;
-        }
+      if (d[v] != d[u]+1) continue;              // not part of layer graph
+      if (ll pushed = DFS(v, t, min(f, cap-flow))) {
+        flow += pushed;
+        auto &rflow = get<2>(EL[AL[u][i]^1]);     // back edge
+        rflow -= pushed;
+        return pushed;
       }
     }
     return 0;
