@@ -1,3 +1,7 @@
+# This PR contains a Python 3 implementation of suffix array and some utility functions
+# The suffix array construction was translated from https://cp-algorithms.com/string/suffix-array.html (not from CP4 version)
+# AC on Kattis - dvaput and Kattis - stringmultimatching
+
 def sort_cyclic_shifts(s):
     s = [*map(ord, s)]
     n = len(s)
