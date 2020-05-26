@@ -15,8 +15,8 @@ ColumnVector GaussianElimination(int N, AugmentedMatrix Aug) {
       if (fabs(Aug.mat[j][i]) > fabs(Aug.mat[l][i]))
         l = j;                                       // remember this row l
     // swap this pivot row, reason: minimize floating point error
-    for (k = i; k <= N; k++)            // t is a temporary double variable
-      t = Aug.mat[i][k], Aug.mat[i][k] = Aug.mat[l][k], Aug.mat[l][k] = t;
+    for (k = i; k <= N; k++)
+      swap(Aug.mat[i][k], Aug.mat[l][k]);
     for (j = i + 1; j < N; j++)     // the actual forward elimination phase
       for (k = N; k >= i; k--)
         Aug.mat[j][k] -= Aug.mat[i][k] * Aug.mat[j][i] / Aug.mat[i][i];
