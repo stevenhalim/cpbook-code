@@ -2,10 +2,10 @@
 
 # IO_in1.txt
 import sys
-input = iter(sys.stdin.readlines())
-TC = int(next(input))
+inputs = iter(sys.stdin.readlines())
+TC = int(next(inputs))
 for _ in range(TC):
-    print(sum(map(int, next(input).split())))
+    print(sum(map(int, next(inputs).split())))
 
 # # IO_in2.txt
 # import sys

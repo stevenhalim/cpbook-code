@@ -1,46 +1,15 @@
 import sys
 import itertools
 
-# input
-class InputHelper(object):
-    def __init__(self):
-        self.inp = []
-        for i in sys.stdin:
-            i = i.replace("\n", "")
-            j = list(i.split())
-            self.inp.append(j)
-
-    def readln(self):
-        if len(self.inp) == 0:
-            return False
-        else:
-            return str.join(" ", self.inp.pop(0))
-
-    def read(self):
-        if len(self.inp) == 0:
-            return False
-        while len(self.inp[0]) == 0:
-            self.inp.pop(0)
-            if len(self.inp) == 0:
-                return False
-        return self.inp[0].pop(0)
-
-
 def main():
-    inp = InputHelper()
-    
-    while 1:
-        n = int(inp.read())
-        m = int(inp.read())
-
+    while True:
+        n, m = map(int, input().split())
         if n == 0 and m == 0:
             break
 
         constraints = []
-        inp.readln()
-
         for i in range(m):
-            a, b, c = map(int, inp.readln().split(" "))
+            a, b, c = map(int, input().split())
             constraints.append((a, b, c))
         
         perm = list(itertools.permutations(range(n)))
@@ -75,5 +44,4 @@ def main():
         # overall complexity = 160 * 40320 = 6M, should be doable with pruning...
         print(res)
     
-if __name__ == '__main__':
-    main()
+main()

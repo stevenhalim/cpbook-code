@@ -38,7 +38,6 @@ class SamInput(object):
 
 A = []
 
-
 def main(): #O(n^3) 1D DP + greedy (Kadane's) solution
     inp = SamInput()
 
@@ -68,5 +67,4 @@ def main(): #O(n^3) 1D DP + greedy (Kadane's) solution
     print(maxSubRect)
 
 
-if __name__ == '__main__':
-    main()
+main()

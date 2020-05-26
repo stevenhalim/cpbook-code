@@ -1,44 +1,14 @@
 import sys
 
-# input
-class InputHelper(object):
-    def __init__(self):
-        self.inp = []
-        for i in sys.stdin:
-            i = i.replace("\n", "")
-            j = list(i.split())
-            self.inp.append(j)
-
-    def readln(self):
-        if len(self.inp) == 0:
-            return False
-        else:
-            return str.join(" ", self.inp.pop(0))
-
-    def read(self):
-        if len(self.inp) == 0:
-            return False
-        while len(self.inp[0]) == 0:
-            self.inp.pop(0)
-            if len(self.inp) == 0:
-                return False
-        return self.inp[0].pop(0)
-
 def LSOne(S):
     return (-S) & S
 
 def main():
-    inp = InputHelper()
-
-    T = int(inp.read())
-    for tc in range(T):
-        n = int(inp.read())
-        p = int(inp.read())
-
-        bars = []
-        for i in range(p):
-            l = int(inp.read())
-            bars.append(l)
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        p = int(input())
+        bars = list(map(int, input().split()))
         
         found = 0
         for i in range(1 << p): #iterate through all subsets
@@ -53,10 +23,6 @@ def main():
                 found = 1
                 break
 
-        if found: 
-            print("YES") 
-        else: 
-            print("NO")
+        print("YES" if found else "NO") 
         
-if __name__ == '__main__':
-    main()
+main()

@@ -1,4 +1,4 @@
-def solve():
+def main():
     first = True
     while True:
         n = int(input())
@@ -6,8 +6,8 @@ def solve():
             break
         if not first:
             print('')
-        first=False
-        noSolution=True
+        first = False
+        noSolution = True
         for fghij in range(1234, (98765//n) + 1):
             abcde = fghij * n
             used = (fghij < 10000)
@@ -25,5 +25,4 @@ def solve():
         if noSolution:
             print('There are no solutions for {}.'.format(n))
 
-if __name__ == "__main__": 
-    solve()
+main()

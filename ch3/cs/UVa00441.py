@@ -1,7 +1,7 @@
-def solve(): 
+def main(): 
     first = True
     while True:
-        x = [int(y) for y in input().split()]
+        x = list(map(int, input().split()))
         k = x[0]
         if k is 0:
             break
@@ -16,6 +16,5 @@ def solve():
                         for e in range(d+1, k):
                             for f in range(e+1, k+1):
                                 print('{} {} {} {} {} {}'.format(x[a], x[b], x[c], x[d], x[e], x[f]))
-		
-if __name__ == "__main__": 
-    solve() 
+
+main() 
