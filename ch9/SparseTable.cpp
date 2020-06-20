@@ -1,57 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAXN 10000                           // adjust this value as needed
-#define L2_N 14        // 2^14 = 16384 > 10000, adjust this value as needed
+typedef vector<int> vi;
 
-class RMQ {                                          // Range Minimum Query
+class RMQ {                                      // OOP style
 private:
-  int i, j, k, x, y, P2[L2_N], L2[(1<<L2_N)+10], _A[MAXN], SpT[L2_N][MAXN];
+  vi A, P2, L2;
+  vector<vi> SpT;                                // the Sparse Table
 public:
-  RMQ(int n, int A[]) {    // constructor as well as pre-processing routine
-    // speed up powers of 2 and logarithmic computations
-    memset(L2, 0, sizeof L2);
-    for (i = 0; i <= L2_N; i++) {
-      P2[i] = (1<<i);
-      L2[(1<<i)] = i;
+  RMQ() {}
+  RMQ(vi &_A) : A(_A) {                          // pre-processing routine
+    int n = (int)A.size();
+    int L2_n = (int)log2(n)+1;
+    P2.assign(L2_n, 0);
+    L2.assign(1<<L2_n, 0);
+    for (int i = 0; i <= L2_n; ++i) {
+      P2[i] = (1<<i);                            // to speed up 2^i
+      L2[(1<<i)] = i;                            // to speed up log_2(i)
     }
-    L2[0] = L2[1] = 0;
-    for (i = 2; i < (1<<L2_N); i++)
+    for (int i = 2; i < P2[L2_n]; ++i)
       if (L2[i] == 0)
-        L2[i] = L2[i-1];
-
-    // initialization
-    for (j = 0; j < n; j++) {
-      _A[j] = A[j];
+        L2[i] = L2[i-1];                         // to fill in the blanks
+    SpT = vector<vi>(L2[n]+1, vi(n));
+    for (int j = 0; j < n; ++j)                  // initialization
       SpT[0][j] = j;                             // RMQ of sub array [j..j]
-    }
-
     // the two nested loops below have overall time complexity = O(n log n)
-    for (i = 1; (1<<i) <= n; i++)     // for each i s.t. 2^i <= n, O(log n)
-      for (j = 0; j+(1<<i)-1 < n; j++) {          // for each valid j, O(n)
-        x = SpT[i-1][j];                             // covers [j..j+2^i-1]
-        y = SpT[i-1][j+(1<<(i-1))];      // covers [j+(1<<(i-1))..j+(1<<i)]
+    for (int i = 1; P2[i] <= n; ++i)             // for all i s.t. 2^i <= n
+      for (int j = 0; j+P2[i]-1 < n; ++j) {      // for all valid j
+        int x = SpT[i-1][j];                     // [j..j+2^(i-1)-1]
+        int y = SpT[i-1][j+P2[i-1]];             // [j+2^(i-1)..j+2^i-1]
         SpT[i][j] = _A[x] <= _A[y] ? x : y;
       }
   }
 
   int query(int i, int j) {
-    k = L2[j-i+1];                                        // 2^k <= (j-i+1)
-    x = SpT[k][i];                                   // covers [i..i+2^k-1]
-    y = SpT[k][j-P2[k]+1];                           // covers [j-2^k+1..j]
-    // printf("%k = %d, i = %d, modj = %d, x = %d, y = %d\n", k, i, j-P2[k]+1, x, y);
-    return _A[x] <= _A[y] ? x : y;
+    int k = L2[j-i+1];                           // 2^k <= (j-i+1)
+    int x = SpT[k][i];                           // covers [i..i+2^k-1]
+    int y = SpT[k][j-P2[k]+1];                   // covers [j-2^k+1..j]
+    return A[x] <= A[y] ? x : y;
   }
 };
 
 int main() {
-  // same example as in chapter 2: segment tree
-  int n = 7, A[] = {18, 17, 13, 19, 15, 11, 20};
-  RMQ rmq(n, A);
-  // for (int i = 0; i < n; i++)
-  //   for (int j = i; j < n; j++)
-  //     printf("RMQ(%d, %d) = %d\n", i, j, rmq.query(i, j));
-  printf("%d\n", rmq.query(1, 5));
-
+  // same example as in Chapter 2: Segment Tree
+  vi A = {18, 17, 13, 19, 15, 11, 20};
+  RMQ rmq(A);
+  int n = (int)A.size();
+  for (int i = 0; i < n; ++i)
+    for (int j = i; j < n; ++j)
+      printf("RMQ(%d, %d) = %d\n", i, j, rmq.query(i, j));
   return 0;
 }

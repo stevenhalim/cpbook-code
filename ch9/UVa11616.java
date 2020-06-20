@@ -32,11 +32,13 @@ class Main {
     RtoA.put('C', 100); RtoA.put('D', 500); RtoA.put('M', 1000);
 
     int value = 0;
-    for (int i = 0; i < R.length(); i++)
+    for (int i = 0; i < R.length(); ++i)
       if (i+1 < R.length() && RtoA.get(R.charAt(i)) < RtoA.get(R.charAt(i+1))) { // check next char first
         value += RtoA.get(R.charAt(i+1)) - RtoA.get(R.charAt(i)); // by definition
-        i++; }                                            // skip this char
-      else value += RtoA.get(R.charAt(i));
+        ++i;                                              // skip this char
+      }
+      else
+        value += RtoA.get(R.charAt(i));
     pw.printf("%d\n", value);
   }
 

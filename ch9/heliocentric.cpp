@@ -43,7 +43,6 @@ int crt(vi r, vi m) {
 }
 
 int main() {
-  freopen("in.txt", "r", stdin);
   int e, m, caseNo = 0;
   while (scanf("%d %d", &e, &m) != EOF) {
     // Complete Search way, ans is in [0..365*687) or in [0..250755)

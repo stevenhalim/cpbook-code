@@ -23,7 +23,7 @@ void RtoA(string R) {
   for (int i = 0; R[i]; i++)
     if (R[i+1] && RtoA[R[i]] < RtoA[R[i+1]]) {     // check next char first
       value += RtoA[R[i+1]] - RtoA[R[i]];                  // by definition
-      i++;                                                // skip this char
+      ++i;                                                // skip this char
     }
     else
       value += RtoA[R[i]];
