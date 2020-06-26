@@ -125,16 +125,17 @@ int main() {
 
   // second part: prime factors
   vi r = primeFactors((1LL<<31)-1);              // slowest, Mersenne prime
-  for (auto &pf : r) printf("> %d\n", pf);
-
+  for (auto &pf : r)
+    printf("> %d\n", pf);
   r = primeFactors(136117223861LL);              // slow, large prime
-  for (auto &pf : r) printf("> %d\n", pf);       // 104729*1299709
-
+  for (auto &pf : r)
+    printf("> %d\n", pf);                        // 104729*1299709
   r = primeFactors(142391208960LL);              // faster, large composite
-  for (auto &pf : r) printf("> %d\n", pf);       // 2^10*3^4*5*7^4*11*13
-
+  for (auto &pf : r)
+    printf("> %d\n", pf);                        // 2^10*3^4*5*7^4*11*13
   r = primeFactors(99999820000081LL);            // the limit: 9999991^2
-  for (auto &pf : r) printf("> %d\n", pf);
+  for (auto &pf : r)
+    printf("> %d\n", pf);
   printf("\n");
 
   // r = primeFactors(100000380000361LL);        // error, beyond 9999991^2

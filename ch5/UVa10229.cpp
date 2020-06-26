@@ -23,7 +23,7 @@ Matrix matMul(Matrix a, Matrix b) {              // normally O(n^3)
       if (a.mat[i][k] == 0) continue;            // optimization
       for (int j = 0; j < MAX_N; ++j) {
         ans.mat[i][j] += mod(a.mat[i][k], MOD) * mod(b.mat[k][j], MOD);
-        ans.mat[i][j] = mod(ans.mat[i][j], MOD); // modulo arithmetic
+        ans.mat[i][j] = mod(ans.mat[i][j], MOD); // modular arithmetic
       }
     }
   return ans;
