@@ -199,11 +199,24 @@ bool collinear(point p, point q, point r) {
 }
 
 int main() {
-  point P1, P2, P3(0, 1); // note that both P1 and P2 are (0.00, 0.00)
-  printf("%d\n", P1 == P2);                                    // true
-  printf("%d\n", P1 == P3);                                   // false
-
   vector<point> P;
+  P.emplace_back(2e-9, 0);                       // largest
+  P.push_back({0, 2});                           // smallest
+  P.push_back({1e-9, 1});                        // second smallest
+  sort(P.begin(), P.end());
+  for (auto &pt : P)                             // the result is
+    printf("%.9lf, %.9lf\n", pt.x, pt.y);        // unexpected
+  // change
+  // const double EPS = 1e-9;
+  // to
+  // const double EPS = 1e-10;
+  // to fix that issue, Rule of Thumb: check the required precision
+
+  point P1, P2, P3(0, 1); // note that both P1 and P2 are (0.00, 0.00)
+  printf("%d\n", P1 == P2);                      // true
+  printf("%d\n", P1 == P3);                      // false
+
+  P.clear();
   P.push_back(point(2, 2));
   P.push_back(point(4, 3));
   P.push_back(point(2, 4));

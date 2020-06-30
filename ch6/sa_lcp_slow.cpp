@@ -18,13 +18,14 @@ int main() {
   // analysis of this sort below: O(n log n) * cmp: O(n) = O(n^2 log n)
   sort(SA.begin(), SA.end(), [](int a, int b) {  // O(n^2 log n)
     return strcmp(T+a, T+b) < 0;
-  });
+  });                                            // continued below
 
   vi LCP(n);
   LCP[0] = 0;                                    // default value
   for (int i = 1; i < n; ++i) {                  // compute by def, O(n^2)
     int L = 0;                                   // always reset L to 0
-    while (T[SA[i]+L] == T[SA[i-1]+L]) ++L;      // same L-th char, ++L
+    while ((SA[i]+L < n) && (SA[i-1]+L < n) &&
+           (T[SA[i]+L] == T[SA[i-1]+L])) ++L;    // same L-th char, ++L
     LCP[i] = L;
   }
 

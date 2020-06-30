@@ -8,8 +8,8 @@ struct vertex {
   vertex(char a): alphabet(a), exist(false) { child.assign(26, NULL); }
 };
 
-class Trie {
-private:
+class Trie {                                     // this is TRIE
+private:                                         // NOT Suffix Trie
   vertex* root;
 public:
   Trie() { root = new vertex('!'); }
@@ -59,5 +59,6 @@ int main() {
   printf("'DOG' exist? %d\n", T.search("DOG"));  // 0 (false)
   printf("Starts with 'CA' exist? %d\n", T.startsWith("CA")); // 1 (true)
   printf("Starts with 'Z' exist? %d\n", T.startsWith("Z")); // 0 (false)
+  printf("Starts with 'AT' exist? %d\n", T.startsWith("AT")); // 0 (false) for this Trie, but in a Suffix Trie, we have a suffix "AT" (from "CAT" or "RAT") that starts with "AT"
   return 0;
 }

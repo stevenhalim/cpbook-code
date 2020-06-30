@@ -143,7 +143,8 @@ int inCircumCircle(point a, point b, point c, point d) {
 }
 
 bool canFormTriangle(double a, double b, double c) {
-  return (a + b > c) && (a + c > b) && (b + c > a); }
+  return (a+b > c) && (a+c > b) && (b+c > a);
+}
 
 int main() {
   double base = 4.0, h = 3.0;

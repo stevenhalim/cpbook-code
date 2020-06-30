@@ -53,7 +53,7 @@ private:
     for (int i = 0, L = 0; i < n; ++i) {         // compute PLCP in O(n)
       if (Phi[i] == -1) { PLCP[i] = 0; continue; } // special case
       while ((i+L < n) && (Phi[i]+L < n) && (T[i+L] == T[Phi[i]+L]))
-        L++;                                     // L incr max n times
+        ++L;                                     // L incr max n times
       PLCP[i] = L;
       L = max(L-1, 0);                           // L dec max n times
     }
@@ -114,7 +114,7 @@ public:
   }
 };
 
-const int MAX_N = 200010;                        // can go up to 400K chars
+const int MAX_N = 450010;                        // can go up to 450K chars
 
 char T[MAX_N];
 char P[MAX_N];
