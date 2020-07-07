@@ -21,19 +21,19 @@ void dp(int open, int n, int value) {
 }
 
 int main() {
+  freopen("in.txt", "r", stdin);
   string s;
-  char c;
   while (getline(cin, s)) {
-    stringstream sin;
-    sin << s;
-    sin >> num[0];
-    S.clear();
+    stringstream sin(s);
     sign[0] = 1;
+    sin >> num[0];
     cnt = 1;
+    S.clear();
+    char c;
     while (sin >> c) {
-      sign[cnt] = c == '-' ? -1 : 1;
+      sign[cnt] = (c == '-' ? -1 : 1);
       sin >> num[cnt];
-      cnt++;
+      ++cnt;
     }
     memset(memo, -1, sizeof memo);
     dp(0, 0, num[0]);

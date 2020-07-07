@@ -5,7 +5,7 @@ using namespace std;
 
 typedef vector<int> vi;
 
-int N, memo[1010][2];
+int memo[1010][2];
 vector<vi> AL;                                   // undirected version
 vector<vi> Children;                             // directed version
 vi vis;
@@ -38,6 +38,7 @@ int MVC(int u, int flag) {                       // get |MVC| on Tree
 }
 
 int main() {
+  int N;
   while (scanf("%d", &N), N) {
     AL.assign(N, vi());
     Children.assign(N, vi());
@@ -55,7 +56,7 @@ int main() {
     vis.assign(N, 0);
     dfs(0); // root the tree at vertex 0
     memset(memo, -1, sizeof memo);
-    printf("%d\n", min(MVC(0, true), MVC(0, false)));
+    printf("%d\n", min(MVC(0, 1), MVC(0, 0)));
   }
   return 0;
 }

@@ -1,22 +1,3 @@
-2
-steven 1 1
-felix 8 6
-siska 6 8
-grace 1 3
-0
-
-5
-sohel 10 10
-mahmud 20 10
-sanny 5 5
-prince 1 1
-per 120 3
-mf 6 6
-kugel 50 60
-joey 3 24
-limon 6 9
-manzoor 0 0
-1
-derek 9 9
-jimmy 10 10
-0
+1 - 2 + 3 - 4 - 5
+38 + 29 - 91
+54 - 18 + 22 + 74

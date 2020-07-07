@@ -37,7 +37,6 @@ int crt(vi r, vi m) {
   for (int i = 0; i < (int)m.size(); ++i) {
     int a = mod((ll)r[i] * modInverse(mt/m[i], m[i]), m[i]);
     x = mod(x + (ll)a * (mt/m[i]), mt);
-    cout << a << "*" << (mt/m[i]) << "\n";
   }
   return x;
 }
