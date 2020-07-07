@@ -3,8 +3,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
-
 int vp(int p, int n) {                           // Legendre's formula
   int ans = 0;
   for (int pi = p; pi <= n; pi *= p)
@@ -13,17 +11,17 @@ int vp(int p, int n) {                           // Legendre's formula
 }
 
 int main() {
-  ll n, m;
-  while (scanf("%lld %lld", &n, &m) != EOF) {
+  int n, m;
+  while (scanf("%d %d", &n, &m) != EOF) {
     bool possible;
          if (m == 0) possible = false;           // special case
     else if (m <= n) possible = true;            // always true
     else {                                       // factorize m
-      unordered_map<ll, ll> factor_m;            // in any order
-      ll temp = m;
-      ll PF = 2;
-      while ((temp > 1) && (PF*PF <= m)) {
-        ll freq = 0;
+      unordered_map<int, int> factor_m;          // in any order
+      int temp = m;
+      int PF = 2;
+      while ((temp > 1) && ((long long)PF*PF <= m)) {
+        int freq = 0;
         while (temp%PF == 0) {                   // take out this factor
           ++freq;
           temp /= PF;
@@ -41,7 +39,7 @@ int main() {
         }
     }
 
-    printf("%lld %s %lld!\n", m, possible ? "divides" : "does not divide", n);
+    printf("%d %s %d!\n", m, possible ? "divides" : "does not divide", n);
   }
 
   return 0;
