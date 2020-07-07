@@ -1,6 +1,3 @@
-import java.util.Scanner;
-import java.math.BigInteger;
-
 class combinatorics {
   private static final int MAX_N = 100010;
   private static final int p = 1000000007;       // p is a prime > MAX_N
