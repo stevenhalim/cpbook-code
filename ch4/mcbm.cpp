@@ -77,8 +77,7 @@ int main() {
       int a = rand()%(int)candidates.size();     // randomize this
       match[candidates[a]] = L;
     }
-  }
-                                                 // for each free vertex
+  }                                              // for each free vertex
   for (auto &f : freeV) {                        // (in random order)
     vis.assign(Vleft, 0);                        // reset first
     MCBM += Aug(f);                              // try to match f
