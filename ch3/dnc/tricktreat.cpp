@@ -32,7 +32,7 @@ int main() {
       double m2 = hi-delta;                          // 1/3rd away from hi
       (f(m1) > f(m2)) ? lo = m1 : hi = m2;           // f is unimodal
     }
-    cout << fixed << setprecision(10) << lo << " " << f(lo) << endl;
+    cout << fixed << setprecision(10) << lo << " " << f(lo) << "\n";
   }
   return 0;
 }

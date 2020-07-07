@@ -3,8 +3,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const double EPS = 1e-9;
-
 typedef pair<int, int> ii;
 
 vector<ii> events;
@@ -23,7 +21,7 @@ bool can(double f) {
     if (events[i].second <= 0) // Fuel consumption n
       cur_n = -events[i].second;
     else if (events[i].second == 1) // Leak
-      leak_rate++;
+      ++leak_rate;
     else if (events[i].second == 2) // Gas station
       f = original_f;
     else if (events[i].second == 3) // Mechanic
@@ -60,7 +58,7 @@ int main() {
     // Binary Search the Answer (BSTA), then simulate
     // // while loop version
     // double lo = 0.0, hi = 10000.0;
-    // while (fabs(hi-lo) > EPS) {                  // answer is not found yet
+    // while (fabs(hi-lo) > 1e-9) {                 // answer is not found yet
     //   double mid = (lo+hi) / 2.0;                // try the middle value
     //   can(mid) ? hi = mid : lo = mid;            // then continue
     // }

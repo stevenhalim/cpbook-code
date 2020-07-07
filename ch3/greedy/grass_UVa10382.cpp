@@ -23,7 +23,7 @@ int main() {
     for (int i = 0; i < n; ++i) {
       scanf("%d %d", &sprinkler[i].x, &sprinkler[i].r);
       if (2*sprinkler[i].r >= w) {
-        double d_x = sqrt((double)sprinkler[i].r*sprinkler[i].r - (w/2.0) * (w/2.0));
+        double d_x = sqrt((double)sprinkler[i].r*sprinkler[i].r - (w/2.0)*(w/2.0));
         sprinkler[i].x_l = sprinkler[i].x-d_x; // sort based on smaller x_l and then larger x_r
         sprinkler[i].x_r = sprinkler[i].x+d_x;
       }
@@ -41,7 +41,7 @@ int main() {
       if (sprinkler[i].x_l < covered+EPS) {    // can cover
         double max_r = -1.0;
         int max_id;
-        for (int j = i; (j < n) && (sprinkler[j].x_l < covered+EPS); j++)
+        for (int j = i; (j < n) && (sprinkler[j].x_l < covered+EPS); ++j)
           if (sprinkler[j].x_r > max_r) {      // go to right to find
             max_r = sprinkler[j].x_r;          // interval with
             max_id = j;                        // the largest coverage

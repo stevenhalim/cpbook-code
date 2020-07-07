@@ -22,8 +22,10 @@ int main() {
       for (int j = 0; (j < m) && all_ok; ++j) { // check all constraints, max 20, each check 8 = 160
         int pos_a = p[a[j]], pos_b = p[b[j]];
         int d_pos = abs(pos_a-pos_b);
-        if (c[j] > 0) all_ok = (d_pos <= c[j]);      // positive, at most  c[j]
-        else          all_ok = (d_pos >= abs(c[j])); // negative, at least c[j]
+        if (c[j] > 0)
+          all_ok = (d_pos <= c[j]);      // positive, at most  c[j]
+        else
+          all_ok = (d_pos >= abs(c[j])); // negative, at least c[j]
       }
       if (all_ok) ++ans; // all constraints are satisfied by this permutation
     }

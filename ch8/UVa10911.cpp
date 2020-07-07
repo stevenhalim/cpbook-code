@@ -32,6 +32,11 @@ int main() {
     for (int i = 0; i < 2*N-1; ++i)              // build distance table
       for (int j = i+1; j < 2*N; ++j)            // use `hypot' function
         dist[i][j] = dist[j][i] = hypot(x[i]-x[j], y[i]-y[j]);
+    for (int i = 0; i < 2*N; ++i) {
+      for (int j = 0; j < 2*N; ++j)
+        printf("%f ", dist[i][j]);
+      printf("\n");
+    }
     for (int i = 0; i < (1<<16); ++i) memo[i] = -1.0;
     printf("Case %d: %.2lf\n", ++caseNo, dp((1<<(2*N)) - 1));
   }

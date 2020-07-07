@@ -9,7 +9,7 @@ int main() {
   int N, B;
   while (scanf("%d %d", &N, &B), (N != -1 && B != -1)) {
     priority_queue<dii> pq;                      // max pq
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < N; ++i) {
       int a; scanf("%d", &a);
       pq.push({(double)a/1.0, a, 1});            // initially, 1 box/city
     }

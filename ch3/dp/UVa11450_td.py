@@ -6,7 +6,7 @@ def main():                                       # easy to code
     TC = int(input())
     for _ in range(TC):
         M,C = map(int, input().split())
-        price = [[] * 20] * C
+        price = [[] * 20 for _ in range(C)]
         for g in range(C):
             price[g] = list(map(int, input().split())) # store k in price[g][0]
 
