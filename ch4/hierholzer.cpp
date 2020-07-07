@@ -25,7 +25,7 @@ vi hierholzer(int s) {
 }
 
 int main() {
-  // The directed graph shown in Figure 4.39
+  // The directed graph shown in Figure 4.40
   N = 7;
   AL.assign(N, vi());
   AL[0].push_back(1); AL[0].push_back(6); // A->[B,G]
@@ -38,6 +38,6 @@ int main() {
   vi ans = hierholzer(0);
   for (auto &u : ans)
     cout << (char)('A'+u) << " ";
-  cout << endl;
+  cout << "\n";
   return 0;  
 }

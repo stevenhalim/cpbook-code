@@ -6,15 +6,16 @@ typedef long long ll;
 const int MAX_N = 100010;
 const int p = 1e9+7;                             // p is a prime > MAX_N
 
-ll modPow(ll base, ll p, int m) {                // O(log p)
-       if (p == 0) return 1;
-  else if (p == 1) return base%m;
-  else {
-    ll ans = modPow(base, p/2, m)%m;
-    ans = (ans*ans)%m;
-    if (p&1) ans = (ans*base)%m;                 // if p is odd
-    return ans;
-  }
+ll mod(ll a, int m) {                            // returns a (mod m)
+  return ((a%m) + m) % m;                        // ensure positive answer
+}
+
+ll modPow(ll b, int p, int m) {                  // assume 0 <= b < m
+  if (p == 0) return 1;
+  ll ans = modPow(b, p/2, m);                    // this is O(log p)
+  ans = mod(ans*ans, m);                         // double it first
+  if (p&1) ans = mod(ans*b, m);                  // *b if p is odd
+  return ans;                                    // ans always in [0..m-1]
 }
 
 ll inv(ll a) {                                   // Fermat's little theorem
@@ -23,10 +24,10 @@ ll inv(ll a) {                                   // Fermat's little theorem
 
 ll fact[MAX_N], invFact[MAX_N];
 
-ll C(ll n, ll k) {                               // O(log p)
+ll C(int n, int k) {                             // O(log p)
   if (n < k) return 0;                           // clearly
   return (((fact[n] * inv(fact[k])) % p) * inv(fact[n-k])) % p;
-  // return (((fact[n] * invFact[k]) % p) * invFact[n-k]) % p;
+  // return (((fact[n] * invFact[k]) % p) * invFact[n-k]) % p; // O(1)
 }
 
 ll Fib[MAX_N], Cat[MAX_N];
@@ -50,7 +51,7 @@ int main() {
   Cat[0] = 1;
   for (int n = 0; n < MAX_N-1; ++n)              // O(MAX_N * log p)
     Cat[n+1] = ((4*n+2)%p * Cat[n]%p * inv(n+2)) % p;
-  cout << Cat[100000] << endl;                   // the answer is 945729344
+  cout << Cat[100000] << "\n";                   // the answer is 945729344
 
   return 0;
 }

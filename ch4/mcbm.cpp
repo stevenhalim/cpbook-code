@@ -4,18 +4,18 @@ using namespace std;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 
-vi match, vis;                                          // global variables
+vi match, vis;                                   // global variables
 vector<vi> AL;
 
-int Aug(int L) {      // return 1 if there exists an augmenting path from L
-  if (vis[L]) return 0;                               // return 0 otherwise
+int Aug(int L) {
+  if (vis[L]) return 0;                          // L visited, return 0
   vis[L] = 1;
   for (auto &R : AL[L])
-    if (match[R] == -1 || Aug(match[R])) {
-      match[R] = L;
-      return 1;                                         // found 1 matching
+    if ((match[R] == -1) || Aug(match[R])) {
+      match[R] = L;                              // flip status
+      return 1;                                  // found 1 matching
     }
-  return 0;                                                  // no matching
+  return 0;                                      // no matching
 }
 
 bool isprime(int v) {
@@ -54,38 +54,36 @@ int main() {
   // AL[3] = {}   // we use directed edges from left to right set only
   // AL[4] = {}
 
-  int V = 5, Vleft = 3;                               // we ignore vertex 0
+  int V = 5, Vleft = 3;                          // we ignore vertex 0
   AL.assign(V, vi());
   AL[1].push_back(3); AL[1].push_back(4);
   AL[2].push_back(3);
 
-  // build unweighted bipartite graph with directed edge left->right set
   unordered_set<int> freeV;
   for (int L = 0; L < Vleft; ++L)
-    freeV.insert(L);  // assume all vertices on left set are free initially
-  match.assign(V, -1);    // V is the number of vertices in bipartite graph
+    freeV.insert(L);                             // initial assumption
+  match.assign(V, -1);
   int MCBM = 0;
-
   // Greedy pre-processing for trivial Augmenting Paths
   // try commenting versus un-commenting this for-loop
-  for (int L = 0; L < Vleft; ++L) {                               // O(V+E)
+  for (int L = 0; L < Vleft; ++L) {              // O(V+E)
     vi candidates;
     for (auto &R : AL[L])
       if (match[R] == -1)
         candidates.push_back(R);
-    if (candidates.size() > 0) {
+    if ((int)candidates.size() > 0) {
       ++MCBM;
-      freeV.erase(L);              // L is matched, no longer a free vertex
-      int a = rand()%candidates.size();   // randomize this greedy matching
+      freeV.erase(L);                            // L is matched
+      int a = rand()%(int)candidates.size();     // randomize this
       match[candidates[a]] = L;
     }
   }
-
-  for (auto &f : freeV) {      // for each of the k remaining free vertices
-    vis.assign(Vleft, 0);                    // reset before each recursion
-    MCBM += Aug(f);        // once f is matched, f remains matched till end
+                                                 // for each free vertex
+  for (auto &f : freeV) {                        // (in random order)
+    vis.assign(Vleft, 0);                        // reset first
+    MCBM += Aug(f);                              // try to match f
   }
-  printf("Found %d matchings\n", MCBM);  // the answer is 2 for Figure 4.42
+  cout << "Found " << MCBM << " matchings\n";    // the answer is 2 for Figure 4.38
 
   return 0;
 }

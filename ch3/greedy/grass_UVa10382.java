@@ -14,8 +14,8 @@ class grass_UVa10382 { /* Watering Grass */
           double d_x = Math.sqrt((double)r*r - (w/2.0)*(w/2.0));
           sprinkler.add(new sp(x-d_x, x+d_x)); // sort based on smaller x_l and then larger x_r
         }
-        // else
-        //   sprinkler.add(new sp(x, x)); // to make this unselected...
+        else
+          sprinkler.add(new sp((double)x-EPS, (double)x+EPS)); // to make this unselected...
       }
    
       Collections.sort(sprinkler);               // sort the sprinklers
@@ -58,13 +58,10 @@ class sp implements Comparable<sp> {             // int: x, r; double: x_l, x_r
 
   public int compareTo(sp o) {
     if (Math.abs(this.x_l() - o.x_l()) > 1e-9)
-      return this.x_l() - o.x_l() > 0 ? -1 : 1;
-    else
-      return this.x_r() - o.x_r() > 0 ? 1 : -1;
-  // bool cmp(sp a, sp b) {
-  //   if (fabs(a.x_l - b.x_l) > EPS) return a.x_l < b.x_l;
-  //   else                           return a.x_r > b.x_r;
-  // }
+      return this.x_l() - o.x_l() > 0 ? 1 : -1;
+    else if (Math.abs(this.x_r() - o.x_r()) > 1e-9)
+      return this.x_r() - o.x_r() > 0 ? -1 : 1;
+    return 0;
   }
 
   Double x_l() { return _x_l; }
