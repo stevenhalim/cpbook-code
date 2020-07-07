@@ -18,7 +18,7 @@ int main() {
     int i;
     for (i = 0; i < (1<<n); ++i) {               // for each subset, O(2^n)
       int sum = 0;
-      // for (int j = 0; j < n; j++)             // check membership, O(n)
+      // for (int j = 0; j < n; ++j)             // check membership, O(n)
       //   if (i & (1<<j))                       // see if bit 'j' is on?
       //     sum += l[j];                        // if yes, process 'j'
       int mask = i;                              // this is now O(k)

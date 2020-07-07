@@ -6,8 +6,8 @@ using namespace std;
 int main() {
   bool first = true;
   int k;
-  while (cin >> k, k) {
-    if (!first) cout << endl;
+  while (scanf("%d", &k), k) {
+    if (!first) printf("\n");
     first = false;
     int S[16];
     for (int i = 0; i < k; ++i) scanf("%d", &S[i]);  // input: k sorted ints

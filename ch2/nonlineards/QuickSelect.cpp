@@ -6,7 +6,7 @@ int Partition(int A[], int l, int r) {
   int m = l;                                     // S1 and S2 are empty
   for (int k = l+1; k <= r; ++k) {               // explore unknown region
     if (A[k] < p) {                              // case 2
-      m++;
+      ++m;
       swap(A[k], A[m]);
     } // notice that we do nothing in case 1: a[k] >= p
   }
