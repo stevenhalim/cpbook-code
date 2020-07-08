@@ -2,9 +2,9 @@ import sys
 from enum import Enum
 
 class flag(Enum):
-  UNVISITED = 1
-  EXPLORED = 2
-  VISITED = 3
+  UNVISITED = -1
+  EXPLORED = -2
+  VISITED = -3
 
 AL = []
 dfs_num = []
