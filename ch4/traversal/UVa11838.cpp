@@ -16,7 +16,8 @@ vi dfs_num, dfs_low, S, visited;                 // global variables
 stack<int> St;
 
 void tarjanSCC(int u) {
-  dfs_low[u] = dfs_num[u] = dfsNumberCounter++;  // dfs_low[u] <= dfs_num[u]
+  dfs_num[u] = dfsNumberCounter++;
+  dfs_low[u] = dfs_num[u];                       // dfs_low[u]<=dfs_num[u]
   St.push(u);                                    // remember the order
   visited[u] = 1;
   for (auto &[v, w] : AL[u]) {
