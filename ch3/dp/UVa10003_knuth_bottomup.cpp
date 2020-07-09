@@ -1,6 +1,8 @@
 /* UVa 10003
    
    O(N^2) with Knuth-Yao dp optimization
+
+   Bottom-up implementation
 */
 #include <bits/stdc++.h>
 using namespace std;
