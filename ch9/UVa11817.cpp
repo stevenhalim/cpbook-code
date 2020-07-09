@@ -15,7 +15,7 @@ double gcDistance(double pLat, double pLong,
                        sin(pLat)*sin(qLat));
 }
 
-double EucledianDistance(double pLat, double pLong, // 3D version
+double EuclideanDistance(double pLat, double pLong, // 3D version
                          double qLat, double qLong, double radius) {
   double phi1 = (90 - pLat) * PI / 180;
   double theta1 = (360 - pLong) * PI / 180;
@@ -41,7 +41,7 @@ int main() {
   while (TC--) {
     scanf("%lf %lf %lf %lf", &lat1, &lon1, &lat2, &lon2);
     printf("%.0lf\n", gcDistance(lat1, lon1, lat2, lon2, EARTH_RAD) -
-                      EucledianDistance(lat1, lon1, lat2, lon2, EARTH_RAD));
+                      EuclideanDistance(lat1, lon1, lat2, lon2, EARTH_RAD));
   }
 
   return 0;
