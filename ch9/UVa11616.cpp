@@ -32,15 +32,10 @@ void RtoA(string R) {                            // Roman to Arabic
 
 
 int main() {
-  AtoR(2018);
-  RtoA("MMXVIII");
-  // UVa 11616 will be trivial with AtoR and RtoA methods above
-
-  // just uncomment the code below
-  // char str[1000];
-  // while (gets(str) != NULL) {
-  //   if (isdigit(str[0])) AtoR(atoi(str));       // Arabic to Roman Numerals
-  //   else                 RtoA(str);             // Roman to Arabic Numerals
-  // }
+  char str[1000];
+  while (gets(str) != NULL) {
+    if (isdigit(str[0])) AtoR(atoi(str));       // Arabic to Roman Numerals
+    else                 RtoA(str);             // Roman to Arabic Numerals
+  }
   return 0;
 }
