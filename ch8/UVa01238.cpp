@@ -3,39 +3,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int num[35], sign[35], cnt;
-int memo[35][35][6500];
-set<int> S;
+const int MAX_N = 35;
+const int OFFSET = 3000;
 
-void dp(int open, int n, int value) {
-  if (memo[open][n][value+3200] != -1) return;
-  if (n == cnt-1) {
-    S.insert(value);
-    return;
+int num[MAX_N], sign[MAX_N];
+int N;
+bool visited[MAX_N][MAX_N][6010];
+unordered_set<int> S;
+
+void dp(int idx, int open, int val) {            // OFFSET = 3000
+  if (visited[idx][open][val+OFFSET])            // has been reached before
+    return;                                      // +3000 offset to make
+                                                 // indices in [100..6000]
+  visited[idx][open][val+OFFSET] = true;         // set this to true
+  if (idx == N) {                                // last number
+    S.insert(val);                               // val is one
+    return;                                      // of expression result
   }
-  int nval = sign[n+1] * num[n+1] * (open%2 == 0 ? 1 : -1);
-  if (open > 0) dp(open-1, n+1, value+nval);
-  if (sign[n+1] == -1) dp(open+1, n+1, value+nval);
-  dp(open, n+1, value+nval);
-  memo[open][n][value+3200] = 0;
+  int nval = val + num[idx] * sign[idx] * ((open%2 == 0) ? 1 : -1);
+  if (sign[idx] == -1)                           // 1: put open bracket
+    dp(idx+1, open+1, nval);                     //    only if sign is -
+  if (open > 0)                                  // 2: put close bracket
+    dp(idx+1, open-1, nval);                     //    if we have >1 opens
+  dp(idx+1, open, nval);                         // 3: do nothing
 }
 
 int main() {
-  freopen("in.txt", "r", stdin);
   string s;
   while (getline(cin, s)) {
     stringstream sin(s);
     sign[0] = 1;
     sin >> num[0];
-    cnt = 1;
+    N = 1;
     S.clear();
     char c;
     while (sin >> c) {
-      sign[cnt] = (c == '-' ? -1 : 1);
-      sin >> num[cnt];
-      ++cnt;
+      sign[N] = (c == '-' ? -1 : 1);
+      sin >> num[N];
+      ++N;
     }
-    memset(memo, -1, sizeof memo);
+    memset(visited, false, sizeof visited);
     dp(0, 0, num[0]);
     printf("%d\n", (int)S.size());
   }
