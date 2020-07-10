@@ -21,7 +21,6 @@ void dp(int open, int n, int value) {
 }
 
 int main() {
-  freopen("in.txt", "r", stdin);
   string s;
   while (getline(cin, s)) {
     stringstream sin(s);

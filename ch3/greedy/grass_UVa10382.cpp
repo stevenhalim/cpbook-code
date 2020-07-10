@@ -18,7 +18,7 @@ bool cmp(sp a, sp b) {
 }
 
 int main() {
-  freopen("in.txt", "r", stdin);
+  // freopen("in.txt", "r", stdin);
   int n, l, w;
   while (scanf("%d %d %d", &n, &l, &w) != EOF) {
     for (int i = 0; i < n; ++i) {
