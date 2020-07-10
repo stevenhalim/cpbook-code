@@ -65,7 +65,7 @@ private:
   }
 
 public:
-  min_cost_max_flow(int _V) : V(_V), total_cost(0) {
+  min_cost_max_flow(int initialV) : V(initialV), total_cost(0) {
     EL.clear();
     AL.assign(V, vi());
     vis.assign(V, 0);

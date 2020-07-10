@@ -10,7 +10,8 @@ private:
 public:
   SparseTable() {}                               // default constructor
 
-  SparseTable(vi &_A) : A(_A) {                  // pre-processing routine
+  SparseTable(vi &initialA) {                    // pre-processing routine
+    A = initialA;
     int n = (int)A.size();
     int L2_n = (int)log2(n)+1;
     P2.assign(L2_n, 0);
@@ -33,7 +34,7 @@ public:
       for (int j = 0; j+P2[i]-1 < n; ++j) {      // for all valid j
         int x = SpT[i-1][j];                     // [j..j+2^(i-1)-1]
         int y = SpT[i-1][j+P2[i-1]];             // [j+2^(i-1)..j+2^i-1]
-        SpT[i][j] = _A[x] <= _A[y] ? x : y;
+        SpT[i][j] = A[x] <= A[y] ? x : y;
       }
   }
 
