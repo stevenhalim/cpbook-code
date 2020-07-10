@@ -91,10 +91,10 @@ class bit_manipulation {
     System.out.printf("\n");
 
     System.out.printf("9. Other tricks (not shown in the book)\n");
-    System.out.printf("8 %c 4 = %d\n", '%', modulo(8, 4));
-    System.out.printf("7 %c 4 = %d\n", '%', modulo(7, 4));
-    System.out.printf("6 %c 4 = %d\n", '%', modulo(6, 4));
-    System.out.printf("5 %c 4 = %d\n", '%', modulo(5, 4));
+    System.out.printf("8 %% 4 = %d\n", modulo(8, 4));
+    System.out.printf("7 %% 4 = %d\n", modulo(7, 4));
+    System.out.printf("6 %% 4 = %d\n", modulo(6, 4));
+    System.out.printf("5 %% 4 = %d\n", modulo(5, 4));
     System.out.printf("is %d power of two? %d\n", 9, isPowerOfTwo(9));
     System.out.printf("is %d power of two? %d\n", 8, isPowerOfTwo(8));
     System.out.printf("is %d power of two? %d\n", 7, isPowerOfTwo(7));
