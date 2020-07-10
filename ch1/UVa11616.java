@@ -4,9 +4,9 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-  public static PrintWriter pw;
+  private static PrintWriter pw;
 
-  public static void AtoR(int A) {
+  private static void AtoR(int A) {
     // process from larger values to smaller values
     TreeMap<Integer, String> cvt = new TreeMap<Integer, String>(Collections.reverseOrder());
     cvt.put(1000, "M"); cvt.put(900, "CM"); cvt.put(500, "D"); cvt.put(400, "CD");
@@ -26,20 +26,29 @@ class Main {
     pw.printf("\n");
   }
 
-  public static void RtoA(String R) {
-    TreeMap<Character, Integer> RtoA = new TreeMap<Character, Integer>();
-    RtoA.put('I', 1);   RtoA.put('V', 5);   RtoA.put('X', 10);   RtoA.put('L', 50);
-    RtoA.put('C', 100); RtoA.put('D', 500); RtoA.put('M', 1000);
+  private static int value(char letter) {
+    switch (letter) {
+      case 'I': return 1;
+      case 'V': return 5;
+      case 'X': return 10;
+      case 'L': return 50;
+      case 'C': return 100;
+      case 'D': return 500;
+      case 'M': return 1000;
+    }
+    return 0;
+  }
 
-    int value = 0;
+  private static void RtoA(String R) {
+    int ans = 0;
     for (int i = 0; i < R.length(); ++i)
-      if (i+1 < R.length() && RtoA.get(R.charAt(i)) < RtoA.get(R.charAt(i+1))) { // check next char first
-        value += RtoA.get(R.charAt(i+1)) - RtoA.get(R.charAt(i)); // by definition
-        ++i;                                              // skip this char
+      if ((i+1 < R.length()) && value(R.charAt(i)) < value(R.charAt(i+1))) { // check next char first
+        ans += value(R.charAt(i+1))-value(R.charAt(i)); // by definition
+        ++i;                                     // skip this char
       }
       else
-        value += RtoA.get(R.charAt(i));
-    pw.printf("%d\n", value);
+        ans += value(R.charAt(i));
+    pw.printf("%d\n", ans);
   }
 
   public static void main(String[] args) throws Exception {

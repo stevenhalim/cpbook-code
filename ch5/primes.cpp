@@ -133,15 +133,20 @@ int main() {
   r = primeFactors(142391208960LL);              // faster, large composite
   for (auto &pf : r)
     printf("> %d\n", pf);                        // 2^10*3^4*5*7^4*11*13
-  r = primeFactors(99999820000081LL);            // the limit: 9999991^2
+  // r = primeFactors(99999820000081LL);            // the limit: 9999991^2
+  // for (auto &pf : r)
+  //   printf("> %d\n", pf);
+  // printf("\n");
+
+  r = primeFactors(9999973LL*9999973LL);         // 9999973^2, the limit
   for (auto &pf : r)
     printf("> %d\n", pf);
   printf("\n");
-
-  // r = primeFactors(100000380000361LL);        // error, beyond 9999991^2
-  // for (auto &pf : r) printf("> %d\n", pf);
+  // r = primeFactors(9999991LL*9999991LL);         // 9999991^2, first crash
+  // for (auto &pf : r)
+  //   printf("> %d\n", pf);
   // printf("\n");
-  
+
   // third part: functions involving prime factors
   printf("numPF(%d) = %lld\n", 60, numPF(60));   // 2^2 * 3^1 * 5^1 => 4
   printf("numDiffPF(%d) = %lld\n", 60, numDiffPF(60)); // 2^2 * 3^1 * 5^1 => 3
