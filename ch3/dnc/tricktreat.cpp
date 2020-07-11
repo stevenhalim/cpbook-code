@@ -10,10 +10,10 @@ const double INF = 1e9;
 int n;
 double xs[MAX_n], ys[MAX_n]; // big, just make it global
 
-double f(double x) { // what is the earliest meeting time if all n kids meet at coordinate (x, y = 0.0)
+double f(double x) { // square of earliest meeting time if all n kids meet at coordinate (x, y = 0.0)
   double ans = -INF;
   for (int i = 0; i < n; ++i) // all n kids dash to (x, y = 0.0)
-    ans = max(ans, hypot(xs[i]-x, ys[i]));
+    ans = max(ans, (xs[i]-x) * (xs[i]-x) + ys[i] * ys[i]); // avoid computing sqrt which is slow
   return ans;
 }
 
@@ -32,7 +32,7 @@ int main() {
       double m2 = hi-delta;                          // 1/3rd away from hi
       (f(m1) > f(m2)) ? lo = m1 : hi = m2;           // f is unimodal
     }
-    cout << fixed << setprecision(10) << lo << " " << f(lo) << "\n";
+    cout << fixed << setprecision(10) << lo << " " << sqrt(f(lo)) << "\n";
   }
   return 0;
 }

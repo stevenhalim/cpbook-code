@@ -1,17 +1,17 @@
 import java.io.*;
 import java.util.*;
 
-class tricktreat_TLE { /* Trick or Treat, unfortunately TLE */
+class tricktreat { /* Trick or Treat */
   private static final int MAX_n = 50010;
   private static final double INF = 1e9;
 
   private static int n;
   private static double[] xs = new double[MAX_n], ys = new double[MAX_n]; // big, just make it global
 
-  private static double f(double x) { // what is the earliest meeting time if all n kids meet at coordinate (x, y = 0.0)
+  private static double f(double x) { // square of earliest meeting time if all n kids meet at coordinate (x, y = 0.0)
     double ans = -INF;
     for (int i = 0; i < n; ++i) // all n kids dash to (x, y = 0.0)
-      ans = Math.max(ans, Math.hypot(xs[i]-x, ys[i]));
+      ans = Math.max(ans, (xs[i]-x) * (xs[i]-x) + ys[i] * ys[i]); // avoid computing sqrt which is slow
     return ans;
   }
 
@@ -42,7 +42,7 @@ class tricktreat_TLE { /* Trick or Treat, unfortunately TLE */
         else
           hi = m2;
       }
-      pw.printf("%.10f %.10f\n", lo, f(lo));
+      pw.printf("%.10f %.10f\n", lo, Math.sqrt(f(lo)));
     }
     pw.close();
   }
