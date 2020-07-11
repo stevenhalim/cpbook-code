@@ -40,14 +40,6 @@ class UnionFind:                                # OOP style
     def sizeOfSet(self, i):
         return self.setSize[self.findSet(i)]
 
-def process(u, taken, AL, pq):                      # set u as taken and enqueue neighbors of u
-    taken[u] = 1
-    for v, w in AL[u]:
-        if (not taken[v]):
-            heappush(pq, (w, v))                    # sort by (inc) weight
-                                                    # then by (inc) id
-
-
 def main():
     # Graph in Figure 4.10 left, format: list of weighted edges
     # This example shows another form of reading graph input
@@ -60,17 +52,14 @@ def main():
     # 2 3 8
     # 3 4 9
 
-    f = open("kruskal_prim_in.txt", "r")
+    f = open("mst_in.txt", "r")
 
     V, E = map(int, f.readline().split(" "))
-    # Kruskal's algorithm merged with Prim's algorithm
-    AL = [[] for i in range(V)]                     # the graph stored in AL
+    # Kruskal's algorithm
     EL = []
     for i in range(E):
         u, v, w = map(int, f.readline().split(" ")) # read as (u, v, w)
         EL.append((w, u, v))                        # reorder as (w, u, v)
-        AL[u].append((v, w))
-        AL[v].append((u, w))
     EL.sort()                                       # sort by w, O(E log E)
 
     mst_cost = 0
@@ -89,20 +78,5 @@ def main():
 
     # note: the number of disjoint sets must eventually be 1 for a valid MST
     print("MST cost = {} (Kruskal's)".format(mst_cost))
-
-    taken = [0 for i in range(V)]                   # to avoid cycle, no vertex is taken
-    pq = []                                         # to select shorter edges
-    process(0, taken, AL, pq)                       # take+process vertex 0
-    mst_cost = 0                                    # no edge has been taken
-    num_taken = 0
-    while len(pq) > 0 and num_taken < V-1:          # until we take V-1 edges
-        w, u = heappop(pq)
-        if not taken[u]:                            # we have not taken u yet
-            num_taken += 1                          # 1 more edge is taken
-            mst_cost += w                           # add w of this edge
-            process(u, taken, AL, pq)               # take+process vertex u
-                                                    # each edge is in pq once
-
-    print("MST cost = {} (Prim's)".format(mst_cost))
 
 main()

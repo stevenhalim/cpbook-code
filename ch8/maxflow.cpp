@@ -65,7 +65,7 @@ private:
   }
 
 public:
-  max_flow(int _V) : V(_V) {
+  max_flow(int initialV) : V(initialV) {
     EL.clear();
     AL.assign(V, vi());
   }
@@ -103,12 +103,13 @@ public:
 
 int main() {
   /*
-  // Graph in Figure 4.24
+  // Graph in Figure 8.11
   4 0 3
-  2 2 3 1 7
-  2 2 1 3 2
-  1 3 7
+  2 1 8 2 8
+  2 2 1 3 8
+  1 3 8
   0
+  // the max flow value of that graph should be 16
   */
 
   freopen("maxflow_in.txt", "r", stdin);

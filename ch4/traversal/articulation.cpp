@@ -5,7 +5,7 @@ typedef pair<int, int> ii;
 typedef vector<ii> vii;
 typedef vector<int> vi;
 
-enum { UNVISITED };                              // basic flag
+enum { UNVISITED = -1 };                              // basic flag
 
 // these variables have to be global to be easily accessible by our recursion (other ways exist)
 vector<vii> AL;

@@ -68,7 +68,7 @@ public:
   vi SA;                                         // Suffix Array
   vi LCP;                                        // of adj sorted suffixes
 
-  SuffixArray(const char* _T, const int _n) : T(_T), n(_n) {
+  SuffixArray(const char* initialT, const int _n) : T(initialT), n(_n) {
     constructSA();                               // O(n log n)
     computeLCP();                                // O(n)
   }
