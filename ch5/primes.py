@@ -34,15 +34,12 @@ def primeFactors(N):
   global primes
 
   factors = []
-  PF_idx = 0
-  PF = primes[PF_idx]
-
-  while PF * PF <= N:
-    while N % PF == 0:
-      N //= PF
-      factors.append(PF)
-    PF_idx += 1
-    PF = primes[PF_idx]
+  for p in primes:
+    if p * p > N:
+      break
+    while N % p == 0:
+      N //= p
+      factors.append(p)
   if N != 1:
     factors.append(N)
 
@@ -52,16 +49,13 @@ def primeFactors(N):
 def numPF(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = 0
-
-  while PF * PF <= N:
-    while N % PF == 0:
-      N //= PF
+  for p in primes:
+    if p * p > N:
+      break
+    while N % p == 0:
+      N //= p
       ans += 1
-    PF_idx += 1
-    PF = primes[PF_idx]
   if N != 1:
     ans += 1
 
@@ -71,17 +65,14 @@ def numPF(N):
 def numDiffPF(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = 0
-
-  while PF * PF <= N:
-    if N % PF == 0:
+  for p in primes:
+    if p * p > N:
+      break
+    if N % p == 0:
       ans += 1
-    while N % PF == 0:
-      N //= PF
-    PF_idx += 1
-    PF = primes[PF_idx]
+    while N % p == 0:
+      N //= p
   if N != 1:
     ans += 1
 
@@ -91,16 +82,13 @@ def numDiffPF(N):
 def sumPF(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = 0
-
-  while PF * PF <= N:
-    while N % PF == 0:
-      N //= PF
-      ans += PF
-    PF_idx += 1
-    PF = primes[PF_idx]
+  for p in primes:
+    if p * p > N:
+      break
+    while N % p == 0:
+      N //= p
+      ans += p
   if N != 1:
     ans += N
 
@@ -110,19 +98,15 @@ def sumPF(N):
 def numDiv(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = 1
-
-  while PF * PF <= N:
+  for p in primes:
+    if p * p > N:
+      break
     power = 0
-    while N % PF == 0:
-      N //= PF
+    while N % p == 0:
+      N //= p
       power += 1
     ans = ans * (power + 1)
-    PF_idx += 1
-    PF = primes[PF_idx]
-
   if N != 1:
     return 2 * ans
   else:
@@ -132,20 +116,17 @@ def numDiv(N):
 def sumDiv(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = 1
-
-  while PF * PF <= N:
-    multiplier = PF
+  for p in primes:
+    if p * p > N:
+      break
+    multiplier = p
     total = 1
-    while N % PF == 0:
-      N //= PF
+    while N % p == 0:
+      N //= p
       total += multiplier
-      multiplier *= PF
+      multiplier *= p
     ans *= total
-    PF_idx += 1
-    PF = primes[PF_idx]
   if N != 1:
     ans *= N+1
 
@@ -155,17 +136,14 @@ def sumDiv(N):
 def EulerPhi(N):
   global primes
 
-  PF_idx = 0
-  PF = primes[PF_idx]
   ans = N
-
-  while PF * PF <= N:
-    if N % PF == 0:
-      ans -= ans // PF
-    while N % PF == 0:
-      N //= PF
-    PF_idx += 1
-    PF = primes[PF_idx]
+  for p in primes:
+    if p * p > N:
+      break
+    if N % p == 0:
+      ans -= ans // p
+    while N % p == 0:
+      N //= p
   if N != 1:
     ans -= ans // N
 
@@ -186,20 +164,32 @@ def main():
     i += 1
   print(isPrime(2**31-1))
   print(isPrime(136117223861))
+  print('')
 
   r = primeFactors(2**31-1)
-  for pf in r:
-    print('>', pf)
+  print(2**31-1)
+  print('\n'.join(['> '+str(val) for val in r]))
+  print('')
+
   r = primeFactors(136117223861)
-  for pf in r:
-    print('>', pf)
+  print(136117223861)
+  print('\n'.join(['> '+str(val) for val in r]))
+  print('')
+
+  r = primeFactors(5000000035)
+  print(5000000035)
+  print('\n'.join(['> '+str(val) for val in r]))
+  print('')
+
   r = primeFactors(142391208960)
-  for pf in r:
-    print('>', pf)
-  # r = primeFactors(99999820000081)      # 'error'
-  # for pf in r:
-  #   print('>', pf)
-  print()
+  print(142391208960)
+  print('\n'.join(['> '+str(val) for val in r]))
+  print('')
+
+  r = primeFactors(100000380000361)
+  print(100000380000361)
+  print('\n'.join(['> '+str(val) for val in r]))
+  print('')
 
   print('numPF(%d) = %d' % (60, numPF(60)))
   print('numDiffPF(%d) = %d' % (60, numDiffPF(60)))
