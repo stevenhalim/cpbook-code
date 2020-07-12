@@ -35,9 +35,8 @@ let main =
     while true do
       let e, m = scanf "%d %d\n" (fun e m -> e, m) in
       let orbit = [365; 687] in
-      let rs = [e; m] in
-      let x = crt rs orbit in
-      let ans = modu (250755 - x) 250755 in
+      let rs = [365 - e; 687 - m] in
+      let ans = crt rs orbit in
       incr caseNo;
       printf "Case %d: %d\n" !caseNo ans;
     done

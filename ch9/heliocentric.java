@@ -45,13 +45,12 @@ class heliocentric {
     while (sc.hasNext()) {
       int e = sc.nextInt(), m = sc.nextInt();
       // Chinese Remainder Theorem way
-      // x = e (mod 365)
-      // x = m (mod 687)
+      // ans = 365-e (mod 365)
+      // ans = 687-m (mod 687)
       // 365 and 687 are coprime, mt = 365*687 = 250755
       ArrayList<Integer> orbit = new ArrayList<>() {{ add(365); add(687); }}; // the number of days of earth and mars orbits, respectively, gcd(365, 687) = 1, pairwise coprime
-      ArrayList<Integer> r = new ArrayList<>() {{ add(e); add(m); }};
-      int x = crt(r, orbit); // at x-th day, earth and mars will align
-      int ans = mod(250755-x, 250755); // 250755-x more day, both earth and mars will be at day 0, note that 250755 mod (250755) = 0, i.e., today both planets are on day 0 of their orbits already
+      ArrayList<Integer> r = new ArrayList<>() {{ add(365-e); add(687-m); }};
+      int ans = crt(r, orbit);
 
       System.out.printf("Case %d: %d\n", ++caseNo, ans);
     }
