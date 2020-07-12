@@ -5,15 +5,10 @@ if __name__ == '__main__':
     n = int(line.strip('\n'))
     xs = [0] * n
     ys = [0] * n
-    yq = [0] * n
     if n == 0:
       break
     for i in range(n):
       xs[i], ys[i] = map(float, sys.stdin.readline().strip('\n').split())
-      yq[i] = ys[i]**2
-    xs = tuple(xs)
-    ys = tuple(ys)
-    yq = tuple(yq)
     lo = min(xs)
     hi = max(xs)
     for i in range(50):
@@ -24,8 +19,8 @@ if __name__ == '__main__':
       ans_m1 = -1
       ans_m2 = -1
       for j in range(n):
-        ans_m1 = max(ans_m1, (xs[j]-m1)**2 + yq[j])
-        ans_m2 = max(ans_m2, (xs[j]-m2)**2 + yq[j])
+        ans_m1 = max(ans_m1, (xs[j]-m1)**2 + ys[j]**2)
+        ans_m2 = max(ans_m2, (xs[j]-m2)**2 + ys[j]**2)
 
       if ans_m1 > ans_m2:
         lo = m1
