@@ -18,7 +18,7 @@ class QuickSelect {
   static int RandPartition(int[] A, int l, int r) {
     Random rnd = new Random();
     int p = l + rnd.nextInt(r-l+1);              // select a random pivot
-    int temp = A[r]; A[r] = A[p]; A[p] = temp;   // swap A[p] with A[r]
+    int temp = A[l]; A[l] = A[p]; A[p] = temp;   // swap A[p] with A[l]
     return Partition(A, l, r);
   }
 

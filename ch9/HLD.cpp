@@ -38,26 +38,26 @@ void decompose(int x, int p) {
 int main() {
   // as in Figure in HLD section, not yet rooted
   int N = 19;
-  AL.assign(N, vi());
-  AL[0].push_back(1); AL[0].push_back(2); AL[0].push_back(3);
-  AL[1].push_back(0); AL[1].push_back(4);
-  AL[2].push_back(0); AL[2].push_back(5); AL[2].push_back(6); AL[2].push_back(7);
-  AL[3].push_back(0); AL[3].push_back(8);
-  AL[4].push_back(1); AL[4].push_back(9); AL[4].push_back(10);
-  AL[5].push_back(2);
-  AL[6].push_back(2);
-  AL[7].push_back(2); AL[7].push_back(11); AL[7].push_back(12);
-  AL[8].push_back(3);
-  AL[9].push_back(4);
-  AL[10].push_back(4); AL[10].push_back(13);
-  AL[11].push_back(7); AL[11].push_back(14);
-  AL[12].push_back(7); AL[12].push_back(15);
-  AL[13].push_back(10);
-  AL[14].push_back(11); AL[14].push_back(16);
-  AL[15].push_back(12); AL[15].push_back(17); AL[15].push_back(18);
-  AL[16].push_back(14);
-  AL[17].push_back(15);
-  AL[18].push_back(15);
+  AL.assign(N,  {});
+  AL[0] = {1, 2, 3};
+  AL[1] = {0, 4};
+  AL[2] = {0, 5, 6, 7};
+  AL[3] = {0, 8};
+  AL[4] = {1, 9, 10};
+  AL[5] = {2};
+  AL[6] = {2};
+  AL[7] = {2, 11, 12};
+  AL[8] = {3};
+  AL[9] = {4};
+  AL[10] = {4, 13};
+  AL[11] = {7, 14};
+  AL[12] = {7, 15};
+  AL[13] = {10};
+  AL[14] = {11, 16};
+  AL[15] = {12, 17, 18};
+  AL[16] = {14};
+  AL[17] = {15};
+  AL[18] = {15};
 
   par.assign(N, -1);
   heavy.assign(N, -1);

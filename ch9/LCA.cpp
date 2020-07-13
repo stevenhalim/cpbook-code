@@ -24,11 +24,11 @@ void buildRMQ() {
 }
 
 int main() {
-  children.assign(10, vector<int>());
-  children[0].push_back(1); children[0].push_back(7);
-  children[1].push_back(2); children[1].push_back(3); children[1].push_back(6);
-  children[3].push_back(4); children[3].push_back(5);
-  children[7].push_back(8); children[7].push_back(9);
+  children.assign(10, {});
+  children[0] = {1, 7};
+  children[1] = {2, 3, 6};
+  children[3] = {4, 5};
+  children[7] = {8, 9};
 
   buildRMQ();
   for (int i = 0; i < 2*10-1; i++) printf("%d ", H[i]);

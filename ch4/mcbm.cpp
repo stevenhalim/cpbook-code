@@ -55,9 +55,9 @@ int main() {
   // AL[4] = {}
 
   int V = 5, Vleft = 3;                          // we ignore vertex 0
-  AL.assign(V, vi());
-  AL[1].push_back(3); AL[1].push_back(4);
-  AL[2].push_back(3);
+  AL.assign(V, {});
+  AL[1] = {3, 4};
+  AL[2] = {3};
 
   unordered_set<int> freeV;
   for (int L = 0; L < Vleft; ++L)

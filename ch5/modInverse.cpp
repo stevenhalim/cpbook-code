@@ -18,9 +18,9 @@ int extEuclid(int a, int b, int &x, int &y) {    // pass x and y by ref
   int yy = x = 1;
   while (b) {                                    // repeats until b == 0
     int q = a/b;
-    int t = b; b = a%b; a = t;
-    t = xx; xx = x-q*xx; x = t;
-    t = yy; yy = y-q*yy; y = t;
+    tie(a, b) = tuple(b, a%b);
+    tie(x, xx) = tuple(xx, x-q*xx);
+    tie(y, yy) = tuple(yy, y-q*yy);
   }
   return a;                                      // returns gcd(a, b)
 }

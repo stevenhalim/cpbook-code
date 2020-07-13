@@ -27,14 +27,14 @@ vi hierholzer(int s) {
 int main() {
   // The directed graph shown in Figure 4.40
   N = 7;
-  AL.assign(N, vi());
-  AL[0].push_back(1); AL[0].push_back(6); // A->[B,G]
-  AL[1].push_back(2); // B->C
-  AL[2].push_back(3); AL[2].push_back(4); // C->[D,E]
-  AL[3].push_back(0); // D->A
-  AL[4].push_back(5); // E->F
-  AL[5].push_back(0); AL[5].push_back(2); // F->[A,C]
-  AL[6].push_back(5); // G->F
+  AL.assign(N, {});
+  AL[0] = {1, 6}; // A->[B,G]
+  AL[1] = {2};    // B->C
+  AL[2] = {3, 4}; // C->[D,E]
+  AL[3] = {0};    // D->A
+  AL[4] = {5};    // E->F
+  AL[5] = {0, 2}; // F->[A,C]
+  AL[6] = {5};    // G->F
   vi ans = hierholzer(0);
   for (auto &u : ans)
     cout << (char)('A'+u) << " ";

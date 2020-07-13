@@ -28,17 +28,17 @@ class FTree:
             i += self.lsone(i)
 
     def select(self, k):
-        lo = 1
-        hi = self.n
+        p = 1
+        while (p * 2) <= self.n: p *= 2
 
-        for i in range(30):
-            mid = (lo + hi) // 2
-            if self.query(1, mid) < k:
-                lo = mid
-            else:
-                hi = mid
+        i = 0
+        while p > 0:
+            if k > self.ft[i + p]:
+                k -= self.ft[i + p]
+                i += p
+            p //= 2
 
-        return hi
+        return i + 1
 
 class RUPQ:
     def __init__(self, n):

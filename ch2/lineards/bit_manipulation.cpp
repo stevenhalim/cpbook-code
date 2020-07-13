@@ -76,10 +76,10 @@ int main() {
   printf("\n");
 
   printf("9. Other tricks (not shown in the book)\n");
-  printf("8 %c 4 = %d\n", '%', modulo(8, 4));
-  printf("7 %c 4 = %d\n", '%', modulo(7, 4));
-  printf("6 %c 4 = %d\n", '%', modulo(6, 4));
-  printf("5 %c 4 = %d\n", '%', modulo(5, 4));
+  printf("8 %% 4 = %d\n", modulo(8, 4));
+  printf("7 %% 4 = %d\n", modulo(7, 4));
+  printf("6 %% 4 = %d\n", modulo(6, 4));
+  printf("5 %% 4 = %d\n", modulo(5, 4));
   printf("is %d power of two? %d\n", 9, isPowerOfTwo(9));
   printf("is %d power of two? %d\n", 8, isPowerOfTwo(8));
   printf("is %d power of two? %d\n", 7, isPowerOfTwo(7));

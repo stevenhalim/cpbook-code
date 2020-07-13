@@ -17,7 +17,7 @@ def Partition(A, l, r):
 
 def RandPartition(A, l, r):
     p = random.randint(l, r)                     # select a random pivot
-    swap(A, r, p)                                # swap A[p] with A[r]
+    swap(A, l, p)                                # swap A[p] with A[l]
     return Partition(A, l, r)
 
 def QuickSelect(A, l, r, k):                     # expected O(n)

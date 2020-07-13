@@ -47,13 +47,18 @@ public:
       ft[i] += v;
   }
 
-  int select(ll k) {                             // O(log^2 m)
-    int lo = 1, hi = ft.size()-1;
-    for (int i = 0; i < 30; ++i) {               // 2^30 > 10^9; usually ok
-      int mid = (lo+hi) / 2;                     // BSTA
-      (rsq(1, mid) < k) ? lo = mid : hi = mid;   // See Section 3.3.1
+  int select(ll k) {                             // O(log m)
+    int p = 1;
+    while (p*2 < (int)ft.size()) p *= 2;
+    int i = 0;
+    while (p) {
+      if (k > ft[i+p]) {
+        k -= ft[i+p];
+        i += p;
+      }
+      p /= 2;
     }
-    return hi;
+    return i+1;
   }
 };
 

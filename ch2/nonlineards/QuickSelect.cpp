@@ -16,7 +16,7 @@ int Partition(int A[], int l, int r) {
 
 int RandPartition(int A[], int l, int r) {
   int p = l + rand() % (r-l+1);                  // select a random pivot
-  swap(A[r], A[p]);                              // swap A[p] with A[r]
+  swap(A[l], A[p]);                              // swap A[p] with A[l]
   return Partition(A, l, r);
 }
 

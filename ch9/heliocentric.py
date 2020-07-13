@@ -29,6 +29,6 @@ def crt(r, m):
 caseNo = 0
 for line in sys.stdin:
     e, m = map(int,line.split())
-    x = crt([e, m], [365, 687])
+    ans = crt([365-e, 687-m], [365, 687])
     caseNo += 1
-    print("Case %d: %d" % (caseNo, (250755-x)%250755))
+    print("Case %d: %d" % (caseNo, ans))
