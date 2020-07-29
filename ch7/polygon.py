@@ -10,11 +10,19 @@ import math
 # double RAD_to_DEG(double r) { return r*180.0 / M_PI; }
 
 class point:
-  x = 0                                           # default values
-  y = 0
+  #x = 0                                           # default values
+  #y = 0
   def __init__(self, x, y):                       # constructor
     self.x = x
     self.y = y
+  
+  def __sub__(self, b): #tovec(a,b)==b-a
+    return point(self.x-b.x, self.y-b.y)
+  def __lt__(self, b):  #self<b mod for floats :)
+    return (self.x<b.x) if self.x!=b.x else (self.y<b.y)
+  
+  def __str__(self): return "{} {}".format(self.x, self.y)
+  def __hash__(self):return hash((self.x,self.y))
 #   bool operator == (point other) const {
 #    return (fabs(x-other.x) < EPS && (fabs(y-other.y) < EPS)); } 
 #   bool operator <(const point &p) const {
@@ -53,6 +61,7 @@ def perimeter(P):
 #   vec oa = toVec(o, a), ob = toVec(o, b);
 #   return acos(dot(oa, ob) / sqrt(norm_sq(oa) * norm_sq(ob))); }
 
+def cross(a, b): return a.x*b.y-a.y*b.x
 # double cross(vec a, vec b) { return a.x*b.y - a.y*b.x; }
 
 # // returns the area of polygon P, which is half the cross products
@@ -64,6 +73,8 @@ def perimeter(P):
 #   return fabs(ans)/2.0;
 # }
 
+def ccw(p, q, r): return (cross(q-p, r-p) > 0)
+# note python i used class opperators for tovec (Agis Daniels)
 # // note: to accept collinear points, we have to change the `> 0'
 # // returns true if point r is on the left side of line pq
 # bool ccw(point p, point q, point r) {
@@ -162,6 +173,18 @@ def perimeter(P):
 #   return S;                                      // return the result
 # }
 
+#compressed version of the code below and the link below
+#https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain
+def CH_Andrew(ps):
+  P, H=sorted(set(ps)), []
+  if len(P)<=1: return P # if only one unique point just return point
+  def f(B): #f is a mapping of the two loops since its dup code
+    for p in P:
+      while len(H)>B and not ccw(H[-2], H[-1], p): H.pop()
+        H.append(p)
+      H.pop()
+  f(1); P=P[::-1]; f(len(H)+1); return H #4 line low, rev, up, ret
+#c++ implementation below 
 # vector<point> CH_Andrew(vector<point> &Pts) {    // overall O(n log n)
 #   int n = Pts.size(), k = 0;
 #   vector<point> H(2*n);
