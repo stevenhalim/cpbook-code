@@ -16,10 +16,8 @@ class point:
     self.x = x
     self.y = y
   
-  def __sub__(self, b): #tovec(a,b)==b-a
-    return point(self.x-b.x, self.y-b.y)
   def __lt__(self, b):  #self<b mod for floats :)
-    return (self.x<b.x) if self.x!=b.x else (self.y<b.y)
+    return (self.x, self.y) < (b.x, b.y)
   
   def __str__(self): return "{} {}".format(self.x, self.y)
   def __hash__(self):return hash((self.x,self.y))
@@ -28,6 +26,13 @@ class point:
 #   bool operator <(const point &p) const {
 #    return x < p.x || (abs(x-p.x) < EPS && y < p.y); } };
 
+class vec:
+  def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+
+def toVec(a, b):
+  return vec(b.x-a.x, b.y-a.y)
 # struct vec { double x, y;  // name: `vec' is different from STL vector
 #   vec(double _x, double _y) : x(_x), y(_y) {} };
 
@@ -73,7 +78,7 @@ def cross(a, b): return a.x*b.y-a.y*b.x
 #   return fabs(ans)/2.0;
 # }
 
-def ccw(p, q, r): return (cross(q-p, r-p) > 0)
+def ccw(p, q, r): return (cross(toVec(p,q),toVec(p,r)) > 0)
 # note python i used class opperators for tovec (Agis Daniels)
 # // note: to accept collinear points, we have to change the `> 0'
 # // returns true if point r is on the left side of line pq
