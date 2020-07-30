@@ -16,8 +16,7 @@ class point:
     self.x = x
     self.y = y
   
-  def __lt__(self, b):  #self<b mod for floats :)
-    return (self.x, self.y) < (b.x, b.y)
+  def __lt__(self, b): return (self.x, self.y) < (b.x, b.y)
   
   def __str__(self): return "{} {}".format(self.x, self.y)
   def __hash__(self):return hash((self.x,self.y))
@@ -44,12 +43,15 @@ def dist(p1, p2):                                 # Euclidean distance
 
 # returns the perimeter of polygon P, which is the sum of
 # Euclidian distances of consecutive line segments (polygon edges)
+# def perimeter(P) return math.fsum(dist(P[i], P[i+1]) for i in range(len(P)-1)) 
 def perimeter(P):
   ans = 0.0
   for i in range(len(P)-1):                       # note: P[n-1] = P[0]
     ans += dist(P[i], P[i+1])                     # as we duplicate P[0]
   return ans
 
+def area(P):
+  return math.fsum(cross(P[i], P[i+1]) for i in range(len(P)-1))/2
 # // returns the area of polygon P
 # double area(const vector<point> &P) {
 #   double ans = 0.0;
@@ -186,8 +188,8 @@ def CH_Andrew(ps):
   def f(B): #f is a mapping of the two loops since its dup code
     for p in P:
       while len(H)>B and not ccw(H[-2], H[-1], p): H.pop()
-        H.append(p)
-      H.pop()
+      H.append(p)
+    H.pop()
   f(1); P=P[::-1]; f(len(H)+1); return H #4 line low, rev, up, ret
 #c++ implementation below 
 # vector<point> CH_Andrew(vector<point> &Pts) {    // overall O(n log n)
