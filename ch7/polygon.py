@@ -125,6 +125,18 @@ def isConvex(P):
 #   return true;                                   // otherwise -> convex
 # }
 
+def insidePolygon(pt, P):
+  if len(P)<4: return -1
+  n, ans, s=len(P), False, 0.0
+  for i in range(n-1):
+    a, b=P[i], P[i+1]
+    if abs(dist(a, pt) + dist(pt, b) - dist(a, b)) < EPS:
+      ans=True
+  if ans: return 0
+  for i in range(n-1):
+    a=angle(P[i], pt, P[i+1])
+    s+= a if ccw(pt, P[i], P[i+1]) else -a
+  return 1 if abs(s) > math.pi else -1
 # // returns 1/0/-1 if point p is inside/on (vertex/edge)/outside of
 # // either convex/concave polygon P
 # int insidePolygon(point pt, const vector<point> &P) {
