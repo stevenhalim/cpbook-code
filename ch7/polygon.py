@@ -60,10 +60,18 @@ def area(P):
 #   return fabs(ans)/2.0;                          // only do / 2.0 here
 # }
 
+
+
+def dot(a, b): return a.x * b.x + a.y * b.y
 # double dot(vec a, vec b) { return (a.x*b.x + a.y*b.y); }
 
+def norm_sq(v): return v.x * v.x + v.y * v.y
 # double norm_sq(vec v) { return v.x*v.x + v.y*v.y; }
 
+def angle(a, o, b):
+  oa = toVec(o, a)
+  ob = toVec(o, b)
+  return  math.acos(dot(oa, ob) / math.sqrt(norm_sq(oa) * norm_sq(ob)))
 # double angle(point a, point o, point b) {  // returns angle aob in rad
 #   vec oa = toVec(o, a), ob = toVec(o, b);
 #   return acos(dot(oa, ob) / sqrt(norm_sq(oa) * norm_sq(ob))); }
