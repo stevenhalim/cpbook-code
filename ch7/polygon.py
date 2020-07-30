@@ -3,6 +3,8 @@
 
 
 import math
+
+EPS = 1e-9
 # const double EPS = 1e-9;
 
 # double DEG_to_RAD(double d) { return d*M_PI / 180.0; }
@@ -60,10 +62,18 @@ def area(P):
 #   return fabs(ans)/2.0;                          // only do / 2.0 here
 # }
 
+
+
+def dot(a, b): return a.x * b.x + a.y * b.y
 # double dot(vec a, vec b) { return (a.x*b.x + a.y*b.y); }
 
+def norm_sq(v): return v.x * v.x + v.y * v.y
 # double norm_sq(vec v) { return v.x*v.x + v.y*v.y; }
 
+def angle(a, o, b):
+  oa = toVec(o, a)
+  ob = toVec(o, b)
+  return  math.acos(dot(oa, ob) / math.sqrt(norm_sq(oa) * norm_sq(ob)))
 # double angle(point a, point o, point b) {  // returns angle aob in rad
 #   vec oa = toVec(o, a), ob = toVec(o, b);
 #   return acos(dot(oa, ob) / sqrt(norm_sq(oa) * norm_sq(ob))); }
@@ -88,11 +98,20 @@ def ccw(p, q, r): return (cross(toVec(p,q),toVec(p,r)) > 0)
 #   return cross(toVec(p, q), toVec(p, r)) > 0;
 # }
 
+def collinear(p, q, r): return abs(cross(toVec(p, q), toVec(p, r))) < EPS
 # // returns true if point r is on the same line as the line pq
 # bool collinear(point p, point q, point r) {
 #   return fabs(cross(toVec(p, q), toVec(p, r))) < EPS;
 # }
 
+def isConvex(P):
+  e,s=len(P),1
+  if e<4: retrun False
+  t1=ccw(P[0],P[1],P[2]) # first turn
+  for i in range(s, e-1):
+    if ccw(P[i],P[i+1],P[1 if i+2==n else i+2]) != t1:
+      return False
+  return True
 # // returns true if we always make the same turn
 # // while examining all the edges of the polygon one by one
 # bool isConvex(const vector<point> &P) {
@@ -106,6 +125,18 @@ def ccw(p, q, r): return (cross(toVec(p,q),toVec(p,r)) > 0)
 #   return true;                                   // otherwise -> convex
 # }
 
+def insidePolygon(pt, P):
+  if len(P)<4: return -1
+  n, ans, s=len(P), False, 0.0
+  for i in range(n-1):
+    a, b=P[i], P[i+1]
+    if abs(dist(a, pt) + dist(pt, b) - dist(a, b)) < EPS:
+      ans=True
+  if ans: return 0
+  for i in range(n-1):
+    a=angle(P[i], pt, P[i+1])
+    s+= a if ccw(pt, P[i], P[i+1]) else -a
+  return 1 if abs(s) > math.pi else -1
 # // returns 1/0/-1 if point p is inside/on (vertex/edge)/outside of
 # // either convex/concave polygon P
 # int insidePolygon(point pt, const vector<point> &P) {
