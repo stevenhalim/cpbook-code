@@ -3,6 +3,8 @@
 
 
 import math
+
+EPS = 1e-9
 # const double EPS = 1e-9;
 
 # double DEG_to_RAD(double d) { return d*M_PI / 180.0; }
@@ -96,6 +98,7 @@ def ccw(p, q, r): return (cross(toVec(p,q),toVec(p,r)) > 0)
 #   return cross(toVec(p, q), toVec(p, r)) > 0;
 # }
 
+def collinear(p, q, r): return abs(cross(toVec(p, q), toVec(p, r))) < EPS
 # // returns true if point r is on the same line as the line pq
 # bool collinear(point p, point q, point r) {
 #   return fabs(cross(toVec(p, q), toVec(p, r))) < EPS;
