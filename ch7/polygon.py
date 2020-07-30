@@ -104,6 +104,14 @@ def collinear(p, q, r): return abs(cross(toVec(p, q), toVec(p, r))) < EPS
 #   return fabs(cross(toVec(p, q), toVec(p, r))) < EPS;
 # }
 
+def isConvex(P):
+  e,s=len(P),1
+  if e<4: retrun False
+  t1=ccw(P[0],P[1],P[2]) # first turn
+  for i in range(s, e-1):
+    if ccw(P[i],P[i+1],P[1 if i+2==n else i+2]) != t1:
+      return False
+  return True
 # // returns true if we always make the same turn
 # // while examining all the edges of the polygon one by one
 # bool isConvex(const vector<point> &P) {
