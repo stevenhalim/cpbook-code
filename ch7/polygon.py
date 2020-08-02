@@ -12,8 +12,6 @@ EPS = 1e-9
 # double RAD_to_DEG(double r) { return r*180.0 / M_PI; }
 
 class point:
-  #x = 0                                           # default values
-  #y = 0
   def __init__(self, x, y):                       # constructor
     self.x = x
     self.y = y
