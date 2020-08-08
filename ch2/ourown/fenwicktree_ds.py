@@ -13,7 +13,7 @@ class FTree:
 
     def query(self, i, j):
         if i > 1:
-            return self.query(1, j) - self.query(1, j - 1)
+            return self.query(1, j) - self.query(1, i - 1)
 
         s = 0
         while j > 0:
