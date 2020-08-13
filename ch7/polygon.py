@@ -339,12 +339,7 @@ P = cutPolygon(P[2], P[4], P);
   # //2 |   P_in        |
   # //1 P0--------------P1
   # //0 1 2 3 4 5 6 7 8 9
-for p in P:
-  print(p.x,p.y)
 P = CH_Graham(P);                              #// now this is a rectangle
-print(len(P))
-for p in P:
-  print(p.x,p.y)
 print(perimeter(P))
   # printf("Perimeter = %.2lf\n", perimeter(P));   // precisely 28.00
   # printf("Area = %.2lf\n", area(P));             // precisely 48.00
