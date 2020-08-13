@@ -104,7 +104,7 @@ def collinear(p, q, r): return abs(cross(toVec(p, q), toVec(p, r))) < EPS
 
 def isConvex(P):
   e,s=len(P),1
-  if e<4: retrun False
+  if e<4: return False
   t1=ccw(P[0],P[1],P[2]) # first turn
   for i in range(s, e-1):
     if ccw(P[i],P[i+1],P[1 if i+2==n else i+2]) != t1:
@@ -155,6 +155,10 @@ def insidePolygon(pt, P):
 #   return fabs(sum) > M_PI ? 1 : -1;              // 360d->in, 0d->out
 # }
 
+def lineInterSectSeg(p,q,A,B):
+  a, b, c=B.y-A.y, A.x-B.x, cross(B,A)
+  u, v=abs(a*p.x+b*p.y+c), abs(a*q.x+b*q.y+x) 
+  return point((p.x*v+q.x*u)/(u+v), (p.y*v+q.y*u)/(u+v))
 # // compute the intersection point between line segment p-q and line A-B
 # point lineIntersectSeg(point p, point q, point A, point B) {
 #   double a = B.y-A.y, b = A.x-B.x, c = B.x*A.y - A.x*B.y;
@@ -163,6 +167,15 @@ def insidePolygon(pt, P):
 #   return point((p.x*v + q.x*u) / (u+v), (p.y*v + q.y*u) / (u+v));
 # }
 
+def cutPolygon(A, B, Q):
+  P=[]
+  for i in range(len(Q)):
+    l1, l2=cross(toVec(A, B),toVec(A, Q[i])), 0
+    if i!=len(Q)-1: l2=cross(toVec(A, B), toVec(A, Q[i+1]))
+    if l1>-EPS: P.append(Q[i])
+    if l1*l2<-EPS: P.append(lineInterSectSeg(Q[i], Q[i+1], A, B))
+  if P and P[-1]!=P[0]: P.append(P[0])
+  return P
 # // cuts polygon Q along the line formed by point A->point B (order matters)
 # // (note: the last point must be the same as the first point)
 # vector<point> cutPolygon(point A, point B, const vector<point> &Q) {
@@ -179,6 +192,30 @@ def insidePolygon(pt, P):
 #   return P;
 # }
 
+def CH_Graham(Pts):
+  P=[p for p in Pts]
+  n=len(P)
+  if n<4: 
+    if P[0]!=P[-1]: P.append(P[0])
+    return P
+  
+  def ccw_cmp(a, b): return ccw(P[0], a, b)
+  def cmp_class(f):
+    class K:
+      def __init__(F, o): F.pt=o
+      def __lt__(F, o): return f(F.pt, o.pt)
+  P0=P.index(min(P, key=lambda p: (p.y,-p.x)))
+  P[0],P[P0]=P[P0],P[0]
+  
+  P=[P[0]]+sorted(P[1:], key=cmp_class(ccw_cmp))
+  
+  S, i=[P[-1],P[0]], 2
+  while i<n:
+    j=len(S)-1
+    if not ccw(S[j-1], S[j], P[i]): 
+      S.append(P[i]); i+=1
+    else: S.pop()
+  return S
 # vector<point> CH_Graham(vector<point> &Pts) {    // overall O(n log n)
 #   vector<point> P(Pts);                          // copy all points
 #   int n = (int)P.size();
@@ -289,7 +326,7 @@ print("Perimeter = {0:0.2f}".format(perimeter(P))) # 31.64
   # //1 P0              P2
   # //0 1 2 3 4 5 6 7 8 9
 
-  # P = cutPolygon(P[2], P[4], P);
+P = cutPolygon(P[2], P[4], P);
   # printf("Perimeter = %.2lf\n", perimeter(P));   // smaller now, 29.15
   # printf("Area = %.2lf\n", area(P));             // 40.00
 
@@ -302,8 +339,13 @@ print("Perimeter = {0:0.2f}".format(perimeter(P))) # 31.64
   # //2 |   P_in        |
   # //1 P0--------------P1
   # //0 1 2 3 4 5 6 7 8 9
-
-  # P = CH_Graham(P);                              // now this is a rectangle
+for p in P:
+  print(p.x,p.y)
+P = CH_Graham(P);                              #// now this is a rectangle
+print(len(P))
+for p in P:
+  print(p.x,p.y)
+print(perimeter(P))
   # printf("Perimeter = %.2lf\n", perimeter(P));   // precisely 28.00
   # printf("Area = %.2lf\n", area(P));             // precisely 48.00
   # printf("Is convex = %d\n", isConvex(P));       // true
