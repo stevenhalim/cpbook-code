@@ -6,8 +6,6 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef map<int, int> mii;
 
-typedef long long ll;
-
 ll _sieve_size;
 bitset<10000010> bs;                             // 10^7 is the rough limit
 vll p;                                           // compact list of primes
