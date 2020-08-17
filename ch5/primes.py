@@ -9,7 +9,7 @@ def sieve(upperbound):
   global _sieve_size, bs, primes
 
   _sieve_size = upperbound+1
-  bs = [True] * 10000010
+  bs = [True] * _sieve_size
   bs[0] = bs[1] = False
   for i in range(2, _sieve_size):
     if bs[i]:
@@ -20,7 +20,7 @@ def sieve(upperbound):
 
 def isPrime(N):
   global _sieve_size, primes
-  if N <= _sieve_size:
+  if N < _sieve_size:
     return bs[N]
   for p in primes:
     if p * p > N:
