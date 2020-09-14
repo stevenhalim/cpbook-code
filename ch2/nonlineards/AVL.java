@@ -198,6 +198,32 @@ class AVL extends BST { // an example of Java inheritance
     return w;
   }
 
+  protected BSTVertex rebalance(BSTVertex T) {
+    int balance = h(T.left) - h(T.right);
+    if (balance == 2) { // left heavy
+      int balance2 = h(T.left.left) - h(T.left.right);
+      if (balance2 >= 0) {
+        T = rotateRight(T);
+      }
+      else { // -1
+        T.left = rotateLeft(T.left);
+        T = rotateRight(T);
+      }
+    }
+    else if (balance == -2) { // right heavy
+      int balance2 = h(T.right.left) - h(T.right.right);
+      if (balance2 <= 0)
+        T = rotateLeft(T);
+      else { // 1
+        T.right = rotateRight(T.right);
+        T = rotateLeft(T);
+      }
+    }
+
+    T.height = Math.max(h(T.left), h(T.right)) + 1;
+    return T;
+  }
+
   protected BSTVertex insert(BSTVertex T, int v) {
     if (T == null) return new BSTVertex(v);          // insertion point is found
 
@@ -210,28 +236,7 @@ class AVL extends BST { // an example of Java inheritance
       T.left.parent = T;
     }
 
-    int balance = h(T.left) - h(T.right);
-    if (balance == 2) { // left heavy
-      int balance2 = h(T.left.left) - h(T.left.right);
-      if (balance2 == 1) {
-        T = rotateRight(T);
-      }
-      else { // -1
-        T.left = rotateLeft(T.left);
-        T = rotateRight(T);
-      }
-    }
-    else if (balance == -2) { // right heavy
-      int balance2 = h(T.right.left) - h(T.right.right);
-      if (balance2 == -1)
-        T = rotateLeft(T);
-      else { // 1
-        T.right = rotateRight(T.right);
-        T = rotateLeft(T);
-      }
-    }
-
-    T.height = Math.max(h(T.left), h(T.right)) + 1;
+    T = rebalance(T);
     return T;                                          // return the updated AVL
   }
 
@@ -264,29 +269,8 @@ class AVL extends BST { // an example of Java inheritance
     else                                                   // search to the left
       T.left = delete(T.left, v);
 
-    if (T != null) {               // similar as insertion code except this line
-      int balance = h(T.left) - h(T.right);
-      if (balance == 2) { // left heavy
-        int balance2 = h(T.left.left) - h(T.left.right);
-        if (balance2 == 1) {
-          T = rotateRight(T);
-        }
-        else { // -1
-          T.left = rotateLeft(T.left);
-          T = rotateRight(T);
-        }
-      }
-      else if (balance == -2) { // right heavy
-        int balance2 = h(T.right.left) - h(T.right.right);
-        if (balance2 == -1)
-          T = rotateLeft(T);
-        else { // 1
-          T.right = rotateRight(T.right);
-          T = rotateLeft(T);
-        }
-      }
-
-      T.height = Math.max(h(T.left), h(T.right)) + 1;
+    if (T != null) {
+      T = rebalance(T);
     }
 
     return T;                                          // return the updated BST
