@@ -1,1 +1,1 @@
-print(*sorted(set(input().split())), sep='\n')
+print(*sorted(set(input().split()), key=int), sep='\n')

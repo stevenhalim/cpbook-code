@@ -10,7 +10,7 @@ let rec ctz x =
 	 helper x 0
 
 let () =
-	let n = 20 in
+	let n = 4 in (* change 4 to 20 to match the actual problem (but it will take some time to print) *)
 	for i = 0 to (1 lsl n) - 1 do 
 		let pos = ref i in 
 		while !pos > 0 do

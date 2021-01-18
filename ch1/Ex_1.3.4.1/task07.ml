@@ -14,5 +14,5 @@ let print xs =
 
 let () =
 	let open Char in 
-	let p = List.init 8 (fun x -> chr (code 'A' + x)) in
+	let p = List.init 4 (fun x -> chr (code 'A' + x)) in (* change 4 to 10 to match the actual problem (but it will take some time to print) *)
 	List.iter print (permutations p)

@@ -1,7 +1,10 @@
-import java.math.*;                              // Java code for task 12
+import java.util.*;                              // Java code for task 11
+import javax.script.*;
 class Main {
   public static void main(String[] args) throws Exception {
-    BigInteger x = new BigInteger("48112959837082048697"); // Big Integer
-    System.out.println(x.isProbablePrime(10) ? "Prime" : "Composite");
+    ScriptEngineManager mgr = new ScriptEngineManager();
+    ScriptEngine engine = mgr.getEngineByName("JavaScript"); // "cheat"
+    Scanner sc = new Scanner(System.in);
+    while (sc.hasNextLine()) System.out.println(engine.eval(sc.nextLine()));
   }
 }
