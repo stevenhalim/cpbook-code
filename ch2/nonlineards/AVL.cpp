@@ -207,6 +207,32 @@ private:
     return w;
   }
 
+  BSTVertex* rebalance(BSTVertex* T) {
+      int balance = h(T->left) - h(T->right);
+      if (balance == 2) { // left heavy
+          int balance2 = h(T->left->left) - h(T->left->right);
+          if (balance2 >= 0) {
+              T = rotateRight(T);
+          }
+          else { // -1
+              T->left = rotateLeft(T->left);
+              T = rotateRight(T);
+          }
+      }
+      else if (balance == -2) { // right heavy
+          int balance2 = h(T->right->left) - h(T->right->right);
+          if (balance2 <= 0)
+              T = rotateLeft(T);
+          else { // 1
+              T->right = rotateRight(T->right);
+              T = rotateLeft(T);
+          }
+      }
+
+      T->height = max(h(T->left), h(T->right)) + 1;
+      return T;
+  }
+
   BSTVertex* insert(BSTVertex* T, int v) {       // override insert in BST class
     if (T == NULL) {                             // insertion point is found
       T = new BSTVertex;
@@ -223,28 +249,7 @@ private:
       T->left->parent = T;
     }
 
-    int balance = h(T->left) - h(T->right);
-    if (balance == 2) { // left heavy
-      int balance2 = h(T->left->left) - h(T->left->right);
-      if (balance2 == 1) {
-        T = rotateRight(T);
-      }
-      else { // -1
-        T->left = rotateLeft(T->left);
-        T = rotateRight(T);
-      }
-    }
-    else if (balance == -2) { // right heavy
-      int balance2 = h(T->right->left) - h(T->right->right);
-      if (balance2 == -1)
-        T = rotateLeft(T);
-      else { // 1
-        T->right = rotateRight(T->right);
-        T = rotateLeft(T);
-      }
-    }
-
-    T->height = max(h(T->left), h(T->right)) + 1;
+    T = rebalance(T);
     return T;                                    // return the updated AVL
   }
 
@@ -273,29 +278,8 @@ private:
     else                                         // search to the left
       T->left = remove(T->left, v);
 
-    if (T != NULL) {               // similar as insertion code except this line
-      int balance = h(T->left) - h(T->right);
-      if (balance == 2) { // left heavy
-        int balance2 = h(T->left->left) - h(T->left->right);
-        if (balance2 == 1) {
-          T = rotateRight(T);
-        }
-        else { // -1
-          T->left = rotateLeft(T->left);
-          T = rotateRight(T);
-        }
-      }
-      else if (balance == -2) { // right heavy
-        int balance2 = h(T->right->left) - h(T->right->right);
-        if (balance2 == -1)
-          T = rotateLeft(T);
-        else { // 1
-          T->right = rotateRight(T->right);
-          T = rotateLeft(T);
-        }
-      }
-
-      T->height = max(h(T->left), h(T->right)) + 1;
+    if (T != NULL) {
+      T = rebalance(T);
     }
 
     return T;                                    // return the updated BST
