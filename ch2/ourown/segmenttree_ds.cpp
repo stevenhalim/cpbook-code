@@ -66,7 +66,7 @@ private:
   }
 
 public:
-  SegmentTree(int sz) : n(sz), st(4*n), lazy(4*n, -1) {}
+  SegmentTree(int sz) : n(sz), A(n), st(4*n), lazy(4*n, -1) {}
 
   SegmentTree(const vi &initialA) : SegmentTree((int)initialA.size()) {
     A = initialA;
