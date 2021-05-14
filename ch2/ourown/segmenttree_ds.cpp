@@ -61,12 +61,12 @@ private:
       update(r(p), m+1, R, max(i, m+1), j        , val);
       int lsubtree = (lazy[l(p)] != -1) ? lazy[l(p)] : st[l(p)];
       int rsubtree = (lazy[r(p)] != -1) ? lazy[r(p)] : st[r(p)];
-      st[p] = (lsubtree <= rsubtree) ? st[l(p)] : st[r(p)];
+      st[p] = conquer(lsubtree, rsubtree);
     }
   }
 
 public:
-  SegmentTree(int sz) : n(sz), st(4*n), lazy(4*n, -1) {}
+  SegmentTree(int sz) : n(sz), A(n), st(4*n), lazy(4*n, -1) {}
 
   SegmentTree(const vi &initialA) : SegmentTree((int)initialA.size()) {
     A = initialA;
