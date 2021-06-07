@@ -2,7 +2,8 @@
 // Edmonds Karp's algorithm -- re-written in OOP fashion and the fast
 // Dinic's algorithm implementation by
 // https://github.com/jaehyunp/stanfordacm/blob/master/code/Dinic.cc
-// This code is written in modern C++17 standard
+// This code is written in modern C++17 
+//chinhdz97
 
 #include <bits/stdc++.h>
 using namespace std;
