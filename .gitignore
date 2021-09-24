@@ -11,3 +11,5 @@
 *.exe
 *.class
 *.stackdump
+
+__pycache__/
