@@ -12,8 +12,8 @@ def Aug(L):
     vis[L] = 1
     for R in AL[L]:
         if match[R] == -1 or Aug(match[R]):
-        match[R] = L
-        return 1
+            match[R] = L
+            return 1
     return 0
 
 def main():
