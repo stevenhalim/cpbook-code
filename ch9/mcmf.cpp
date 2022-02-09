@@ -75,10 +75,11 @@ public:
   // flow graph, set directed = false (default value is directed = true)
   void add_edge(int u, int v, ll w, ll c, bool directed = true) {
     if (u == v) return;                          // safeguard: no self loop
-    EL.emplace_back(v, w, 0, c);                    // u->v, cap w, flow 0
+    EL.emplace_back(v, w, 0, c);                 // u->v, cap w, flow 0, cost c
     AL[u].push_back(EL.size()-1);                // remember this index
-    EL.emplace_back(u, directed ? 0 : w, 0, -c);     // back edge
+    EL.emplace_back(u, 0, 0, -c);                // back edge
     AL[v].push_back(EL.size()-1);                // remember this index
+    if (!directed) add_edge(v, u, w, c);         // add again in reverse
   }
 
   pair<ll, ll> mcmf(int s, int t) {
