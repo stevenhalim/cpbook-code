@@ -22,7 +22,7 @@ class Edge {
     }
 }
 
-class MaxFlow {
+public class maxflow {
     static long INF = 1000000000000000000l;
 
     int V;
@@ -32,7 +32,7 @@ class MaxFlow {
     int[] d, last;
     Pair[] p;
 
-    MaxFlow(int initialV, int numEdges) {
+    maxflow(int initialV, int numEdges) {
         V = initialV;
         EL = new Edge[2 * numEdges]; // 2 * to account for back edges
         ELSize = 0;
