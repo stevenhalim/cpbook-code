@@ -1,107 +1,172 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class maxflow {
-  private static final int MAX_V = 40; // enough for sample graph in Figure 4.24/4.25/4.26
-  private static final int INF = 1000000000;
-  
-  // we need these global variables
-  private static int[][] res = new int[MAX_V][]; // define MAX_V appropriately
-  private static int mf, f, s, t;
-  private static ArrayList<Integer> p = new ArrayList<>();
+// (Nearly) 1-1 translation of maxflow.cpp with min-cut augmentation
+class Pair {
+    int first, second;
 
-  private static void augment(int v, int minEdge) { // traverse the BFS spanning tree as in print_path (section 4.3)
-    if (v == s) { f = minEdge; return; } // reach the source, record minEdge in a global variable `f'
-    else if (p.get(v) != -1) { augment(p.get(v), Math.min(minEdge, res[p.get(v)][v])); // recursive call
-                               res[p.get(v)][v] -= f; res[v][p.get(v)] += f; } // alter residual capacities
-  }
-
-  public static void main(String[] args) throws Exception {
-    /*
-    // Graph in Figure 4.24
-    4 0 1
-    2 2 70 3 30
-    2 2 25 3 70
-    3 0 70 3 5 1 25
-    3 0 30 2 5 1 70
-
-    // Graph in Figure 4.25
-    4 0 3
-    2 1 100 2 100
-    2 2 1 3 100
-    1 3 100
-    0
-
-    // Graph in Figure 4.26.A
-    5 0 1
-    2 2 100 3 50
-    0
-    3 3 50 4 50 1 50
-    1 4 100
-    1 1 125
-
-    // Graph in Figure 4.26.B
-    5 0 1
-    2 2 100 3 50
-    0
-    3 3 50 4 50 1 50
-    1 4 100
-    1 1 75
-
-    // Graph in Figure 4.26.C
-    5 0 1
-    2 2 100 3 50
-    0
-    2 4 5 1 5
-    1 4 100
-    1 1 125
-    */
-
-    File ff = new File("maxflow_in.txt");
-    Scanner sc = new Scanner(ff);
-
-    int V = sc.nextInt();
-    s = sc.nextInt();
-    t = sc.nextInt();
-
-    for (int u = 0; u < V; u++) {
-      res[u] = new int[MAX_V];
-      int k = sc.nextInt();
-      while (k-- > 0) {
-        int v = sc.nextInt();
-        int w = sc.nextInt();
-        res[u][v] = w;
-      }
+    Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
     }
-
-    mf = 0;
-    while (true) { // run O(VE^2) Edmonds Karp to solve the Max Flow problem
-      f = 0;
-
-      // run BFS, please examine parts of the BFS code that is different than in Section 4.3
-      Queue < Integer > q = new LinkedList < Integer > ();
-      ArrayList < Integer > dist = new ArrayList < Integer > ();
-      dist.addAll(Collections.nCopies(V, INF)); // #define INF 2000000000
-      q.offer(s);
-      dist.set(s, 0);
-      p.clear();
-      p.addAll(Collections.nCopies(V, -1)); // (we have to record the BFS spanning tree)
-      while (!q.isEmpty()) {                // (we need the shortest path from s to t!)
-        int u = q.poll();
-        if (u == t) break; // immediately stop BFS if we already reach sink t
-        for (int v = 0; v < MAX_V; v++) // note: enumerating neighbors with AdjMatrix is `slow'
-          if (res[u][v] > 0 && dist.get(v) == INF) { // res[u][v] can change!
-            dist.set(v, dist.get(u) + 1);
-            q.offer(v);
-            p.set(v, u); // parent of vertex v is vertex u
-          }
-      }
-      
-      augment(t, INF); // find the min edge weight `f' along this path, if any
-      if (f == 0) break; // if we cannot send any more flow (`f' = 0), terminate the loop
-      mf += f; // we can still send a flow, increase the max flow!
-    }
-
-    System.out.printf("%d\n", mf); // this is the max flow value of this flow graph
-  }
 }
+
+class Edge {
+    int v;
+    long w, f;
+
+    Edge(int v, long w, long f) {
+        this.v = v;
+        this.w = w;
+        this.f = f;
+    }
+}
+
+class MaxFlow {
+    static long INF = 1000000000000000000l;
+
+    int V;
+    Edge[] EL;
+    int ELSize;
+    List<List<Integer>> AL;
+    int[] d, last;
+    Pair[] p;
+
+    MaxFlow(int initialV, int numEdges) {
+        V = initialV;
+        EL = new Edge[2 * numEdges]; // 2 * to account for back edges
+        ELSize = 0;
+        AL = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            AL.add(new ArrayList<>());
+        }
+    }
+
+    void addEdge(int u, int v, long w, boolean directed) {
+        if (u == v) return;                     // safeguard: no self loop
+        EL[ELSize] = new Edge(v, w, 0);         // u->v, cap w, flow 0
+        ELSize++;
+        AL.get(u).add(ELSize - 1);              // remember this index
+        EL[ELSize] = new Edge(u, directed ? 0 : w, 0);         // back edge
+        ELSize++;
+        AL.get(v).add(ELSize - 1);           // remember this index
+    }
+
+    long edmondsKarp(int s, int t) {
+        long mf = 0;                            // mf stands for max_flow
+        while (BFS(s, t)) {                     // an O(V*E^2) algorithm
+            long f = sendOneFlow(s, t, INF);         // find and send 1 flow f
+            if (f == 0) break;                  // if f == 0, stop
+            mf += f;                            // if f > 0, add to mf
+        }
+        return mf;
+    }
+
+    long dinic(int s, int t) {
+        long mf = 0;                            // mf stands for max_flow
+        while (BFS(s, t)) {                     // an O(V^2*E) algorithm
+            last = new int[V];                  // important speedup
+            long f;
+            while ((f = DFS(s, t, INF)) > 0) {   // exhaust blocking flow
+                mf += f;
+            }
+        }
+        return mf;
+    }
+
+    boolean BFS(int s, int t) {                 // find augmenting path
+        d = new int[V];
+        p = new Pair[V];                        // record BFS sp tree
+        for (int i = 0; i < V; i++) {
+            d[i] = -1;
+            p[i] = new Pair(-1, -1);
+        }
+        d[s] = 0;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(s);
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            if (u == t) break;                  // stop as sink t reached
+            for (int idx : AL.get(u)) {         // explore neighbors of u
+                Edge e = EL[idx];               // stored in EL[idx]
+                int v = e.v;
+                long cap = e.w;
+                long flow = e.f;
+                if ((cap - flow > 0) && (d[v] == -1)) { // positive residual edge
+                    d[v] = d[u] + 1;
+                    q.offer(v);
+                    p[v] = new Pair(u, idx);
+                }
+            }
+        }
+        return d[t] != -1;
+    }
+
+    // Run after performing Dinics/Edmonds Karp to get nodes in min-cut
+    // Basically performs BFS on the flow graph one more time
+    List<Integer> minCut(int s, int t) {
+        List<Integer> result = new ArrayList<>();
+        d = new int[V];
+        p = new Pair[V];                        // record BFS sp tree
+        for (int i = 0; i < V; i++) {
+            d[i] = -1;
+            p[i] = new Pair(-1, -1);
+        }
+        d[s] = 0;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(s);
+        result.add(s);
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            if (u == t) break;                  // stop as sink t reached
+            for (int idx : AL.get(u)) {         // explore neighbors of u
+                Edge e = EL[idx];               // stored in EL[idx]
+                int v = e.v;
+                long cap = e.w;
+                long flow = e.f;
+                if ((cap - flow > 0) && (d[v] == -1)) { // positive residual edge
+                    d[v] = d[u] + 1;
+                    q.offer(v);
+                    p[v] = new Pair(u, idx);
+                    result.add(v);
+                }
+            }
+        }
+        return result;
+    }
+
+    long sendOneFlow(int s, int t, long f) {    // send one flow from s->t
+        if (s == t) return f;                   // bottleneck edge f found
+        Pair pair = p[t];
+        int u = pair.first;
+        int idx = pair.second;
+        Edge e = EL[idx];
+        long cap = e.w;
+        long flow = e.f;
+        long pushed = sendOneFlow(s, u, Math.min(f, cap - flow));
+        e.f += pushed;
+        EL[idx ^ 1].f -= pushed;            // back flow
+        return pushed;
+    }
+
+    long DFS(int u, int t, long f) {            // traverse from s->t
+        if ((u == t) || (f == 0)) return f;
+        int start = last[u];
+        int stop = AL.get(u).size();
+        for (int i = start; i < stop; i++) {    // from last edge
+            Edge e = EL[AL.get(u).get(i)];
+            int v = e.v;
+            long cap = e.w;
+            long flow = e.f;
+            if (d[v] != d[u] + 1) continue; // not part of layer graph
+            long pushed;
+            if ((pushed = DFS(v, t, Math.min(f, cap - flow))) > 0) {
+                e.f += pushed;
+                EL[AL.get(u).get(i) ^ 1].f -= pushed;    // back flow
+                return pushed;
+            }
+        }
+        return 0;
+    }
+}
+
