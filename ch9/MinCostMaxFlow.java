@@ -16,7 +16,7 @@ class Pair {
 }
 
 // Partially adapted from https://github.com/lewin/Algorithms/blob/master/src/Graph/Algorithms/NetworkFlow/Dinic.java
-// Contains additional functions from https://github.com/stevenhalim/cpbook-code/blob/master/ch8/maxflow.cpp
+// Contains additional functions from https://github.com/stevenhalim/cpbook-code/blob/master/ch9/mcmf.cpp
 class MinCostMaxFlow {
     static long INF = (long) 1e18; // INF = 1e18, not 2^63-1 to avoid overflow
 
