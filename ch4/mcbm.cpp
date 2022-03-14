@@ -31,13 +31,9 @@ int main() {
   // build bipartite graph with directed edge from left to right set
 
 /*
-  // Graph in Figure 4.40 can be built on the fly
+  // Graph in Figure 4.37 can be built on the fly
   // we know there are 6 vertices in this bipartite graph, left side are numbered 0,1,2, right side 3,4,5
   int V = 6, Vleft = 3, set1[3] = {1,7,11}, set2[3] = {4,10,12};
-
-  // Graph in Figure 4.41 can be built on the fly
-  // we know there are 5 vertices in this bipartite graph, left side are numbered 0,1, right side 3,4,5
-  //int V = 5, Vleft = 2, set1[2] = {1,7}, set2[3] = {4,10,12};
 
   // build the bipartite graph, only directed edge from left to right is needed
   AL.assign(V, vi());
@@ -47,7 +43,7 @@ int main() {
         AL[i].push_back(3 + j);
 */
 
-  // For bipartite graph in Figure 4.44, V = 5, Vleft = 3 (vertex 0 unused)
+  // For bipartite graph in Figure 4.38, V = 5, Vleft = 3 (vertex 0 unused)
   // AL[0] = {} // dummy vertex, but you can choose to use this vertex
   // AL[1] = {3, 4}
   // AL[2] = {3}
