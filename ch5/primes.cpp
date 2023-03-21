@@ -118,7 +118,6 @@ int main() {
   printf("\n");
 
   // second part: prime factors
-<<<<<<< HEAD
   vll r;
 
   r = primeFactors((1LL<<31)-1);                 // Mersenne prime
@@ -147,7 +146,6 @@ int main() {
   printf("\n");
 
   
-=======
   vi r = primeFactors((1LL<<31)-1);              // slowest, Mersenne prime
   for (auto &pf : r)
     printf("> %d\n", pf);
@@ -171,7 +169,6 @@ int main() {
   //   printf("> %d\n", pf);
   // printf("\n");
 
->>>>>>> master
   // third part: functions involving prime factors
   printf("numPF(%d) = %d\n", 60, numPF(60));   // 2^2 * 3^1 * 5^1 => 4
   printf("numDiffPF(%d) = %d\n", 60, numDiffPF(60)); // 2^2 * 3^1 * 5^1 => 3
