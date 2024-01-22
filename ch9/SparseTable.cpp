@@ -14,8 +14,8 @@ public:
     A = initialA;
     int n = (int)A.size();
     int L2_n = (int)log2(n)+1;
-    P2.assign(L2_n, 0);
-    L2.assign(1<<L2_n, 0);
+    P2.assign(L2_n+1, 0);
+    L2.assign((1<<L2_n)+1, 0);
     for (int i = 0; i <= L2_n; ++i) {
       P2[i] = (1<<i);                            // to speed up 2^i
       L2[(1<<i)] = i;                            // to speed up log_2(i)
