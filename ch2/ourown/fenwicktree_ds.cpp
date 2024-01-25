@@ -52,7 +52,7 @@ public:
     while (p*2 < (int)ft.size()) p *= 2;
     int i = 0;
     while (p) {
-      if (k > ft[i+p]) {
+      if (i+p < (int) ft.size() && k > ft[i+p]) {
         k -= ft[i+p];
         i += p;
       }
