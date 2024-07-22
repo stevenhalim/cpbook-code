@@ -82,11 +82,11 @@ public:
     if (!directed) add_edge(v, u, w, c);         // add again in reverse
   }
 
-  pair<ll, ll> mcmf(int s, int t) {
+  pair<ll, ll> mcmf(int s, int t, ll flow_limit = (ll)1e18) {
     ll mf = 0;                                   // mf stands for max_flow
-    while (SPFA(s, t)) {                          // an O(V^2*E) algorithm
+    while (SPFA(s, t) && mf < flow_limit) {      // an O(V^2*E) algorithm
       last.assign(V, 0);                         // important speedup
-      while (ll f = DFS(s, t))                   // exhaust blocking flow
+      while (ll f = DFS(s, t, flow_limit - f))   // exhaust blocking flow
         mf += f;
     }
     return {mf, total_cost};
