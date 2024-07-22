@@ -33,7 +33,7 @@ class FTree:
 
         i = 0
         while p > 0:
-            if k > self.ft[i + p]:
+            if i + p < len(self.ft) and k > self.ft[i + p]:
                 k -= self.ft[i + p]
                 i += p
             p //= 2
