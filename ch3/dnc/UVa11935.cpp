@@ -35,22 +35,24 @@ bool can(double f) {
 
 int main() {
   int n;
+  char line[100];
   while (scanf("0 Fuel consumption %d\n", &n), n) {
     events.clear();
     events.emplace_back(0, -n); // first event
     while (1) {
-      int d; char line[100]; scanf("%d ", &d); gets(line);
+      memset(line, 0, 100);
+      int d; scanf("%d ", &d); fgets(line, 100, stdin);
       if (strncmp(line, "Fuel", 4) == 0) { // the first four characters are "Fuel"
         sscanf(line, "Fuel consumption %d", &n);
         events.emplace_back(d, -n);
       }
-      else if (strcmp(line, "Leak") == 0)
+      else if (strcmp(line, "Leak\n") == 0)
         events.emplace_back(d, 1);
-      else if (strcmp(line, "Gas station") == 0)
+      else if (strcmp(line, "Gas station\n") == 0)
         events.emplace_back(d, 2);
-      else if (strcmp(line, "Mechanic") == 0)
+      else if (strcmp(line, "Mechanic\n") == 0)
         events.emplace_back(d, 3);
-      else if (strcmp(line, "Goal") == 0) {
+      else if (strcmp(line, "Goal\n") == 0) {
         events.emplace_back(d, 4);
         break;
       }
