@@ -51,7 +51,6 @@ private:
       auto &[v, cap, flow, cost] = EL[AL[u][i]];
       if (!vis[v] && d[v] == d[u]+cost) {                      // in current layer graph
         if (ll pushed = DFS(v, t, min(f, cap-flow))) {
-      total_cost += pushed * cost;
           flow += pushed;
           auto &[rv, rcap, rflow, rcost] = EL[AL[u][i]^1]; // back edge
           rflow -= pushed;
@@ -86,8 +85,10 @@ public:
     ll mf = 0;                                   // mf stands for max_flow
     while (SPFA(s, t)) {                          // an O(V^2*E) algorithm
       last.assign(V, 0);                         // important speedup
-      while (ll f = DFS(s, t))                   // exhaust blocking flow
+      while (ll f = DFS(s, t)) {                 // exhaust blocking flow
         mf += f;
+        total_cost += f * d[t];
+      }
     }
     return {mf, total_cost};
   }
