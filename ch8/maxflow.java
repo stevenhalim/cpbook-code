@@ -154,10 +154,12 @@ public class maxflow {
         int start = last[u];
         int stop = AL.get(u).size();
         for (int i = start; i < stop; i++) {    // from last edge
+            last[u] = i;
             Edge e = EL[AL.get(u).get(i)];
             int v = e.v;
             long cap = e.w;
             long flow = e.f;
+
             if (d[v] != d[u] + 1) continue; // not part of layer graph
             long pushed;
             if ((pushed = DFS(v, t, Math.min(f, cap - flow))) > 0) {
