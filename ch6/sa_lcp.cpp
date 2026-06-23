@@ -73,6 +73,11 @@ public:
     computeLCP();                                // O(n)
   }
 
+  SuffixArray(string& initialT) : T(initialT.c_str()), n((int)initialT.length()) {
+    constructSA();                               // O(n log n)
+    computeLCP();                                // O(n)
+  }
+
   ii stringMatching(const char *P) {             // in O(m log n)
     int m = (int)strlen(P);                      // usually, m < n
     int lo = 0, hi = n-1;                        // range = [0..n-1]
