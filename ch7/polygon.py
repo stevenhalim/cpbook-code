@@ -3,6 +3,8 @@
 
 
 import math
+
+EPS = 1e-9
 # const double EPS = 1e-9;
 
 # double DEG_to_RAD(double d) { return d*M_PI / 180.0; }
@@ -10,16 +12,26 @@ import math
 # double RAD_to_DEG(double r) { return r*180.0 / M_PI; }
 
 class point:
-  x = 0                                           # default values
-  y = 0
   def __init__(self, x, y):                       # constructor
     self.x = x
     self.y = y
+  
+  def __lt__(self, b): return (self.x, self.y) < (b.x, b.y)
+  
+  def __str__(self): return "{} {}".format(self.x, self.y)
+  def __hash__(self):return hash((self.x,self.y))
 #   bool operator == (point other) const {
 #    return (fabs(x-other.x) < EPS && (fabs(y-other.y) < EPS)); } 
 #   bool operator <(const point &p) const {
 #    return x < p.x || (abs(x-p.x) < EPS && y < p.y); } };
 
+class vec:
+  def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+
+def toVec(a, b):
+  return vec(b.x-a.x, b.y-a.y)
 # struct vec { double x, y;  // name: `vec' is different from STL vector
 #   vec(double _x, double _y) : x(_x), y(_y) {} };
 
@@ -31,12 +43,15 @@ def dist(p1, p2):                                 # Euclidean distance
 
 # returns the perimeter of polygon P, which is the sum of
 # Euclidian distances of consecutive line segments (polygon edges)
+# def perimeter(P) return math.fsum(dist(P[i], P[i+1]) for i in range(len(P)-1)) 
 def perimeter(P):
   ans = 0.0
   for i in range(len(P)-1):                       # note: P[n-1] = P[0]
     ans += dist(P[i], P[i+1])                     # as we duplicate P[0]
   return ans
 
+def area(P):
+  return math.fsum(cross(P[i], P[i+1]) for i in range(len(P)-1))/2
 # // returns the area of polygon P
 # double area(const vector<point> &P) {
 #   double ans = 0.0;
@@ -45,14 +60,23 @@ def perimeter(P):
 #   return fabs(ans)/2.0;                          // only do / 2.0 here
 # }
 
+
+
+def dot(a, b): return a.x * b.x + a.y * b.y
 # double dot(vec a, vec b) { return (a.x*b.x + a.y*b.y); }
 
+def norm_sq(v): return v.x * v.x + v.y * v.y
 # double norm_sq(vec v) { return v.x*v.x + v.y*v.y; }
 
+def angle(a, o, b):
+  oa = toVec(o, a)
+  ob = toVec(o, b)
+  return  math.acos(dot(oa, ob) / math.sqrt(norm_sq(oa) * norm_sq(ob)))
 # double angle(point a, point o, point b) {  // returns angle aob in rad
 #   vec oa = toVec(o, a), ob = toVec(o, b);
 #   return acos(dot(oa, ob) / sqrt(norm_sq(oa) * norm_sq(ob))); }
 
+def cross(a, b): return a.x*b.y-a.y*b.x
 # double cross(vec a, vec b) { return a.x*b.y - a.y*b.x; }
 
 # // returns the area of polygon P, which is half the cross products
@@ -64,17 +88,28 @@ def perimeter(P):
 #   return fabs(ans)/2.0;
 # }
 
+def ccw(p, q, r): return (cross(toVec(p,q),toVec(p,r)) > 0)
+# note python i used class opperators for tovec (Agis Daniels)
 # // note: to accept collinear points, we have to change the `> 0'
 # // returns true if point r is on the left side of line pq
 # bool ccw(point p, point q, point r) {
 #   return cross(toVec(p, q), toVec(p, r)) > 0;
 # }
 
+def collinear(p, q, r): return abs(cross(toVec(p, q), toVec(p, r))) < EPS
 # // returns true if point r is on the same line as the line pq
 # bool collinear(point p, point q, point r) {
 #   return fabs(cross(toVec(p, q), toVec(p, r))) < EPS;
 # }
 
+def isConvex(P):
+  e,s=len(P),1
+  if e<4: return False
+  t1=ccw(P[0],P[1],P[2]) # first turn
+  for i in range(s, e-1):
+    if ccw(P[i],P[i+1],P[1 if i+2==n else i+2]) != t1:
+      return False
+  return True
 # // returns true if we always make the same turn
 # // while examining all the edges of the polygon one by one
 # bool isConvex(const vector<point> &P) {
@@ -88,6 +123,18 @@ def perimeter(P):
 #   return true;                                   // otherwise -> convex
 # }
 
+def insidePolygon(pt, P):
+  if len(P)<4: return -1
+  n, ans, s=len(P), False, 0.0
+  for i in range(n-1):
+    a, b=P[i], P[i+1]
+    if abs(dist(a, pt) + dist(pt, b) - dist(a, b)) < EPS:
+      ans=True
+  if ans: return 0
+  for i in range(n-1):
+    a=angle(P[i], pt, P[i+1])
+    s+= a if ccw(pt, P[i], P[i+1]) else -a
+  return 1 if abs(s) > math.pi else -1
 # // returns 1/0/-1 if point p is inside/on (vertex/edge)/outside of
 # // either convex/concave polygon P
 # int insidePolygon(point pt, const vector<point> &P) {
@@ -108,6 +155,10 @@ def perimeter(P):
 #   return fabs(sum) > M_PI ? 1 : -1;              // 360d->in, 0d->out
 # }
 
+def lineInterSectSeg(p,q,A,B):
+  a, b, c=B.y-A.y, A.x-B.x, cross(B,A)
+  u, v=abs(a*p.x+b*p.y+c), abs(a*q.x+b*q.y+x) 
+  return point((p.x*v+q.x*u)/(u+v), (p.y*v+q.y*u)/(u+v))
 # // compute the intersection point between line segment p-q and line A-B
 # point lineIntersectSeg(point p, point q, point A, point B) {
 #   double a = B.y-A.y, b = A.x-B.x, c = B.x*A.y - A.x*B.y;
@@ -116,6 +167,15 @@ def perimeter(P):
 #   return point((p.x*v + q.x*u) / (u+v), (p.y*v + q.y*u) / (u+v));
 # }
 
+def cutPolygon(A, B, Q):
+  P=[]
+  for i in range(len(Q)):
+    l1, l2=cross(toVec(A, B),toVec(A, Q[i])), 0
+    if i!=len(Q)-1: l2=cross(toVec(A, B), toVec(A, Q[i+1]))
+    if l1>-EPS: P.append(Q[i])
+    if l1*l2<-EPS: P.append(lineInterSectSeg(Q[i], Q[i+1], A, B))
+  if P and P[-1]!=P[0]: P.append(P[0])
+  return P
 # // cuts polygon Q along the line formed by point A->point B (order matters)
 # // (note: the last point must be the same as the first point)
 # vector<point> cutPolygon(point A, point B, const vector<point> &Q) {
@@ -132,6 +192,30 @@ def perimeter(P):
 #   return P;
 # }
 
+def CH_Graham(Pts):
+  P=[p for p in Pts]
+  n=len(P)
+  if n<4: 
+    if P[0]!=P[-1]: P.append(P[0])
+    return P
+  
+  def ccw_cmp(a, b): return ccw(P[0], a, b)
+  def cmp_class(f):
+    class K:
+      def __init__(F, o): F.pt=o
+      def __lt__(F, o): return f(F.pt, o.pt)
+  P0=P.index(min(P, key=lambda p: (p.y,-p.x)))
+  P[0],P[P0]=P[P0],P[0]
+  
+  P=[P[0]]+sorted(P[1:], key=cmp_class(ccw_cmp))
+  
+  S, i=[P[-1],P[0]], 2
+  while i<n:
+    j=len(S)-1
+    if not ccw(S[j-1], S[j], P[i]): 
+      S.append(P[i]); i+=1
+    else: S.pop()
+  return S
 # vector<point> CH_Graham(vector<point> &Pts) {    // overall O(n log n)
 #   vector<point> P(Pts);                          // copy all points
 #   int n = (int)P.size();
@@ -162,6 +246,18 @@ def perimeter(P):
 #   return S;                                      // return the result
 # }
 
+#compressed version of the code below and the link below
+#https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain
+def CH_Andrew(ps):
+  P, H=sorted(set(ps)), []
+  if len(P)<=1: return P # if only one unique point just return point
+  def f(B): #f is a mapping of the two loops since its dup code
+    for p in P:
+      while len(H)>B and not ccw(H[-2], H[-1], p): H.pop()
+      H.append(p)
+    H.pop()
+  f(1); P=P[::-1]; f(len(H)+1); return H #4 line low, rev, up, ret
+#c++ implementation below 
 # vector<point> CH_Andrew(vector<point> &Pts) {    // overall O(n log n)
 #   int n = Pts.size(), k = 0;
 #   vector<point> H(2*n);
@@ -230,7 +326,7 @@ print("Perimeter = {0:0.2f}".format(perimeter(P))) # 31.64
   # //1 P0              P2
   # //0 1 2 3 4 5 6 7 8 9
 
-  # P = cutPolygon(P[2], P[4], P);
+P = cutPolygon(P[2], P[4], P);
   # printf("Perimeter = %.2lf\n", perimeter(P));   // smaller now, 29.15
   # printf("Area = %.2lf\n", area(P));             // 40.00
 
@@ -243,8 +339,8 @@ print("Perimeter = {0:0.2f}".format(perimeter(P))) # 31.64
   # //2 |   P_in        |
   # //1 P0--------------P1
   # //0 1 2 3 4 5 6 7 8 9
-
-  # P = CH_Graham(P);                              // now this is a rectangle
+P = CH_Graham(P);                              #// now this is a rectangle
+print(perimeter(P))
   # printf("Perimeter = %.2lf\n", perimeter(P));   // precisely 28.00
   # printf("Area = %.2lf\n", area(P));             // precisely 48.00
   # printf("Is convex = %d\n", isConvex(P));       // true
