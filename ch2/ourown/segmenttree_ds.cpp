@@ -83,7 +83,7 @@ int main() {
   SegmentTree st(A);
 
   printf("              idx    0, 1, 2, 3, 4, 5, 6, 7\n");
-  printf("              A is {18,17,13,19,15,11,20,oo}\n");
+  printf("              A is {18,17,13,19,15,11,20,99}\n");
   printf("RMQ(1, 3) = %d\n", st.RMQ(1, 3));      // 13
   printf("RMQ(4, 7) = %d\n", st.RMQ(4, 7));      // 11
   printf("RMQ(3, 4) = %d\n", st.RMQ(3, 4));      // 15
